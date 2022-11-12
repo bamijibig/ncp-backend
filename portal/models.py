@@ -16,10 +16,10 @@ class ContractorUser(User):
     coren_or_nemsa_competency=models.FileField(null=True,blank=True)
     reg_date=models.DateTimeField(auto_now_add=True,null=True,blank=True)
 
-    @property
-    def group(self):
-        groups = self.groups.all()
-        return groups[0].name if groups else None
+    # @property
+    # def group(self):
+    #     groups = self.groups.all()
+    #     return groups[0].name if groups else None
 
 class contract_application(models.Model):
     contractor=models.ForeignKey(ContractorUser, null=True,  on_delete=models.CASCADE, related_name="usercontractor")

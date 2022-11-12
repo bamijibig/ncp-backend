@@ -2,7 +2,9 @@
 from portal.models import contract_application, technicalEvaluation,ContractorUser
 from django.contrib.auth.models import Group
 from rest_framework import serializers
-
+from django.contrib.auth.models import User
+from rest_framework.validators import UniqueValidator
+from django.contrib.auth.password_validation import validate_password
 
 # class Base64ImageField(serializers.ImageField):
 #     """
@@ -90,32 +92,46 @@ class technicalEvaluationSerializer(serializers.ModelSerializer):
 
 
 class CreateUserSerializer(serializers.ModelSerializer):
-    password1 = serializers.CharField(write_only=True)
-    password2 = serializers.CharField(write_only=True)
-    group = serializers.ChoiceField(choices=['SUPER-ADMIN','CONTRACTOR', 'PROCUREMENT','TE','TM'], allow_blank=False)# new
-    
-    def validate(self, data):
-        if data['password1'] != data['password2']:
-            raise serializers.ValidationError('Passwords must match.')
-        return data
-
-    def create(self, validated_data):
-        group_data = validated_data.pop('group')
-        group, _ = Group.objects.get_or_create(name=group_data)
-        data = {
-            key: value for key, value in validated_data.items()
-            if key not in ('password1', 'password2')
-        }
-        data['password'] = validated_data['password1']
-        user = self.Meta.model.objects.create_user(**data)
-        user.groups.add(group)
-        user.save()
-      
-        return user
 
     class Meta:
         model = ContractorUser
         fields = "__all__"
-        
-        # extra_kwargs = {"password": {"write_only": True}}
         read_only_fields = ('id',)
+
+
+class RegisterSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(
+            required=True,
+            validators=[UniqueValidator(queryset=User.objects.all())]
+            )
+
+    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+    password2 = serializers.CharField(write_only=True, required=True)
+
+    class Meta:
+        model = User
+        fields = ('username', 'password', 'password2', 'email')
+        # extra_kwargs = {
+        #     'first_name': {'required': True},
+        #     'last_name': {'required': True}
+        # }
+
+    def validate(self, attrs):
+        if attrs['password'] != attrs['password2']:
+            raise serializers.ValidationError({"password": "Password fields didn't match."})
+
+        return attrs
+
+    def create(self, validated_data):
+        user = User.objects.create(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            # first_name=validated_data['first_name'],
+            # last_name=validated_data['last_name']
+        )
+
+        
+        user.set_password(validated_data['password'])
+        user.save()
+
+        return user

@@ -2,7 +2,7 @@
 # Create your views here.
 from django.shortcuts import render
 from .models import contract_application, ContractorUser, technicalEvaluation
-from .serializers import ContractorUserSerializer, contract_applicationSerializer,technicalEvaluationSerializer,contract_applicationListSerializer, CreateUserSerializer
+from .serializers import ContractorUserSerializer, RegisterSerializer, contract_applicationSerializer,technicalEvaluationSerializer,contract_applicationListSerializer, CreateUserSerializer
 from rest_framework import viewsets, generics, filters
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.views import APIView
@@ -12,7 +12,8 @@ from django.contrib.auth import get_user_model, login, logout
 from rest_framework import status
 from rest_framework.response import Response
 
-
+from django.contrib.auth.models import User
+from rest_framework.permissions import AllowAny
 # Create your views here.
 class contractor_regview(viewsets.ModelViewSet):
     queryset=ContractorUser.objects.all()
@@ -47,21 +48,19 @@ class technicalview(viewsets.ModelViewSet):
     search_fields = '__all__'
     ordering_fields = '__all__'
 
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = RegisterSerializer
 
-class UserCreate(generics.CreateAPIView):
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
     permission_classes = []
     serializer_class = CreateUserSerializer
 
-    def post(self, request, *args, **kwargs):
-        print(request.data)
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
+   
 
-        return Response({
-			'user': CreateUserSerializer(user).data,
-			'token': AuthToken.objects.create(user)[1]
-		})
 
 class LoginView(APIView):
     permission_classes = []
