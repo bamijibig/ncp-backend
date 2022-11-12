@@ -28,8 +28,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("login/",views.LoginView.as_view()),
     path("signup/",views.UserCreate.as_view()),
-    
-   
+    path("logout/",views.LogoutView.as_view()),
+       
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 admin.site.site_header="NEW CONNECTION PORTAL"
