@@ -26,8 +26,8 @@ urlpatterns = [
     path('', include(router.urls)),
     # path('accounts/', include('allauth.urls')),
     path("admin/", admin.site.urls),
-    path("login",views.LoginView.as_view()),
-    path("signup",views.UserCreate.as_view()),
+    path("login/",views.LoginView.as_view()),
+    path("signup/",views.UserCreate.as_view()),
     
    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
