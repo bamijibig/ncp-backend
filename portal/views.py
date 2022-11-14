@@ -15,6 +15,26 @@ from rest_framework.response import Response
 from django.contrib.auth.models import User
 from rest_framework.permissions import AllowAny
 # Create your views here.
+
+
+# class Regionview(viewsets.ModelViewSet):
+#     queryset=Region.objects.all()
+#     serializer_class=RegionSerializer
+#     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+#     filterset_fields = ['rh_name']
+#     search_fields = '__all__'
+#     ordering_fields = '__all__'
+
+# class BusinessHubview(viewsets.ModelViewSet):
+#     queryset=BusinessHub.objects.all()
+#     serializer_class=BusinessHubSerializer
+#     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+#     filterset_fields = ['bh_name']
+#     search_fields = '__all__'
+#     ordering_fields = '__all__'
+
+
+
 class contractor_regview(viewsets.ModelViewSet):
     queryset=ContractorUser.objects.all()
     serializer_class=ContractorUserSerializer

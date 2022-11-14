@@ -62,6 +62,17 @@ from django.contrib.auth.password_validation import validate_password
 #         return extension
 
 
+# class RegionSerializer(serializers.ModelSerializer):
+#     class Meta:
+#        model=Region
+#        fields="__all__"
+
+# class BusinessHubSerializer(serializers.ModelSerializer):
+#     class Meta:
+#        model=BusinessHub
+#        fields="__all__"
+
+
 class ContractorUserSerializer(serializers.ModelSerializer):
     class Meta:
        model=ContractorUser

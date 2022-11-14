@@ -4,7 +4,25 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
+# class Region(models.Model):
+#     rh_name=models.CharField(max_length=50,blank=True)
+#     rh_location=models.CharField(max_length=50,blank=True)
+#     def __str__(self):
+#         return self.rh_name
+
+# class BusinessHub(models.Model):
+#     region=models.ForeignKey(Region,on_delete=models.CASCADE)
+#     bh_name=models.CharField(max_length=50,blank=True)
+#     bh_location=models.CharField(max_length=50,blank=True)
+#     def __str__(self):
+#         return self.bh_name
+    
+
+
 class ContractorUser(User):
+    # businesshub=models.ForeignKey(BusinessHub, on_delete=models.CASCADE)
+
+
     # user=models.ForeignKey(User,blank="True",null="True", on_delete=models.SET_NULL)
     # email=models.EmailField(null=True,blank=True)
     # password=models.CharField(max_length=250,blank=True)
