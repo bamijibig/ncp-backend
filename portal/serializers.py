@@ -2,7 +2,7 @@
 from portal.models import contract_application, technicalEvaluation,ContractorUser
 from django.contrib.auth.models import Group
 from rest_framework import serializers
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 
@@ -62,17 +62,6 @@ from django.contrib.auth.password_validation import validate_password
 #         return extension
 
 
-# class RegionSerializer(serializers.ModelSerializer):
-#     class Meta:
-#        model=Region
-#        fields="__all__"
-
-# class BusinessHubSerializer(serializers.ModelSerializer):
-#     class Meta:
-#        model=BusinessHub
-#        fields="__all__"
-
-
 class ContractorUserSerializer(serializers.ModelSerializer):
     class Meta:
        model=ContractorUser
@@ -113,15 +102,15 @@ class CreateUserSerializer(serializers.ModelSerializer):
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
             required=True,
-            validators=[UniqueValidator(queryset=User.objects.all())]
+            validators=[UniqueValidator(queryset=ContractorUser.objects.all())]
             )
 
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
     password2 = serializers.CharField(write_only=True, required=True)
 
     class Meta:
-        model = User
-        fields = ('username', 'password', 'password2', 'email')
+        model = ContractorUser
+        fields = "__all__"
         # extra_kwargs = {
         #     'first_name': {'required': True},
         #     'last_name': {'required': True}
@@ -134,7 +123,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
-        user = User.objects.create(
+        user = ContractorUser.objects.create(
             username=validated_data['username'],
             email=validated_data['email'],
             # first_name=validated_data['first_name'],

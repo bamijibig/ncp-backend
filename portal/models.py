@@ -1,28 +1,10 @@
 from django.db import models
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
-# class Region(models.Model):
-#     rh_name=models.CharField(max_length=50,blank=True)
-#     rh_location=models.CharField(max_length=50,blank=True)
-#     def __str__(self):
-#         return self.rh_name
-
-# class BusinessHub(models.Model):
-#     region=models.ForeignKey(Region,on_delete=models.CASCADE)
-#     bh_name=models.CharField(max_length=50,blank=True)
-#     bh_location=models.CharField(max_length=50,blank=True)
-#     def __str__(self):
-#         return self.bh_name
-    
-
-
-class ContractorUser(User):
-    # businesshub=models.ForeignKey(BusinessHub, on_delete=models.CASCADE)
-
-
+class ContractorUser(AbstractUser):
     # user=models.ForeignKey(User,blank="True",null="True", on_delete=models.SET_NULL)
     # email=models.EmailField(null=True,blank=True)
     # password=models.CharField(max_length=250,blank=True)
@@ -33,6 +15,15 @@ class ContractorUser(User):
     
     coren_or_nemsa_competency=models.FileField(null=True,blank=True)
     reg_date=models.DateTimeField(auto_now_add=True,null=True,blank=True)
+    is_contractor = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
+    is_tm = models.BooleanField(default=False)
+    is_te = models.BooleanField(default=False)
+    is_tm = models.BooleanField(default=False)
+    is_npd = models.BooleanField(default=False)
+    is_cto = models.BooleanField(default=False)
+    is_md = models.BooleanField(default=False)
+    is_hsch = models.BooleanField(default=False)
 
     # @property
     # def group(self):

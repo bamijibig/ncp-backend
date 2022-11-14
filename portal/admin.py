@@ -10,10 +10,6 @@ from .models import ContractorUser,contract_application, technicalEvaluation
 admin.site.register(technicalEvaluation)
 
 
-# admin.site.register(Region)
-# admin.site.register(BusinessHub)
-
-
 
 @admin.register(ContractorUser)
 class ContractorUserAdmin(admin.ModelAdmin):
