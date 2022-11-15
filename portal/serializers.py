@@ -1,5 +1,5 @@
 
-from portal.models import contract_application, technicalEvaluation,ContractorUser
+from portal.models import contract_application, technicalEvaluation,ContractorUser, Region, BusinessHub
 from django.contrib.auth.models import Group
 from rest_framework import serializers
 # from django.contrib.auth.models import User
@@ -60,6 +60,17 @@ from django.contrib.auth.password_validation import validate_password
 #         extension = "jpg" if  else extension
 
 #         return extension
+
+
+class RegionSerializer(serializers.ModelSerializer):
+    class Meta:
+       model=Region
+       fields="__all__"
+
+class BusinessHubSerializer(serializers.ModelSerializer):
+    class Meta:
+       model=BusinessHub
+       fields="__all__"
 
 
 class ContractorUserSerializer(serializers.ModelSerializer):

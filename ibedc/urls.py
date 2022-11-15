@@ -17,6 +17,8 @@ router.register('supplier', views.contractview)
 router.register('contractors', views.contractor_regview)
 router.register('technical',views.technicalview)
 router.register('list_contractors',views.contractListOnlyview)
+router.register('rh', views.regionview)
+router.register('bh', views.businesshubview)
 
 #router.register('account', include('allauth.urls'))
 
