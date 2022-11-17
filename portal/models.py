@@ -22,6 +22,7 @@ class ContractorUser(AbstractUser):
     con_address=models.CharField(max_length=250,blank=True)
     licensed_no=models.IntegerField(null=True,blank=True)
     tel_no=models.CharField(max_length=100,null=True,blank=True)
+    role=models.CharField(max_length=100,null=True,blank=True)
     
     coren_or_nemsa_competency=models.FileField(null=True,blank=True)
     reg_date=models.DateTimeField(auto_now_add=True,null=True,blank=True)

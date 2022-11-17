@@ -72,11 +72,15 @@ class RegisterView(generics.CreateAPIView):
 
 
 class UserList(generics.ListAPIView):
-    queryset = ContractorUser.objects.all()
+    queryset = ContractorUser.objects.filter(is_contractor=False)
     permission_classes = []
     serializer_class = CreateUserSerializer
 
-   
+class ContractorList(generics.ListAPIView):
+    queryset = ContractorUser.objects.filter(is_contractor=True)
+    permission_classes = []
+    serializer_class = CreateUserSerializer
+
 
 
 class LoginView(APIView):

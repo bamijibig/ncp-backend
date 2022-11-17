@@ -31,7 +31,8 @@ urlpatterns = [
     path("login/",views.LoginView.as_view()),
     path("signup/",views.RegisterView.as_view()),
     path("logout/",views.LogoutView.as_view()),
-    path("list/user/",views.UserList.as_view()),
+    path("list/user/staff",views.UserList.as_view()),
+    path("list/user/contractors",views.UserList.as_view()),
        
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
