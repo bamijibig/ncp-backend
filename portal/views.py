@@ -1,8 +1,8 @@
 
 # Create your views here.
 from django.shortcuts import render
-from .models import contract_application, ContractorUser, technicalEvaluation
-from .serializers import ContractorUserSerializer, RegisterSerializer, contract_applicationSerializer,technicalEvaluationSerializer,contract_applicationListSerializer, CreateUserSerializer
+from .models import contract_application, ContractorUser, technicalEvaluation, Region,BusinessHub
+from .serializers import ContractorUserSerializer, RegisterSerializer, contract_applicationSerializer,technicalEvaluationSerializer,contract_applicationListSerializer, CreateUserSerializer, RegionSerializer, BusinessHubSerializer
 from rest_framework import viewsets, generics, filters
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.views import APIView
@@ -15,6 +15,23 @@ from rest_framework.response import Response
 # from django.contrib.auth.models import User
 from rest_framework.permissions import AllowAny
 # Create your views here.
+
+class regionview(viewsets.ModelViewSet):
+    queryset=Region.objects.all()
+    serializer_class=RegionSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = '__all__'
+    search_fields = '__all__'
+    ordering_fields = '__all__'
+
+class businesshubview(viewsets.ModelViewSet):
+    queryset=BusinessHub.objects.all()
+    serializer_class=BusinessHubSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = '__all__'
+    search_fields = '__all__'
+    ordering_fields = '__all__'
+
 class contractor_regview(viewsets.ModelViewSet):
     queryset=ContractorUser.objects.all()
     serializer_class=ContractorUserSerializer

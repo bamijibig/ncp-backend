@@ -1,14 +1,15 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import ContractorUser,contract_application, technicalEvaluation
+from .models import ContractorUser,contract_application, technicalEvaluation, Region, BusinessHub
 
 
 # Register your models here.
 # admin.site.register(contractor_registration)
 # admin.site.register(contract_application)
 admin.site.register(technicalEvaluation)
-
+admin.site.register(Region)
+admin.site.register(BusinessHub)
 
 
 @admin.register(ContractorUser)

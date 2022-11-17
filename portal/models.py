@@ -2,12 +2,22 @@ from django.db import models
 
 from django.contrib.auth.models import AbstractUser
 
-# Create your models here.
+class Region(models.Model):
+    region=models.CharField(max_length=200, null=True, blank=True)
+    location=models.CharField(max_length=200,null=True, blank=True)
+
+class BusinessHub(models.Model):
+    region=models.ForeignKey(Region,on_delete=models.CASCADE, null=True,blank=True)
+    businesshub=models.CharField(max_length=200, null=True, blank=True)
+    location=models.CharField(max_length=200,null=True, blank=True)
+
+
 
 class ContractorUser(AbstractUser):
     # user=models.ForeignKey(User,blank="True",null="True", on_delete=models.SET_NULL)
     # email=models.EmailField(null=True,blank=True)
     # password=models.CharField(max_length=250,blank=True)
+    businesshub=models.ForeignKey(BusinessHub,on_delete=models.CASCADE, null=True,blank=True)
     contractor_name=models.CharField(max_length=250,blank=True)
     con_address=models.CharField(max_length=250,blank=True)
     licensed_no=models.IntegerField(null=True,blank=True)
@@ -19,7 +29,6 @@ class ContractorUser(AbstractUser):
     is_admin = models.BooleanField(default=False)
     is_tm = models.BooleanField(default=False)
     is_te = models.BooleanField(default=False)
-    is_tm = models.BooleanField(default=False)
     is_npd = models.BooleanField(default=False)
     is_cto = models.BooleanField(default=False)
     is_md = models.BooleanField(default=False)
@@ -32,7 +41,7 @@ class ContractorUser(AbstractUser):
 
 class contract_application(models.Model):
     contractor=models.ForeignKey(ContractorUser, null=True,  on_delete=models.CASCADE, related_name="usercontractor")
-    
+    bh=models.ForeignKey(BusinessHub,on_delete=models.CASCADE, null=True,blank=True) 
     company_name= models.CharField(max_length=100,null=True,blank=True)
     connection_type = (
         ('transformer installation', 'transformer installation'),
