@@ -92,7 +92,7 @@ WSGI_APPLICATION = "ibedc.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db10.sqlite3",
+        "NAME": BASE_DIR / "db1.sqlite3",
     }
 }
 
