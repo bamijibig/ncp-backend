@@ -5,11 +5,17 @@ from django.contrib.auth.models import AbstractUser
 class Region(models.Model):
     region=models.CharField(max_length=200, null=True, blank=True)
     location=models.CharField(max_length=200,null=True, blank=True)
+    regionManager=models.CharField(max_length=200,null=True, blank=True)
+    email=models.EmailField(null=True, blank=True)
+    phoneNumber=models.CharField(max_length=200,null=True, blank=True)
 
 class BusinessHub(models.Model):
     region=models.ForeignKey(Region,on_delete=models.CASCADE, null=True,blank=True)
     businesshub=models.CharField(max_length=200, null=True, blank=True)
     location=models.CharField(max_length=200,null=True, blank=True)
+    hubManager=models.CharField(max_length=200,null=True, blank=True)
+    email=models.EmailField(null=True, blank=True)
+    phoneNumber=models.CharField(max_length=200,null=True, blank=True)
 
 
 
