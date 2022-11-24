@@ -20,6 +20,7 @@ router.register('list_contractors',views.contractListOnlyview)
 router.register('rh', views.regionview)
 router.register('bh', views.businesshubview)
 router.register('bhlist', views.businesshublistview)
+router.register('rhlist', views.regionlistview)
 
 #router.register('account', include('allauth.urls'))
 
