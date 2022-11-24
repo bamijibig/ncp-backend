@@ -2,33 +2,16 @@ from django.db import models
 
 from django.contrib.auth.models import AbstractUser
 
-class Region(models.Model):
-    region=models.CharField(max_length=200, null=True, blank=True)
-    location=models.CharField(max_length=200,null=True, blank=True)
-    regionManager=models.CharField(max_length=200,null=True, blank=True)
-    email=models.EmailField(null=True, blank=True)
-    phoneNumber=models.CharField(max_length=200,null=True, blank=True)
-
-class BusinessHub(models.Model):
-    region=models.ForeignKey(Region,on_delete=models.CASCADE, null=True,blank=True)
-    businesshub=models.CharField(max_length=200, null=True, blank=True)
-    location=models.CharField(max_length=200,null=True, blank=True)
-    hubManager=models.CharField(max_length=200,null=True, blank=True)
-    email=models.EmailField(null=True, blank=True)
-    phoneNumber=models.CharField(max_length=200,null=True, blank=True)
-
-
-
 class ContractorUser(AbstractUser):
     # user=models.ForeignKey(User,blank="True",null="True", on_delete=models.SET_NULL)
     # email=models.EmailField(null=True,blank=True)
     # password=models.CharField(max_length=250,blank=True)
-    businesshub=models.ForeignKey(BusinessHub,on_delete=models.CASCADE, null=True,blank=True)
     contractor_name=models.CharField(max_length=250,blank=True)
     con_address=models.CharField(max_length=250,blank=True)
     licensed_no=models.IntegerField(null=True,blank=True)
     tel_no=models.CharField(max_length=100,null=True,blank=True)
     role=models.CharField(max_length=100,null=True,blank=True)
+    job_title=models.CharField(max_length=200,null=True,blank=True)
     
     coren_or_nemsa_competency=models.FileField(null=True,blank=True)
     reg_date=models.DateTimeField(auto_now_add=True,null=True,blank=True)
@@ -45,6 +28,26 @@ class ContractorUser(AbstractUser):
     # def group(self):
     #     groups = self.groups.all()
     #     return groups[0].name if groups else None
+
+class Region(models.Model):
+    region=models.CharField(max_length=200, null=True, blank=True)
+    location=models.CharField(max_length=200,null=True, blank=True)
+    regionManager=models.ForeignKey(ContractorUser, on_delete=models.DO_NOTHING, null=True, related_name='region_manager', blank=True)
+    # email=models.EmailField(null=True, blank=True)
+    # phoneNumber=models.CharField(max_length=200,null=True, blank=True)
+
+class BusinessHub(models.Model):
+    region=models.ForeignKey(Region,on_delete=models.CASCADE, null=True, blank=True)
+    businesshub=models.CharField(max_length=200, null=True, blank=True)
+    location=models.CharField(max_length=200,null=True, blank=True)
+    hubManager=models.ForeignKey(ContractorUser, on_delete=models.DO_NOTHING, null=True, related_name='hub_manager', blank=True)
+    email=models.EmailField(null=True, blank=True)
+    phoneNumber=models.CharField(max_length=200,null=True, blank=True)
+
+class Contractor_Hub(models.Model):
+    contractor = models.ForeignKey(ContractorUser, on_delete=models.DO_NOTHING, null=True, related_name='contractor_hub', blank=True)
+    business_hub =models.ForeignKey(BusinessHub, on_delete=models.DO_NOTHING, null=True, related_name='hub_contractor', blank=True)
+
 
 class contract_application(models.Model):
     contractor=models.ForeignKey(ContractorUser, null=True,  on_delete=models.CASCADE, related_name="usercontractor")

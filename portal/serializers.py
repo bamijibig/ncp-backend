@@ -137,6 +137,8 @@ class RegisterSerializer(serializers.ModelSerializer):
         user = ContractorUser.objects.create(
             username=validated_data['username'],
             email=validated_data['email'],
+            first_name=validated_data['first_name'],
+            last_name=validated_data['last_name'],
             is_contractor=validated_data['is_contractor'],
             is_admin=validated_data['is_admin'],
             is_tm = validated_data['is_tm'],
@@ -144,7 +146,10 @@ class RegisterSerializer(serializers.ModelSerializer):
             is_npd = validated_data['is_npd'],
             is_cto = validated_data['is_cto'],
             is_md = validated_data['is_md'],
-            is_hsch = validated_data['is_hsch']
+            is_hsch = validated_data['is_hsch'],
+            job_title = validated_data['job_title'],
+            role = validated_data['role'],
+            tel_no = validated_data['tel_no']
 
         )
 
