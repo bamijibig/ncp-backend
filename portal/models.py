@@ -36,13 +36,19 @@ class Region(models.Model):
     # email=models.EmailField(null=True, blank=True)
     # phoneNumber=models.CharField(max_length=200,null=True, blank=True)
 
+    def __str__(self):
+        return self.region
+
 class BusinessHub(models.Model):
     region=models.ForeignKey(Region,on_delete=models.CASCADE, null=True, blank=True)
     businesshub=models.CharField(max_length=200, null=True, blank=True)
     location=models.CharField(max_length=200,null=True, blank=True)
     hubManager=models.ForeignKey(ContractorUser, on_delete=models.DO_NOTHING, null=True, related_name='hub_manager', blank=True)
-    email=models.EmailField(null=True, blank=True)
-    phoneNumber=models.CharField(max_length=200,null=True, blank=True)
+    # email=models.EmailField(null=True, blank=True)
+    # phoneNumber=models.CharField(max_length=200,null=True, blank=True)
+
+    def __str__(self):
+        return self.businesshub
 
 class Contractor_Hub(models.Model):
     contractor = models.ForeignKey(ContractorUser, on_delete=models.DO_NOTHING, null=True, related_name='contractor_hub', blank=True)

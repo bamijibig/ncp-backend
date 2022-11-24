@@ -72,6 +72,12 @@ class BusinessHubSerializer(serializers.ModelSerializer):
        model=BusinessHub
        fields="__all__"
 
+class BusinessHubListSerializer(serializers.ModelSerializer):
+    region = RegionSerializer()
+    class Meta:
+       model=BusinessHub
+       fields="__all__"
+
 
 class ContractorUserSerializer(serializers.ModelSerializer):
     class Meta:
