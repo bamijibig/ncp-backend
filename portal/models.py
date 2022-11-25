@@ -6,6 +6,8 @@ class ContractorUser(AbstractUser):
     # user=models.ForeignKey(User,blank="True",null="True", on_delete=models.SET_NULL)
     # email=models.EmailField(null=True,blank=True)
     # password=models.CharField(max_length=250,blank=True)
+    region=models.CharField(max_length=250,null= True, blank=True)
+    businesshub=models.CharField(max_length=250,blank=True)
     contractor_name=models.CharField(max_length=250,blank=True)
     con_address=models.CharField(max_length=250,blank=True)
     licensed_no=models.IntegerField(null=True,blank=True)
@@ -33,6 +35,8 @@ class Region(models.Model):
     region=models.CharField(max_length=200, null=True, blank=True)
     location=models.CharField(max_length=200,null=True, blank=True)
     regionManager=models.ForeignKey(ContractorUser, on_delete=models.DO_NOTHING, null=True, related_name='region_manager', blank=True)
+    technicalManager=models.ForeignKey(ContractorUser, on_delete=models.DO_NOTHING, null=True, related_name='region_technical_manager', blank=True)
+    
     # email=models.EmailField(null=True, blank=True)
     # phoneNumber=models.CharField(max_length=200,null=True, blank=True)
 
@@ -44,6 +48,7 @@ class BusinessHub(models.Model):
     businesshub=models.CharField(max_length=200, null=True, blank=True)
     location=models.CharField(max_length=200,null=True, blank=True)
     hubManager=models.ForeignKey(ContractorUser, on_delete=models.DO_NOTHING, null=True, related_name='hub_manager', blank=True)
+    technicalManager=models.ForeignKey(ContractorUser, on_delete=models.DO_NOTHING, null=True, related_name='bh_technical_manager', blank=True)
     # email=models.EmailField(null=True, blank=True)
     # phoneNumber=models.CharField(max_length=200,null=True, blank=True)
 
@@ -101,7 +106,7 @@ class contract_application(models.Model):
    
     date_of_application=models.DateTimeField(auto_now_add=True,null=True,blank=True)
     #md approval
-    # isMd=models.BooleanField(default=False)
+    profile_submitted=models.BooleanField(default=False)
     # Mdcomment=models.TextField(null=True,blank=True)
     # Md_date=models.DateTimeField(auto_now_add=True,null=True,blank=True)
     # Md_approve=models.BooleanField(default=False)
