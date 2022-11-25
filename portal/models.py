@@ -23,7 +23,7 @@ class ContractorUser(AbstractUser):
     # user=models.ForeignKey(User,blank="True",null="True", on_delete=models.SET_NULL)
     # email=models.EmailField(null=True,blank=True)
     # password=models.CharField(max_length=250,blank=True)
-    businesshub=models.ForeignKey(BusinessHub,on_delete=models.CASCADE, null=True,blank=True)
+    # businesshub=models.ForeignKey(BusinessHub,on_delete=models.CASCADE, null=True,blank=True)
     contractor_name=models.CharField(max_length=250,blank=True)
     con_address=models.CharField(max_length=250,blank=True)
     licensed_no=models.IntegerField(null=True,blank=True)
