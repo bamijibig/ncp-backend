@@ -2,7 +2,7 @@
 # Create your views here.
 from django.shortcuts import render
 from .models import contract_application, ContractorUser, technicalEvaluation, Region,BusinessHub
-from .serializers import ContractorUserSerializer, RegisterSerializer, contract_applicationSerializer,technicalEvaluationSerializer,contract_applicationListSerializer, CreateUserSerializer, RegionSerializer, BusinessHubSerializer
+from .serializers import ContractorUserSerializer, RegisterSerializer, RegionListSerializer, BusinessHubListSerializer, contract_applicationSerializer,technicalEvaluationSerializer,contract_applicationListSerializer, CreateUserSerializer, RegionSerializer, BusinessHubSerializer
 from rest_framework import viewsets, generics, filters
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.views import APIView
@@ -24,9 +24,26 @@ class regionview(viewsets.ModelViewSet):
     search_fields = '__all__'
     ordering_fields = '__all__'
 
+class regionlistview(viewsets.ModelViewSet):
+    queryset=Region.objects.all()
+    serializer_class=RegionListSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = '__all__'
+    search_fields = '__all__'
+    ordering_fields = '__all__'
+
 class businesshubview(viewsets.ModelViewSet):
     queryset=BusinessHub.objects.all()
     serializer_class=BusinessHubSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = '__all__'
+    search_fields = '__all__'
+    ordering_fields = '__all__'
+
+
+class businesshublistview(viewsets.ModelViewSet):
+    queryset=BusinessHub.objects.all()
+    serializer_class=BusinessHubListSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = '__all__'
     search_fields = '__all__'
