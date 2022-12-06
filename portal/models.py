@@ -110,7 +110,6 @@ class contract_application(models.Model):
     # Te_approve=models.BooleanField(default=False)
     # Te_dissaprove=models.BooleanField(default=False)
     # Project details
-    Te_Title=models.CharField(max_length=100 ,null=True,blank=True)
     Te_applicant=models.CharField(max_length=100 ,null=True,blank=True)
     Te_dt=models.CharField(max_length=100 ,null=True,blank=True)
     Te_voltagelev=models.CharField(max_length=100 ,null=True,blank=True)
@@ -156,7 +155,6 @@ class contract_application(models.Model):
     Te_dtrating=models.CharField(max_length=200,null=True,blank=True)
     Te_voltlevel=models.CharField(max_length=200,null=True,blank=True)
     Te_subhead=models.CharField(max_length=200,null=True,blank=True)
-    Te_title=models.CharField(max_length=200,null=True,blank=True)
     # Finding from site visit
     Te_datevisit=models.DateField(auto_now_add=False,null=True,blank=True)
     Te_specloc=models.CharField(max_length=200,null=True,blank=True)
@@ -233,7 +231,7 @@ class contract_application(models.Model):
     Te2_nopoleht=models.CharField(max_length=200,null=True,blank=True)
     Te2_nopolelt=models.CharField(max_length=200,null=True,blank=True)
     Te2_podeptht=models.CharField(max_length=200,null=True,blank=True)
-    Te2_podepthlh_=models.CharField(max_length=200,null=True,blank=True)
+    Te2_podepthlh=models.CharField(max_length=200,null=True,blank=True)
     Te2_sizeconduct=models.CharField(max_length=200,null=True,blank=True)
     Te2_qtyused=models.CharField(max_length=200,null=True,blank=True)
     Te2_wellallmetalprt=models.BooleanField(default=False)
