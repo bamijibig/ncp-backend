@@ -31,6 +31,7 @@ class regionlistview(viewsets.ModelViewSet):
     filterset_fields = '__all__'
     search_fields = '__all__'
     ordering_fields = '__all__'
+    http_method_names = ['get', 'options', 'head']
 
 class businesshubview(viewsets.ModelViewSet):
     queryset=BusinessHub.objects.all()
@@ -48,6 +49,7 @@ class businesshublistview(viewsets.ModelViewSet):
     filterset_fields = '__all__'
     search_fields = '__all__'
     ordering_fields = '__all__'
+    http_method_names = ['get', 'options', 'head']
 
 class contractor_regview(viewsets.ModelViewSet):
     queryset=ContractorUser.objects.all()

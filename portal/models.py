@@ -2,22 +2,6 @@ from django.db import models
 
 from django.contrib.auth.models import AbstractUser
 
-class Region(models.Model):
-    region=models.CharField(max_length=200, null=True, blank=True)
-    location=models.CharField(max_length=200,null=True, blank=True)
-    regionManager=models.CharField(max_length=200,null=True, blank=True)
-    email=models.EmailField(null=True, blank=True)
-    phoneNumber=models.CharField(max_length=200,null=True, blank=True)
-
-class BusinessHub(models.Model):
-    region=models.ForeignKey(Region,on_delete=models.CASCADE, null=True,blank=True)
-    businesshub=models.CharField(max_length=200, null=True, blank=True)
-    location=models.CharField(max_length=200,null=True, blank=True)
-    hubManager=models.CharField(max_length=200,null=True, blank=True)
-    email=models.EmailField(null=True, blank=True)
-    phoneNumber=models.CharField(max_length=200,null=True, blank=True)
-
-
 
 class ContractorUser(AbstractUser):
     # user=models.ForeignKey(User,blank="True",null="True", on_delete=models.SET_NULL)
@@ -46,6 +30,26 @@ class ContractorUser(AbstractUser):
     # def group(self):
     #     groups = self.groups.all()
     #     return groups[0].name if groups else None
+
+
+class Region(models.Model):
+    region=models.CharField(max_length=200, null=True, blank=True)
+    location=models.CharField(max_length=200,null=True, blank=True)
+    regionManager=models.ForeignKey(ContractorUser,on_delete=models.DO_NOTHING, related_name = "region_manager", null=True,blank=True)
+    technicalManager=models.ForeignKey(ContractorUser,on_delete=models.DO_NOTHING, related_name = "region_t_manager", null=True,blank=True)
+    email=models.EmailField(null=True, blank=True)
+    phoneNumber=models.CharField(max_length=200,null=True, blank=True)
+
+class BusinessHub(models.Model):
+    region=models.ForeignKey(Region,on_delete=models.CASCADE, null=True,blank=True)
+    businesshub=models.CharField(max_length=200, null=True, blank=True)
+    location=models.CharField(max_length=200,null=True, blank=True)
+    hubManager=models.ForeignKey(ContractorUser,on_delete=models.DO_NOTHING, related_name = "hub_manager", null=True,blank=True)
+    technicalManager=models.ForeignKey(ContractorUser,on_delete=models.DO_NOTHING, related_name = "hub_t_manager", null=True,blank=True)
+    email=models.EmailField(null=True, blank=True)
+    phoneNumber=models.CharField(max_length=200,null=True, blank=True)
+
+
 
 class contract_application(models.Model):
     contractor=models.ForeignKey(ContractorUser, null=True,  on_delete=models.CASCADE, related_name="usercontractor")
@@ -233,7 +237,7 @@ class contract_application(models.Model):
     Te2_nopoleht=models.CharField(max_length=200,null=True,blank=True)
     Te2_nopolelt=models.CharField(max_length=200,null=True,blank=True)
     Te2_podeptht=models.CharField(max_length=200,null=True,blank=True)
-    Te2_podepthlh_=models.CharField(max_length=200,null=True,blank=True)
+    Te2_podepthlh=models.CharField(max_length=200,null=True,blank=True)
     Te2_sizeconduct=models.CharField(max_length=200,null=True,blank=True)
     Te2_qtyused=models.CharField(max_length=200,null=True,blank=True)
     Te2_wellallmetalprt=models.BooleanField(default=False)

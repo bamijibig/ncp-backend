@@ -66,14 +66,19 @@ class ContractorUserSerializer(serializers.ModelSerializer):
        model=ContractorUser
        fields="__all__"
 
+class UserFieldSerializer(serializers.ModelSerializer):
+    class Meta:
+       model=ContractorUser
+       fields= ("first_name", "last_name","job_title", "role", "tel_no", "email")
+
 class RegionSerializer(serializers.ModelSerializer):
     class Meta:
        model=Region
        fields="__all__"
 
 class RegionListSerializer(serializers.ModelSerializer):
-    regionManager = ContractorUserSerializer()
-    technicalManager = ContractorUserSerializer()
+    regionManager = UserFieldSerializer()
+    technicalManager = UserFieldSerializer()
     class Meta:
        model=Region
        fields="__all__"
@@ -85,8 +90,8 @@ class BusinessHubSerializer(serializers.ModelSerializer):
 
 class BusinessHubListSerializer(serializers.ModelSerializer):
     region = RegionSerializer()
-    hubManager = ContractorUserSerializer()
-    technicalManager = ContractorUserSerializer()
+    hubManager = UserFieldSerializer()
+    technicalManager = UserFieldSerializer()
     class Meta:
        model=BusinessHub
        fields="__all__"
@@ -107,7 +112,7 @@ class contract_applicationListSerializer(serializers.ModelSerializer):
     # nemsa_test_cert = Base64ImageField(max_length =None, use_url=True, required=False)
     # attach_document = Base64ImageField(max_length =None, use_url=True, required=False)
     # attach_document = Base64ImageField(max_length =None, use_url=True, required=False)
-    contractor = ContractorUserSerializer(read_only=True)
+    contractor = UserFieldSerializer(read_only=True)
     class Meta:
         model=contract_application
         fields="__all__"
