@@ -26,6 +26,26 @@ class ContractorUser(AbstractUser):
     is_md = models.BooleanField(default=False)
     is_hsch = models.BooleanField(default=False)
 
+    in_approval_workflow = models.BooleanField(default=False)
+ 
+    registration_status = models.CharField(max_length=200, null=True,blank=True) #in-progress
+
+    hsch_is_contractor_approved = models.BooleanField(default=False)
+    hsch_is_contractor_approved_date = models.DateField(null = True, blank=True)
+    hsch_approved_by=models.CharField(max_length=200,null=True,blank=True)
+
+
+    cto_is_contractor_approved = models.BooleanField(default=False)
+    cto_is_contractor_approved_date = models.DateField(null = True, blank=True)
+    cto_approved_by=models.CharField(max_length=200,null=True,blank=True)
+
+
+    md_is_contractor_approved = models.BooleanField(default=False)
+    md_is_contractor_approved_date = models.DateField(null = True, blank=True)
+    md_approved_by=models.CharField(max_length=200,null=True,blank=True)
+
+   
+
     # @property
     # def group(self):
     #     groups = self.groups.all()
