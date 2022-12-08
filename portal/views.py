@@ -98,7 +98,7 @@ class UserList(generics.ListAPIView):
 class ContractorList(generics.ListAPIView):
     queryset = ContractorUser.objects.filter(is_contractor=True)
     permission_classes = []
-    serializer_class = CreateUserSerializer
+    serializer_class = ContractorUserSerializer
 
 
 
