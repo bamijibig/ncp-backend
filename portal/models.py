@@ -27,6 +27,7 @@ class ContractorUser(AbstractUser):
     is_hsch = models.BooleanField(default=False)
 
     in_approval_workflow = models.BooleanField(default=False)
+   
  
     registration_status = models.CharField(max_length=200, null=True,blank=True) #in-progress
 
@@ -34,7 +35,7 @@ class ContractorUser(AbstractUser):
     hsch_is_contractor_approved_date = models.DateField(null = True, blank=True)
     hsch_approved_by=models.CharField(max_length=200,null=True,blank=True)
 
-
+    
     cto_is_contractor_approved = models.BooleanField(default=False)
     cto_is_contractor_approved_date = models.DateField(null = True, blank=True)
     cto_approved_by=models.CharField(max_length=200,null=True,blank=True)
@@ -44,7 +45,10 @@ class ContractorUser(AbstractUser):
     md_is_contractor_approved_date = models.DateField(null = True, blank=True)
     md_approved_by=models.CharField(max_length=200,null=True,blank=True)
 
-   
+    declined = models.BooleanField(default=False)
+    declined_comment = models.TextField(null=True,blank=True)
+    registration_approved = models.BooleanField(default=False)
+
 
     # @property
     # def group(self):

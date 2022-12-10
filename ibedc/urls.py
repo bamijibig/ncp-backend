@@ -35,6 +35,11 @@ urlpatterns = [
     path("logout/",views.LogoutView.as_view()),
     path("list/user/staff",views.UserList.as_view()),
     path("list/user/contractors",views.ContractorList.as_view()),
+    path("list/myapprovals",views.ContractorMyApprovalList.as_view()),
+    path("approveordecline/<pk>/",views.ApproveOrDeclineContractor.as_view()),
+    path("approvalstatus/<pk>/",views.ApprovalStatus.as_view()),
+    
+    
     
        
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

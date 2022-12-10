@@ -66,6 +66,11 @@ class ContractorUserSerializer(serializers.ModelSerializer):
        model=ContractorUser
        fields="__all__"
 
+class ContractorApprovalStatusSerializer(serializers.ModelSerializer):
+    class Meta:
+       model=ContractorUser
+       fields= ("id","registration_approved")
+
 class UserFieldSerializer(serializers.ModelSerializer):
     class Meta:
        model=ContractorUser
@@ -186,3 +191,9 @@ class updateContractorSerializers(serializers.ModelSerializer):
         model = ContractorUser
         fields = "__all__"
         read_only_fields = ('id',)
+
+class ActionContractorSerializer(serializers.ModelSerializer):
+    class Meta:
+       model=ContractorUser
+       fields="__all__"
+    

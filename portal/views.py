@@ -2,7 +2,20 @@
 # Create your views here.
 from django.shortcuts import render
 from .models import contract_application, ContractorUser, technicalEvaluation, Region,BusinessHub
-from .serializers import ContractorUserSerializer, RegisterSerializer, RegionListSerializer, BusinessHubListSerializer, contract_applicationSerializer,technicalEvaluationSerializer,contract_applicationListSerializer, CreateUserSerializer, RegionSerializer, BusinessHubSerializer
+from .serializers import (
+                    ContractorUserSerializer, 
+                    RegisterSerializer, 
+                    RegionListSerializer, 
+                    BusinessHubListSerializer, 
+                    ActionContractorSerializer, 
+                    contract_applicationSerializer,
+                    technicalEvaluationSerializer,
+                    contract_applicationListSerializer, 
+                    CreateUserSerializer, 
+                    RegionSerializer, 
+                    BusinessHubSerializer,
+                    ContractorApprovalStatusSerializer
+                    )
 from rest_framework import viewsets, generics, filters
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.views import APIView
@@ -11,6 +24,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model, login, logout
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly, IsAuthenticated, AllowAny, IsAuthenticatedOrReadOnly
 
 # from django.contrib.auth.models import User
 from rest_framework.permissions import AllowAny
@@ -101,6 +115,16 @@ class ContractorList(generics.ListAPIView):
     serializer_class = ContractorUserSerializer
 
 
+# class ListUsers(APIView):
+
+#     permission_classes = [IsAuthenticated]
+#     serializer_class = ContractorUserSerializer
+
+#     def get(self, request, format=None):
+       
+#         usernames = [user.username for user in User.objects.all()]
+#         return Response(usernames)
+
 
 class LoginView(APIView):
     permission_classes = []
@@ -133,3 +157,36 @@ class LogoutView(APIView):
                         "message": "Successfully logged out",
                         "data": ""}
         return Response(response)
+
+
+class ContractorMyApprovalList(generics.ListAPIView):
+
+    def get_queryset(self):
+        # queryset = ContractorUser.objects.filter(is_contractor=True)
+        if(self.request.user.is_hsch == True):
+            queryset = ContractorUser.objects.filter(is_contractor=True, declined = False, hsch_is_contractor_approved=False)
+        elif(self.request.user.is_cto == True):
+            queryset = ContractorUser.objects.filter(is_contractor=True, declined = False, hsch_is_contractor_approved=True, cto_is_contractor_approved=False)
+        elif(self.request.user.is_md == True):
+            queryset = ContractorUser.objects.filter(is_contractor=True, declined = False, hsch_is_contractor_approved=True, cto_is_contractor_approved=True, md_is_contractor_approved=False)
+        else:
+            queryset = None
+        return queryset
+    permission_classes = [IsAuthenticated]
+    serializer_class = ContractorUserSerializer
+
+
+class ApproveOrDeclineContractor(generics.RetrieveUpdateDestroyAPIView):
+
+    def get_queryset(self):
+        queryset = ContractorUser.objects.filter(id=self.kwargs["pk"])
+        return queryset
+    permission_classes = [IsAuthenticated]
+    serializer_class = ActionContractorSerializer
+
+class ApprovalStatus(generics.RetrieveAPIView):
+
+    def get_queryset(self):
+        queryset = ContractorUser.objects.filter(id=self.kwargs["pk"])
+        return queryset
+    serializer_class = ContractorApprovalStatusSerializer
