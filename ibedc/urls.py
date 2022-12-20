@@ -13,14 +13,17 @@ from django.conf.urls.static import static
 from django.contrib import admin
 
 router = routers.DefaultRouter()
-router.register('supplier', views.contractview)
+router.register('connections', views.ConnectionView)
 router.register('contractors', views.contractor_regview)
 router.register('technical',views.technicalview)
-router.register('list_contractors',views.contractListOnlyview)
+router.register('list_connections',views.contractStaffListOnlyview)
+
 router.register('rh', views.regionview)
 router.register('bh', views.businesshubview)
 router.register('bhlist', views.businesshublistview)
 router.register('rhlist', views.regionlistview)
+# router.register('contractor_connections', views.ConnectionContractorView)
+
 
 #router.register('account', include('allauth.urls'))
 
@@ -38,6 +41,9 @@ urlpatterns = [
     path("list/myapprovals",views.ContractorMyApprovalList.as_view()),
     path("approveordecline/<pk>/",views.ApproveOrDeclineContractor.as_view()),
     path("approvalstatus/<pk>/",views.ApprovalStatus.as_view()),
+    path("contractor_connections/",views.ConnectionContractorView.as_view()),
+    path("staff_connections/",views.ConnectionStaffView.as_view()),
+    
     
     
     

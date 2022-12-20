@@ -11,6 +11,7 @@ from .serializers import (
                     contract_applicationSerializer,
                     technicalEvaluationSerializer,
                     contract_applicationListSerializer, 
+                    contract_applicationViewSerializer,
                     CreateUserSerializer, 
                     RegionSerializer, 
                     BusinessHubSerializer,
@@ -73,8 +74,27 @@ class contractor_regview(viewsets.ModelViewSet):
     search_fields = '__all__'
     ordering_fields = '__all__'
 
+class ConnectionContractorView(generics.ListAPIView):
+    def get_queryset(self):
+        queryset = contract_application.objects.filter(contractor=self.request.user.id)
+        return queryset
+    serializer_class=contract_applicationViewSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['connectiontype', 'est_load_of_premises','useofpremises','date_of_application']
+    search_fields = '__all__'
+    ordering_fields = '__all__'
 
-class contractview(viewsets.ModelViewSet):
+class ConnectionStaffView(generics.ListAPIView):
+    def get_queryset(self):
+        queryset = contract_application.objects.all()
+        return queryset
+    serializer_class=contract_applicationViewSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['connectiontype', 'est_load_of_premises','useofpremises','date_of_application']
+    search_fields = '__all__'
+    ordering_fields = '__all__'
+
+class ConnectionView(viewsets.ModelViewSet):
     queryset=contract_application.objects.all()
     serializer_class=contract_applicationSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
@@ -82,7 +102,7 @@ class contractview(viewsets.ModelViewSet):
     search_fields = '__all__'
     ordering_fields = '__all__'
 
-class contractListOnlyview(viewsets.ModelViewSet):
+class contractStaffListOnlyview(viewsets.ModelViewSet):
     queryset=contract_application.objects.all()
     serializer_class=contract_applicationListSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]

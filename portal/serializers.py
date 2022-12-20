@@ -103,6 +103,13 @@ class BusinessHubListSerializer(serializers.ModelSerializer):
 
 
 
+class contract_applicationViewSerializer(serializers.ModelSerializer):
+    bh = BusinessHubListSerializer()
+    contractor = ContractorUserSerializer()
+    class Meta:
+        model=contract_application
+        fields="__all__"
+        
 
 class contract_applicationSerializer(serializers.ModelSerializer):
 
