@@ -176,6 +176,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             is_admin=validated_data['is_admin'],
             is_tm = validated_data['is_tm'],
             is_te = validated_data['is_te'],
+            is_hm = validated_data['is_hm'],
             is_npd = validated_data['is_npd'],
             is_cto = validated_data['is_cto'],
             is_md = validated_data['is_md'],

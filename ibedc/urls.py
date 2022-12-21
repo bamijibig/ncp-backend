@@ -39,10 +39,13 @@ urlpatterns = [
     path("list/user/staff",views.UserList.as_view()),
     path("list/user/contractors",views.ContractorList.as_view()),
     path("list/myapprovals",views.ContractorMyApprovalList.as_view()),
+    path("list/connections/myapprovals",views.ConnectionMyApprovalList.as_view()),
     path("approveordecline/<pk>/",views.ApproveOrDeclineContractor.as_view()),
     path("approvalstatus/<pk>/",views.ApprovalStatus.as_view()),
     path("contractor_connections/",views.ConnectionContractorView.as_view()),
     path("staff_connections/",views.ConnectionStaffView.as_view()),
+    path("connection/approveordecline/<pk>/",views.ApproveOrDeclineConnection.as_view()),
+    path("connection/precommision/list/",views.ContractorConnectionPrecommision.as_view()),
     
     
     

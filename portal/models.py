@@ -25,6 +25,7 @@ class ContractorUser(AbstractUser):
     is_cto = models.BooleanField(default=False)
     is_md = models.BooleanField(default=False)
     is_hsch = models.BooleanField(default=False)
+    is_hm = models.BooleanField(default=False)
 
     in_approval_workflow = models.BooleanField(default=False)
    

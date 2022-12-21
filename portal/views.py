@@ -204,9 +204,47 @@ class ApproveOrDeclineContractor(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = ActionContractorSerializer
 
+class ApproveOrDeclineConnection(generics.RetrieveUpdateDestroyAPIView):
+
+    def get_queryset(self):
+        queryset = contract_application.objects.filter(id=self.kwargs["pk"])
+        return queryset
+    permission_classes = [IsAuthenticated]
+    serializer_class = contract_applicationSerializer
+
 class ApprovalStatus(generics.RetrieveAPIView):
 
     def get_queryset(self):
         queryset = ContractorUser.objects.filter(id=self.kwargs["pk"])
         return queryset
     serializer_class = ContractorApprovalStatusSerializer
+
+
+class ConnectionMyApprovalList(generics.ListAPIView):
+
+    def get_queryset(self):
+        # queryset = ContractorUser.objects.filter(is_contractor=True)
+        if(self.request.user.is_tm == True):
+            queryset = contract_application.objects.filter(declined = False, tm_is_connection_approved=False)
+        elif(self.request.user.is_te == True):
+            queryset = contract_application.objects.filter(declined = False, tm_is_connection_approved=True, te_is_connection_approved = False) | contract_application.objects.filter(declined = False, tm_is_connection_approved=True, te_is_connection_approved = True, cto_is_connection_approved=True, ct_is_pre_requested = True, tept_is_connection_approved = False)
+        elif(self.request.user.is_npd == True):
+            queryset = contract_application.objects.filter(declined = False, npd_is_connection_approved=False, te_is_connection_approved = True)
+        elif(self.request.user.is_cto == True):
+            queryset = contract_application.objects.filter(declined = False, npd_is_connection_approved=True, cto_is_connection_approved = False)
+        elif(self.request.user.is_hm == True):
+            queryset = contract_application.objects.filter(declined = False, cto_is_connection_approved=True, tept_is_connection_approved = True, hm_is_connection_approved = False)
+              
+        else:
+            queryset = None
+        return queryset
+    permission_classes = [IsAuthenticated]
+    serializer_class = contract_applicationViewSerializer
+
+
+class ContractorConnectionPrecommision(generics.ListAPIView):
+    def get_queryset(self):
+        queryset = contract_application.objects.filter(contractor=self.request.user.id, cto_is_connection_approved=True, ct_is_pre_requested = False)
+        return queryset
+    permission_classes = [IsAuthenticated]
+    serializer_class = contract_applicationViewSerializer
