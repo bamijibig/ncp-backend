@@ -194,7 +194,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
 
 class updateContractorSerializers(serializers.ModelSerializer):
-    coren_or_nemsa_competency = Base64ImageField(max_length=None, use_url=True, required=False)
+    # coren_or_nemsa_competency = Base64ImageField(max_length=None, use_url=True, required=False)
     class Meta:
         model = ContractorUser
         fields = "__all__"

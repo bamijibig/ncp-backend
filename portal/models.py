@@ -51,11 +51,6 @@ class ContractorUser(AbstractUser):
     registration_approved = models.BooleanField(default=False)
 
 
-    # @property
-    # def group(self):
-    #     groups = self.groups.all()
-    #     return groups[0].name if groups else None
-
 
 class Region(models.Model):
     region=models.CharField(max_length=200, null=True, blank=True)
@@ -111,7 +106,7 @@ class contract_application(models.Model):
     )
     useofpremises = models.CharField(max_length=100, choices=use_of_premises,default='residential')
     #contracter information
-    
+    security_receipt = models.FileField(null=True,blank=True)
     
 
     #user= models.ForeignKey(user)
