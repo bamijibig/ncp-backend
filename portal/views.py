@@ -1,7 +1,7 @@
 
 # Create your views here.
 from django.shortcuts import render
-from .models import contract_application, ContractorUser, technicalEvaluation, Region,BusinessHub
+from .models import contract_application, ContractorUser, Region,BusinessHub
 from .serializers import (
                     ContractorUserSerializer, 
                     RegisterSerializer, 
@@ -9,7 +9,7 @@ from .serializers import (
                     BusinessHubListSerializer, 
                     ActionContractorSerializer, 
                     contract_applicationSerializer,
-                    technicalEvaluationSerializer,
+                    # technicalEvaluationSerializer,
                     contract_applicationListSerializer, 
                     contract_applicationViewSerializer,
                     CreateUserSerializer, 
@@ -110,13 +110,13 @@ class contractStaffListOnlyview(viewsets.ModelViewSet):
     search_fields = '__all__'
     ordering_fields = '__all__'
 
-class technicalview(viewsets.ModelViewSet):
-    queryset=technicalEvaluation.objects.all()
-    serializer_class=technicalEvaluationSerializer
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ['load_demand', 'equipment_sizing']
-    search_fields = '__all__'
-    ordering_fields = '__all__'
+# class technicalview(viewsets.ModelViewSet):
+#     queryset=technicalEvaluation.objects.all()
+#     serializer_class=technicalEvaluationSerializer
+#     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+#     filterset_fields = ['load_demand', 'equipment_sizing']
+#     search_fields = '__all__'
+#     ordering_fields = '__all__'
 
 class RegisterView(generics.CreateAPIView):
     queryset = ContractorUser.objects.all()

@@ -1,5 +1,5 @@
 
-from portal.models import contract_application, technicalEvaluation,ContractorUser, Region, BusinessHub
+from portal.models import contract_application,ContractorUser, Region, BusinessHub
 from django.contrib.auth.models import Group
 from rest_framework import serializers
 # from django.contrib.auth.models import User
@@ -129,10 +129,10 @@ class contract_applicationListSerializer(serializers.ModelSerializer):
         model=contract_application
         fields="__all__"
 
-class technicalEvaluationSerializer(serializers.ModelSerializer):
-    class Meta:
-       model=technicalEvaluation
-       fields="__all__"
+# class technicalEvaluationSerializer(serializers.ModelSerializer):
+#     class Meta:
+#        model=technicalEvaluation
+#        fields="__all__"
 
 
 class CreateUserSerializer(serializers.ModelSerializer):

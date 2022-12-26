@@ -15,7 +15,7 @@ from django.contrib import admin
 router = routers.DefaultRouter()
 router.register('connections', views.ConnectionView)
 router.register('contractors', views.contractor_regview)
-router.register('technical',views.technicalview)
+# router.register('technical',views.technicalview)
 router.register('list_connections',views.contractStaffListOnlyview)
 
 router.register('rh', views.regionview)

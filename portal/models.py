@@ -35,16 +35,19 @@ class ContractorUser(AbstractUser):
     hsch_is_contractor_approved = models.BooleanField(default=False)
     hsch_is_contractor_approved_date = models.DateField(null = True, blank=True)
     hsch_approved_by=models.CharField(max_length=200,null=True,blank=True)
+    hsch_memo=models.FileField(null=True,blank=True)
 
     
     cto_is_contractor_approved = models.BooleanField(default=False)
     cto_is_contractor_approved_date = models.DateField(null = True, blank=True)
     cto_approved_by=models.CharField(max_length=200,null=True,blank=True)
+    cto_memo=models.FileField(null=True,blank=True)
 
 
     md_is_contractor_approved = models.BooleanField(default=False)
     md_is_contractor_approved_date = models.DateField(null = True, blank=True)
     md_approved_by=models.CharField(max_length=200,null=True,blank=True)
+    md_memo=models.FileField(null=True,blank=True)
 
     declined = models.BooleanField(default=False)
     declined_comment = models.TextField(null=True,blank=True)
@@ -125,22 +128,25 @@ class contract_application(models.Model):
     tm_is_connection_approved = models.BooleanField(default=False)
     tm_is_connection_approved_date = models.DateField(null = True, blank=True)
     tm_is_connection_approved_by=models.CharField(max_length=200,null=True,blank=True)
+    tm_memo=models.FileField(null=True,blank=True)
 
     # TE
     te_is_connection_approved = models.BooleanField(default=False)
     te_is_connection_approved_date = models.DateField(null = True, blank=True)
     te_is_connection_approved_by=models.CharField(max_length=200,null=True,blank=True)
+    te_memo=models.FileField(null=True,blank=True)
 
     # NPD
     npd_is_connection_approved = models.BooleanField(default=False)
     npd_is_connection_approved_date = models.DateField(null = True, blank=True)
     npd_is_connection_approved_by=models.CharField(max_length=200,null=True,blank=True)
+    npd_memo=models.FileField(null=True,blank=True)
 
     # CTO
     cto_is_connection_approved = models.BooleanField(default=False)
     cto_is_connection_approved_date = models.DateField(null = True, blank=True)
     cto_approved_by=models.CharField(max_length=200,null=True,blank=True)
-
+    cto_memo=models.FileField(null=True,blank=True)
 
     # Contractor precommissioning
     ct_is_pre_requested = models.BooleanField(default=False)
@@ -155,10 +161,37 @@ class contract_application(models.Model):
     hm_is_connection_approved = models.BooleanField(default=False)
     hm_is_contractor_approved_date = models.DateField(null = True, blank=True)
     hm_approved_by=models.CharField(max_length=200,null=True,blank=True)
+    hm_memo=models.FileField(null=True,blank=True)
 
     declined = models.BooleanField(default=False)
     declined_comment = models.TextField(null=True,blank=True)
     connection_approved = models.BooleanField(default=False)
+
+    # Evaluation Form Data
+
+    eval_title=models.CharField(max_length=250, null=True, blank=True)
+    eval_applicant=models.CharField(max_length=250, null=True, blank=True)
+    eval_dt=models.CharField(max_length=250, null=True, blank=True)
+    eval_voltage_level=models.CharField(max_length=250, null=True, blank=True)
+    eval_estimated_load=models.CharField(max_length=250, null=True, blank=True)
+    eval_site_visit_date=models.CharField(max_length=250, null = True, blank=True)
+
+
+    # Precomissioning Form
+    precom_project_title=models.CharField(max_length=250, null=True, blank=True)
+    precom_last_inspection_date=models.CharField(max_length=250, null = True, blank=True)
+    precom_project_objectives=models.TextField(null=True, blank=True)
+
+
+
+
+
+
+
+
+
+
+
 
     #md approval
     # isMd=models.BooleanField(default=False)
@@ -339,9 +372,9 @@ class contract_application(models.Model):
 
 
 
-class technicalEvaluation(models.Model):
-    route_survey_mapping=models.CharField(max_length=100,null=True,blank=True)
-    load_demand=models.CharField(max_length=100,null=True,blank=True)
-    equipment_sizing=models.CharField(max_length=100,null=True,blank=True)
-    def __str__(self):
-        return self.load_demand
+# class technicalEvaluation(models.Model):
+#     route_survey_mapping=models.CharField(max_length=100,null=True,blank=True)
+#     load_demand=models.CharField(max_length=100,null=True,blank=True)
+#     equipment_sizing=models.CharField(max_length=100,null=True,blank=True)
+#     def __str__(self):
+#         return self.load_demand
