@@ -175,6 +175,95 @@ class contract_application(models.Model):
     eval_voltage_level=models.CharField(max_length=250, null=True, blank=True)
     eval_estimated_load=models.CharField(max_length=250, null=True, blank=True)
     eval_site_visit_date=models.CharField(max_length=250, null = True, blank=True)
+    eval_new4upgrade=models.CharField(max_length=50,null=True,blank=True)
+    eval_conworkdone=models.CharField(max_length=50,null=True,blank=True)
+    eval_dtsubname=models.CharField(max_length=200,null=True,blank=True)
+    eval_region=models.CharField(max_length=200,null=True,blank=True) 
+    eval_bhub=models.CharField(max_length=200,null=True,blank=True)
+    eval_comentoncon=models.TextField(null=True,blank=True)
+    eval_fdrname=models.CharField(max_length=200,null=True,blank=True)
+    eval_fdrcapacity=models.CharField(max_length=200,null=True,blank=True)
+    eval_fdrpload=models.CharField(max_length=200,null=True,blank=True)
+    eval_tilldate=models.DateField(auto_now_add=False,null=True,blank=True)
+    eval_cumloada=models.CharField(max_length=200,null=True,blank=True)
+    # Details of source substation
+    eval_srcfeeder=models.CharField(max_length=200,null=True,blank=True)
+    eval_ptrsf=models.CharField(max_length=200,null=True,blank=True)
+    eval_trsfrating=models.CharField(max_length=200,null=True,blank=True)
+    eval_trendpeak=models.CharField(max_length=200,null=True,blank=True)
+    eval_cumtilldate=models.DateField(auto_now_add=False,null=True,blank=True)
+    eval_cummwithload=models.CharField(max_length=200,null=True,blank=True)
+    eval_permload=models.CharField(max_length=200,null=True,blank=True)
+    eval_maravail=models.CharField(max_length=200,null=True,blank=True)
+    # Approval
+    eval_fulspons=models.CharField(max_length=200,null=True,blank=True)
+    eval_estpcost=models.CharField(max_length=200,null=True,blank=True)
+    eval_specoment=models.TextField(null=True, blank=True)
+    # Detailed project report
+    eval_title2=models.CharField(max_length=200,null=True,blank=True)
+    eval_preamble=models.TextField(null=True, blank=True)
+    eval_findings=models.TextField(null=True, blank=True)
+    eval_scopework=models.TextField(null=True, blank=True)
+    eval_recom=models.TextField(null=True,blank=True)
+    # Summary report for relief dss
+    #    Project details
+    eval_titlepro=models.CharField(max_length=200,null=True,blank=True)
+    eval_usercom=models.CharField(max_length=200,null=True,blank=True)
+    eval_projmaincat=models.CharField(max_length=200,null=True,blank=True)
+    eval_dtrating=models.CharField(max_length=200,null=True,blank=True)
+    eval_voltlevel=models.CharField(max_length=200,null=True,blank=True)
+    eval_subhead=models.CharField(max_length=200,null=True,blank=True)
+    eval_title=models.CharField(max_length=200,null=True,blank=True)
+    # Finding from site visit
+    eval_datevisit=models.DateField(auto_now_add=False,null=True,blank=True)
+    eval_specloc=models.CharField(max_length=200,null=True,blank=True)
+    eval_majchaexidss=models.CharField(max_length=200,null=True,blank=True)
+    
+    # SUBSTATION ANALYSIS
+    nameofsubstation = (
+            ('existing substation', 'existing substation'),
+            ('proposed substation', 'proposed substation'),
+            ('existing substation after relieve', 'existing substation after relieve'),
+        
+        )
+    eval_nameofsub = models.CharField(max_length=100, choices=nameofsubstation, default='existing substation')
+    eval_rating=models.CharField(max_length=200,null=True,blank=True)
+    eval_loading=models.CharField(max_length=200,null=True,blank=True)
+    eval_loadpercent=models.CharField(max_length=200,null=True,blank=True)
+    eval_2yrsloadproj=models.CharField(max_length=200,null=True,blank=True)
+    eval_2yrsloadprojpercent=models.CharField(max_length=200,null=True,blank=True)
+    eval_amtbillkwh=models.CharField(max_length=200,null=True,blank=True)
+    eval_amtbillnaira=models.CharField(max_length=200,null=True,blank=True)
+    eval_collection=models.CharField(max_length=200,null=True,blank=True)
+    eval_collectioneff=models.CharField(max_length=200,null=True,blank=True)
+    #     # RECOMMENDED FEEDER/ASSETS FOR CONNECTION
+    eval_fdrname2=models.CharField(max_length=200,null=True,blank=True)
+    eval_fdravail=models.CharField(max_length=200,null=True,blank=True)
+    eval_fdrcapacity2=models.CharField(max_length=200,null=True,blank=True)
+    eval_fdrtrendpeak=models.CharField(max_length=200,null=True,blank=True)
+    eval_fdrdate=models.DateField(auto_now_add=False,null=True,blank=True)
+    eval_cumload2=models.CharField(max_length=200,null=True,blank=True)
+    eval_srcfeeder2=models.CharField(max_length=200,null=True,blank=True)
+
+    #     # PROJECT COST ANALYSIS
+    eval_projcost=models.CharField(max_length=200,null=True,blank=True)
+    eval_sanctioncost=models.CharField(max_length=200,null=True,blank=True)
+    eval_capcontribproj=models.CharField(max_length=200,null=True,blank=True)
+    eval_donor=models.CharField(max_length=200,null=True,blank=True)
+    eval_ibedc=models.CharField(max_length=200,null=True,blank=True)
+    #     # APPROVAL
+    eval_aprovmbgrant=models.CharField(max_length=200,null=True,blank=True)
+    eval_recmetertyp=models.CharField(max_length=200,null=True,blank=True)
+    eval_statmeter=models.CharField(max_length=200,null=True,blank=True)
+    eval_specoment2=models.TextField(null=True,blank=True)
+    #     # ATTACHMENT BY TE
+    eval_custreq=models.CharField(max_length=200,null=True,blank=True)
+    eval_condiag=models.FileField(null=True,blank=True)
+    eval_schdiag=models.FileField(null=True,blank=True)
+    eval_sitevform=models.FileField(null=True,blank=True)
+    eval_projplanby=models.CharField(max_length=200,null=True,blank=True)
+
+
 
 
     # Precomissioning Form
@@ -182,7 +271,40 @@ class contract_application(models.Model):
     precom_last_inspection_date=models.CharField(max_length=250, null = True, blank=True)
     precom_project_objectives=models.TextField(null=True, blank=True)
 
-
+    precom_supplysrc=models.CharField(max_length=200,null=True,blank=True)
+    precom_fdrname3=models.CharField(max_length=200,null=True,blank=True)
+    precom_peakload=models.CharField(max_length=200,null=True,blank=True)
+    precom_dwndrpcon=models.BooleanField(default=False)
+    precom_distofnss=models.CharField(max_length=200,null=True,blank=True)
+    precom_nopoleht=models.CharField(max_length=200,null=True,blank=True)
+    precom_nopolelt=models.CharField(max_length=200,null=True,blank=True)
+    precom_podeptht=models.CharField(max_length=200,null=True,blank=True)
+    precom_podepthlh=models.CharField(max_length=200,null=True,blank=True)
+    precom_sizeconduct=models.CharField(max_length=200,null=True,blank=True)
+    precom_qtyused=models.CharField(max_length=200,null=True,blank=True)
+    precom_wellallmetalprt=models.BooleanField(default=False)
+    precom_ssfencedibedc=models.BooleanField(default=False)
+    precom_wellgraveled=models.BooleanField(default=False)
+    precom_typfence=models.CharField(max_length=200,null=True,blank=True)
+    precom_nemsavail=models.BooleanField(default=False)
+        # Substation Details
+    precom_trsfcap=models.CharField(max_length=200,null=True,blank=True)
+    precom_voltratio=models.CharField(max_length=200,null=True,blank=True)
+    precom_make=models.CharField(max_length=200,null=True,blank=True)
+    precom_sn=models.CharField(max_length=200,null=True,blank=True)
+    precom_current=models.CharField(max_length=200,null=True,blank=True)
+    precom_vectorgrp=models.CharField(max_length=200,null=True,blank=True)
+    precom_impedance=models.CharField(max_length=200,null=True,blank=True)
+    precom_yrsofman=models.CharField(max_length=200,null=True,blank=True)
+    precom_cooling=models.CharField(max_length=200,null=True,blank=True)
+    precom_cabletypsiz=models.CharField(max_length=200,null=True,blank=True)
+    precom_fdrpillarcurr=models.CharField(max_length=200,null=True,blank=True)
+    precom_icomcablesiz=models.CharField(max_length=200,null=True,blank=True)
+    precom_uprizercable=models.CharField(max_length=200,null=True,blank=True)
+    precom_nouprizercable=models.CharField(max_length=200,null=True,blank=True)
+    precom_earthresv=models.CharField(max_length=200,null=True,blank=True)
+    precom_pcm=models.FileField(null=True,blank=True)
+    precom_others=models.FileField(null=True,blank=True)
 
 
 
