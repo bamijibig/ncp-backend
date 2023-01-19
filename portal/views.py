@@ -183,12 +183,12 @@ class ContractorMyApprovalList(generics.ListAPIView):
 
     def get_queryset(self):
         # queryset = ContractorUser.objects.filter(is_contractor=True)
-        if(self.request.user.is_hsch == True):
-            queryset = ContractorUser.objects.filter(is_contractor=True, declined = False, hsch_is_contractor_approved=False)
-        elif(self.request.user.is_cto == True):
-            queryset = ContractorUser.objects.filter(is_contractor=True, declined = False, hsch_is_contractor_approved=True, cto_is_contractor_approved=False)
+        # if(self.request.user.is_hsch == True):
+        #     queryset = ContractorUser.objects.filter(is_contractor=True, declined = False, hsch_is_contractor_approved=False)
+        if(self.request.user.is_cto == True):
+            queryset = ContractorUser.objects.filter(is_contractor=True, declined = False,  cto_is_contractor_approved=False)
         elif(self.request.user.is_md == True):
-            queryset = ContractorUser.objects.filter(is_contractor=True, declined = False, hsch_is_contractor_approved=True, cto_is_contractor_approved=True, md_is_contractor_approved=False)
+            queryset = ContractorUser.objects.filter(is_contractor=True, declined = False,  cto_is_contractor_approved=True, md_is_contractor_approved=False)
         else:
             queryset = None
         return queryset

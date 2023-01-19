@@ -32,10 +32,10 @@ class ContractorUser(AbstractUser):
  
     registration_status = models.CharField(max_length=200, null=True,blank=True) #in-progress
 
-    hsch_is_contractor_approved = models.BooleanField(default=False)
-    hsch_is_contractor_approved_date = models.DateField(null = True, blank=True)
-    hsch_approved_by=models.CharField(max_length=200,null=True,blank=True)
-    hsch_memo=models.FileField(null=True,blank=True)
+    # hsch_is_contractor_approved = models.BooleanField(default=False)
+    # hsch_is_contractor_approved_date = models.DateField(null = True, blank=True)
+    # hsch_approved_by=models.CharField(max_length=200,null=True,blank=True)
+    # hsch_memo=models.FileField(null=True,blank=True)
 
     
     cto_is_contractor_approved = models.BooleanField(default=False)
@@ -87,8 +87,25 @@ class contract_application(models.Model):
     )
     connectiontype = models.CharField(max_length=100, choices=connection_type,default='transformer installation')
 
-    capacity=  models.CharField(max_length=250,blank=True)
-    voltage_ratio=models.CharField(max_length=250,blank=True)
+
+    capacity_type = (
+        ('catd_50kva', 'catd_50kva'),
+        ('catc_100kva', 'catc_100kva'),
+        ('catb_1000kva', 'catb_1000kva'),
+        ('cata_all', 'cata_all'),
+        
+    )
+    capacity = models.CharField(max_length=100, choices=capacity_type, default='catd_50kva')
+
+    voltageratio_type = (
+        ('elevenby400', 'elevenby400'),
+        ('thirtythreeby400', 'thirtythreeby400'),
+        
+    )
+    voltage_ratio = models.CharField(max_length=100, choices=voltageratio_type, default='elevenby400')
+
+    # capacity=  models.CharField(max_length=250,blank=True)
+    # voltage_ratio=models.CharField(max_length=250,blank=True)
     route_length_km=models.CharField(max_length=250,blank=True)
 
     add_house_no=models.CharField(max_length=250,blank=True)
@@ -171,8 +188,18 @@ class contract_application(models.Model):
 
     eval_title=models.CharField(max_length=250, null=True, blank=True)
     eval_applicant=models.CharField(max_length=250, null=True, blank=True)
+
+    voltagelevel_type = (
+        ('elevenkv', 'elevenkv'),
+        ('thirtythreekv', 'thirtythreekv'),
+        ('fourhundred', 'fourhundred'),
+    )
+    eval_voltage_level = models.CharField(max_length=100, choices=voltagelevel_type, default='elevenkv')
+
+
+    
+    # eval_voltage_level=models.CharField(max_length=250, null=True, blank=True)
     eval_dt=models.CharField(max_length=250, null=True, blank=True)
-    eval_voltage_level=models.CharField(max_length=250, null=True, blank=True)
     eval_estimated_load=models.CharField(max_length=250, null=True, blank=True)
     eval_site_visit_date=models.CharField(max_length=250, null = True, blank=True)
     eval_new4upgrade=models.CharField(max_length=50,null=True,blank=True)
@@ -205,63 +232,66 @@ class contract_application(models.Model):
     eval_findings=models.TextField(null=True, blank=True)
     eval_scopework=models.TextField(null=True, blank=True)
     eval_recom=models.TextField(null=True,blank=True)
-    # Summary report for relief dss
-    #    Project details
-    eval_titlepro=models.CharField(max_length=200,null=True,blank=True)
-    eval_usercom=models.CharField(max_length=200,null=True,blank=True)
-    eval_projmaincat=models.CharField(max_length=200,null=True,blank=True)
-    eval_dtrating=models.CharField(max_length=200,null=True,blank=True)
-    eval_voltlevel=models.CharField(max_length=200,null=True,blank=True)
-    eval_subhead=models.CharField(max_length=200,null=True,blank=True)
-    eval_title=models.CharField(max_length=200,null=True,blank=True)
-    # Finding from site visit
-    eval_datevisit=models.CharField(max_length=250, null = True, blank=True)
-    eval_specloc=models.CharField(max_length=200,null=True,blank=True)
-    eval_majchaexidss=models.CharField(max_length=200,null=True,blank=True)
-    
-    # SUBSTATION ANALYSIS
-    nameofsubstation = (
-            ('existing substation', 'existing substation'),
-            ('proposed substation', 'proposed substation'),
-            ('existing substation after relieve', 'existing substation after relieve'),
-        
-        )
-    eval_nameofsub = models.CharField(max_length=100, choices=nameofsubstation, default='existing substation')
-    eval_rating=models.CharField(max_length=200,null=True,blank=True)
-    eval_loading=models.CharField(max_length=200,null=True,blank=True)
-    eval_loadpercent=models.CharField(max_length=200,null=True,blank=True)
-    eval_2yrsloadproj=models.CharField(max_length=200,null=True,blank=True)
-    eval_2yrsloadprojpercent=models.CharField(max_length=200,null=True,blank=True)
-    eval_amtbillkwh=models.CharField(max_length=200,null=True,blank=True)
-    eval_amtbillnaira=models.CharField(max_length=200,null=True,blank=True)
-    eval_collection=models.CharField(max_length=200,null=True,blank=True)
-    eval_collectioneff=models.CharField(max_length=200,null=True,blank=True)
-    #     # RECOMMENDED FEEDER/ASSETS FOR CONNECTION
-    eval_fdrname2=models.CharField(max_length=200,null=True,blank=True)
-    eval_fdravail=models.CharField(max_length=200,null=True,blank=True)
-    eval_fdrcapacity2=models.CharField(max_length=200,null=True,blank=True)
-    eval_fdrtrendpeak=models.CharField(max_length=200,null=True,blank=True)
-    eval_fdrdate=models.CharField(max_length=250, null = True, blank=True)
-    eval_cumload2=models.CharField(max_length=200,null=True,blank=True)
-    eval_srcfeeder2=models.CharField(max_length=200,null=True,blank=True)
+    eval_pcm=models.FileField(null=True,blank=True)   
+    eval_otherdoc=models.FileField(null=True,blank=True)
 
-    #     # PROJECT COST ANALYSIS
-    eval_projcost=models.CharField(max_length=200,null=True,blank=True)
-    eval_sanctioncost=models.CharField(max_length=200,null=True,blank=True)
-    eval_capcontribproj=models.CharField(max_length=200,null=True,blank=True)
-    eval_donor=models.CharField(max_length=200,null=True,blank=True)
-    eval_ibedc=models.CharField(max_length=200,null=True,blank=True)
-    #     # APPROVAL
-    eval_aprovmbgrant=models.CharField(max_length=200,null=True,blank=True)
-    eval_recmetertyp=models.CharField(max_length=200,null=True,blank=True)
-    eval_statmeter=models.CharField(max_length=200,null=True,blank=True)
-    eval_specoment2=models.TextField(null=True,blank=True)
-    #     # ATTACHMENT BY TE
-    eval_custreq=models.CharField(max_length=200,null=True,blank=True)
-    eval_condiag=models.FileField(null=True,blank=True)
-    eval_schdiag=models.FileField(null=True,blank=True)
-    eval_sitevform=models.FileField(null=True,blank=True)
-    eval_projplanby=models.CharField(max_length=200,null=True,blank=True)
+    # # Summary report for relief dss
+    # #    Project details
+    # eval_titlepro=models.CharField(max_length=200,null=True,blank=True)
+    # eval_usercom=models.CharField(max_length=200,null=True,blank=True)
+    # eval_projmaincat=models.CharField(max_length=200,null=True,blank=True)
+    # eval_dtrating=models.CharField(max_length=200,null=True,blank=True)
+    # eval_voltlevel=models.CharField(max_length=200,null=True,blank=True)
+    # eval_subhead=models.CharField(max_length=200,null=True,blank=True)
+    # eval_title=models.CharField(max_length=200,null=True,blank=True)
+    # # Finding from site visit
+    # eval_datevisit=models.CharField(max_length=250, null = True, blank=True)
+    # eval_specloc=models.CharField(max_length=200,null=True,blank=True)
+    # eval_majchaexidss=models.CharField(max_length=200,null=True,blank=True)
+    
+    # # SUBSTATION ANALYSIS
+    # nameofsubstation = (
+    #         ('existing substation', 'existing substation'),
+    #         ('proposed substation', 'proposed substation'),
+    #         ('existing substation after relieve', 'existing substation after relieve'),
+        
+    #     )
+    # eval_nameofsub = models.CharField(max_length=100, choices=nameofsubstation, default='existing substation')
+    # eval_rating=models.CharField(max_length=200,null=True,blank=True)
+    # eval_loading=models.CharField(max_length=200,null=True,blank=True)
+    # eval_loadpercent=models.CharField(max_length=200,null=True,blank=True)
+    # eval_2yrsloadproj=models.CharField(max_length=200,null=True,blank=True)
+    # eval_2yrsloadprojpercent=models.CharField(max_length=200,null=True,blank=True)
+    # eval_amtbillkwh=models.CharField(max_length=200,null=True,blank=True)
+    # eval_amtbillnaira=models.CharField(max_length=200,null=True,blank=True)
+    # eval_collection=models.CharField(max_length=200,null=True,blank=True)
+    # eval_collectioneff=models.CharField(max_length=200,null=True,blank=True)
+    # #     # RECOMMENDED FEEDER/ASSETS FOR CONNECTION
+    # eval_fdrname2=models.CharField(max_length=200,null=True,blank=True)
+    # eval_fdravail=models.CharField(max_length=200,null=True,blank=True)
+    # eval_fdrcapacity2=models.CharField(max_length=200,null=True,blank=True)
+    # eval_fdrtrendpeak=models.CharField(max_length=200,null=True,blank=True)
+    # eval_fdrdate=models.CharField(max_length=250, null = True, blank=True)
+    # eval_cumload2=models.CharField(max_length=200,null=True,blank=True)
+    # eval_srcfeeder2=models.CharField(max_length=200,null=True,blank=True)
+
+    # #     # PROJECT COST ANALYSIS
+    # eval_projcost=models.CharField(max_length=200,null=True,blank=True)
+    # eval_sanctioncost=models.CharField(max_length=200,null=True,blank=True)
+    # eval_capcontribproj=models.CharField(max_length=200,null=True,blank=True)
+    # eval_donor=models.CharField(max_length=200,null=True,blank=True)
+    # eval_ibedc=models.CharField(max_length=200,null=True,blank=True)
+    # #     # APPROVAL
+    # eval_aprovmbgrant=models.CharField(max_length=200,null=True,blank=True)
+    # eval_recmetertyp=models.CharField(max_length=200,null=True,blank=True)
+    # eval_statmeter=models.CharField(max_length=200,null=True,blank=True)
+    # eval_specoment2=models.TextField(null=True,blank=True)
+    # #     # ATTACHMENT BY TE
+    # eval_custreq=models.CharField(max_length=200,null=True,blank=True)
+    # eval_condiag=models.FileField(null=True,blank=True)
+    # eval_schdiag=models.FileField(null=True,blank=True)
+    # eval_sitevform=models.FileField(null=True,blank=True)
+    # eval_projplanby=models.CharField(max_length=200,null=True,blank=True)
 
 
 
