@@ -14,6 +14,13 @@ class ContractorUser(AbstractUser):
     tel_no=models.CharField(max_length=100,null=True,blank=True)
     role=models.CharField(max_length=100,null=True,blank=True)
     job_title=models.CharField(max_length=100,null=True,blank=True)
+
+    stafftype=(
+        ('hqstaff','hqstaff'),
+        ('otherstaff','otherstaff')
+    )
+
+    staff_type=models.CharField(max_length=100, choices=stafftype, default='hqstaff')
     
     coren_or_nemsa_competency=models.FileField(null=True,blank=True)
     reg_date=models.DateTimeField(auto_now_add=True,null=True,blank=True)

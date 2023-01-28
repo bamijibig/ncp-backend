@@ -3,7 +3,8 @@
 from django.shortcuts import render
 from .models import contract_application, ContractorUser, Region,BusinessHub
 from .serializers import (
-                    ContractorUserSerializer, 
+                    ContractorUserSerializer,
+                    ContractorUserunsubmitSerializer, 
                     RegisterSerializer, 
                     RegionListSerializer, 
                     BusinessHubListSerializer, 
@@ -129,10 +130,19 @@ class UserList(generics.ListAPIView):
     permission_classes = []
     serializer_class = CreateUserSerializer
 
+# class ContractorList(generics.ListAPIView):
+#     queryset = ContractorUser.objects.filter(is_contractor=True)
+#     permission_classes = []
+#     serializer_class = ContractorUserSerializer
 class ContractorList(generics.ListAPIView):
-    queryset = ContractorUser.objects.filter(is_contractor=True)
+    queryset = ContractorUser.objects.filter(registration_approved=True,is_contractor=True)
     permission_classes = []
     serializer_class = ContractorUserSerializer
+
+class ContractorListunsubmit(generics.ListAPIView):
+    queryset = ContractorUser.objects.filter(registration_approved=False,is_contractor=True)
+    permission_classes = []
+    serializer_class = ContractorUserunsubmitSerializer
 
 
 # class ListUsers(APIView):

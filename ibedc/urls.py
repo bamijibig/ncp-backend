@@ -38,6 +38,7 @@ urlpatterns = [
     path("logout/",views.LogoutView.as_view()),
     path("list/user/staff",views.UserList.as_view()),
     path("list/user/contractors",views.ContractorList.as_view()),
+    path("list/user/unsubmitcontractors",views.ContractorListunsubmit.as_view()),
     path("list/myapprovals",views.ContractorMyApprovalList.as_view()),
     path("list/connections/myapprovals",views.ConnectionMyApprovalList.as_view()),
     path("approveordecline/<pk>/",views.ApproveOrDeclineContractor.as_view()),

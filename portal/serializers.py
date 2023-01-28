@@ -66,6 +66,14 @@ class ContractorUserSerializer(serializers.ModelSerializer):
        model=ContractorUser
        fields="__all__"
 
+class ContractorUserunsubmitSerializer(serializers.ModelSerializer):
+    class Meta:
+       model=ContractorUser
+       fields="__all__"
+
+    
+
+
 class ContractorApprovalStatusSerializer(serializers.ModelSerializer):
     class Meta:
        model=ContractorUser
