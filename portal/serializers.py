@@ -82,7 +82,7 @@ class ContractorApprovalStatusSerializer(serializers.ModelSerializer):
 class UserFieldSerializer(serializers.ModelSerializer):
     class Meta:
        model=ContractorUser
-       fields= ("first_name", "last_name","job_title", "role", "tel_no", "email")
+       fields= ("first_name", "last_name","job_title", "role", "tel_no", "email", "region")
 
 class RegionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -191,7 +191,9 @@ class RegisterSerializer(serializers.ModelSerializer):
             is_hsch = validated_data['is_hsch'],
             job_title = validated_data['job_title'],
             role = validated_data['role'],
-            tel_no = validated_data['tel_no']
+            tel_no = validated_data['tel_no'],
+            region = validated_data['region'],
+            businesshub = validated_data['businesshub']
 
         )
 

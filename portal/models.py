@@ -17,11 +17,13 @@ class ContractorUser(AbstractUser):
 
     stafftype=(
         ('hqstaff','hqstaff'),
-        ('otherstaff','otherstaff')
+        ('regionstaff','regionstaff'),
+        ('businesshubstaff','businesshubstaff')
     )
 
-    staff_type=models.CharField(max_length=100, choices=stafftype, default='hqstaff')
-    
+    staff_type=models.CharField(max_length=100, choices=stafftype, default='hqstaff') 
+    region=models.CharField(max_length=100,null=True,blank=True) #Send region id as value
+    businesshub=models.CharField(max_length=100,null=True,blank=True) #Send business hub id as value
     coren_or_nemsa_competency=models.FileField(null=True,blank=True)
     reg_date=models.DateTimeField(auto_now_add=True,null=True,blank=True)
     is_contractor = models.BooleanField(default=False)

@@ -87,8 +87,15 @@ class ConnectionContractorView(generics.ListAPIView):
 
 class ConnectionStaffView(generics.ListAPIView):
     def get_queryset(self):
-        queryset = contract_application.objects.all()
+
+        if(self.request.user.staff_type == 'regionstaff'):
+            queryset = contract_application.objects.filter(bh__region__id = self.request.user.region)
+        elif(self.request.user.staff_type == 'businesshubstaff'):
+            queryset = contract_application.objects.filter(bh__id = self.request.user.businesshub)
+        else:
+            queryset = contract_application.objects.all()
         return queryset
+    permission_classes = [IsAuthenticated]
     serializer_class=contract_applicationViewSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['connectiontype', 'est_load_of_premises','useofpremises','date_of_application']
