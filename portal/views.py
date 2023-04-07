@@ -147,7 +147,7 @@ class ContractorList(generics.ListAPIView):
     serializer_class = ContractorUserSerializer
 
 class ContractorListunsubmit(generics.ListAPIView):
-    queryset = ContractorUser.objects.filter(registration_approved=False,is_contractor=True)
+    queryset = ContractorUser.objects.filter(registration_approved=False,is_contractor=True, registration_status__isnull=True)
     permission_classes = []
     serializer_class = ContractorUserunsubmitSerializer
 
@@ -213,13 +213,7 @@ class ContractorMyApprovalList(generics.ListAPIView):
     serializer_class = ContractorUserSerializer
 
 
-class ApproveOrDeclineContractor(generics.RetrieveUpdateDestroyAPIView):
-
-    def get_queryset(self):
-        queryset = ContractorUser.objects.filter(id=self.kwargs["pk"])
-        return queryset
-    permission_classes = [IsAuthenticated]
-    serializer_class = ActionContractorSerializer
+ 
 
 class ApproveOrDeclineConnection(generics.RetrieveUpdateDestroyAPIView):
 
