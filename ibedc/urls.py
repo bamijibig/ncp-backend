@@ -48,7 +48,7 @@ urlpatterns = [
     path("staff_connections/",views.ConnectionStaffView.as_view()),
     path("connection/approveordecline/<pk>/",views.ApproveOrDeclineConnection.as_view()),
     path("connection/precommision/list/",views.ContractorConnectionPrecommision.as_view()),
-    
+    path('api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     
     
     

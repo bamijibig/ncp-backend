@@ -24,3 +24,4 @@ sqlparse==0.4.3
 types-cryptography==3.3.23.1
 tzdata==2022.5
 urllib3==1.26.12
+django-rest-passwordreset

@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     "knox",
     "rest_framework",
     "django_filters",
-    "corsheaders"
+    "corsheaders",
+    "django_rest_passwordreset",
 ]
 # REST_FRAMEWORK = {
 #     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
@@ -155,3 +156,5 @@ EMAIL_PORT = 587  # Replace with your SMTP port
 EMAIL_HOST_USER = 'connectionportal@ibedc.com'  # Replace with your email address
 EMAIL_HOST_PASSWORD = 'ibedc@2023'  # Replace with your email password
 EMAIL_USE_TLS = True
+
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
