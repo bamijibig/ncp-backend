@@ -257,6 +257,7 @@ class ApproveOrDeclineContractor(generics.RetrieveUpdateDestroyAPIView):
         return queryset
     permission_classes = [IsAuthenticated]
     serializer_class = ActionContractorSerializer
+
  
 
 class ApproveOrDeclineConnection(generics.RetrieveUpdateDestroyAPIView):
