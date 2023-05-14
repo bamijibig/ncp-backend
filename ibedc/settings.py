@@ -157,4 +157,6 @@ EMAIL_HOST_USER = 'connectionportal@ibedc.com'  # Replace with your email addres
 EMAIL_HOST_PASSWORD = 'ibedc@2023'  # Replace with your email password
 EMAIL_USE_TLS = True
 
+DEFAULT_FROM_EMAIL = "No Reply <no_reply@ibedc.com>"
+
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

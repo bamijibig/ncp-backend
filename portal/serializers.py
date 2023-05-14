@@ -5,6 +5,8 @@ from rest_framework import serializers
 # from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
+from django.core.mail import send_mail
+from django.conf import settings
 
 class Base64ImageField(serializers.ImageField):
     """
@@ -60,11 +62,52 @@ class Base64ImageField(serializers.ImageField):
         # extension = "jpg" if  else extension
 
         return extension
+    
+
+
+class UserFieldSerializer(serializers.ModelSerializer):
+    class Meta:
+       model=ContractorUser
+       fields= ("first_name", "last_name","job_title", "role", "tel_no", "email", "region")
+
+class EmailSerializer(serializers.ModelSerializer):
+    class Meta:
+       model=ContractorUser
+       fields= ("email","role")
 
 class ContractorUserSerializer(serializers.ModelSerializer):
     class Meta:
        model=ContractorUser
        fields="__all__"
+
+class ContractorUserPlusEmailSerializer(serializers.ModelSerializer):
+    class Meta:
+       model=ContractorUser
+       fields="__all__"
+
+    def update(self, instance, validated_data):
+        # instance.model_method() # call model method for instance level computation
+        subject='Contractor Updated Profile and Awaiting Approval'
+        message='''Hi CTO, 
+        A Contractor has just submitted his profile for approval. Kindly login to the platform
+        and review pending approvals on the Awaiting Approval tab for Contractors.'''
+        email = []
+        cto_emails = EmailSerializer(ContractorUser.objects.filter(is_cto=True), many=True).data
+        # print(cto_emails)
+        
+        for val in cto_emails:
+            email.append(list(val.items())[0][1])
+    
+        print(email)
+        send_mail(
+            subject,
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            email,
+            fail_silently=False,
+        )
+        # call super to now save modified instance along with the validated data
+        return super().update(instance, validated_data)  
 
 class ContractorUserunsubmitSerializer(serializers.ModelSerializer):
     class Meta:
@@ -79,10 +122,6 @@ class ContractorApprovalStatusSerializer(serializers.ModelSerializer):
        model=ContractorUser
        fields= ("id","registration_approved", "is_contractor", "in_approval_workflow")
 
-class UserFieldSerializer(serializers.ModelSerializer):
-    class Meta:
-       model=ContractorUser
-       fields= ("first_name", "last_name","job_title", "role", "tel_no", "email", "region")
 
 class RegionSerializer(serializers.ModelSerializer):
     class Meta:

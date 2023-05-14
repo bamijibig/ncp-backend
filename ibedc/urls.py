@@ -42,7 +42,7 @@ urlpatterns = [
     path("list/myapprovals",views.ContractorMyApprovalList.as_view()),
     path("list/connections/myapprovals",views.ConnectionMyApprovalList.as_view()),
     # path("approveordecline/<pk>/",views.ApproveOrDeclineContractor.as_view()),
-    path("approveordecline/<pk>/",views.ApproveOrDeclineConnection.as_view()),
+    path("approveordecline/<pk>/",views.ApproveOrDeclineContractor.as_view()),
     path("approvalstatus/<pk>/",views.ApprovalStatus.as_view()),
     path("contractor_connections/",views.ConnectionContractorView.as_view()),
     path("staff_connections/",views.ConnectionStaffView.as_view()),
@@ -50,7 +50,7 @@ urlpatterns = [
     path("connection/precommision/list/",views.ContractorConnectionPrecommision.as_view()),
     path('api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     
-    
+    path("updatecontractorreg/<pk>/",views.contractor_regupdatesubmitview.as_view()),
     
        
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

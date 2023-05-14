@@ -16,7 +16,8 @@ from .serializers import (
                     CreateUserSerializer, 
                     RegionSerializer, 
                     BusinessHubSerializer,
-                    ContractorApprovalStatusSerializer
+                    ContractorApprovalStatusSerializer,
+                    ContractorUserPlusEmailSerializer
                     )
 from rest_framework import viewsets, generics, filters
 from django_filters.rest_framework import DjangoFilterBackend
@@ -68,6 +69,18 @@ class businesshublistview(viewsets.ModelViewSet):
     search_fields = '__all__'
     ordering_fields = '__all__'
     http_method_names = ['get', 'options', 'head']
+
+
+class contractor_regupdatesubmitview(generics.RetrieveUpdateDestroyAPIView):
+    def get_queryset(self):
+        queryset=ContractorUser.objects.filter(id=self.kwargs["pk"])
+        return queryset
+    # queryset=ContractorUser.objects.all()
+    serializer_class=ContractorUserPlusEmailSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['contractor_name', 'tel_no','email']
+    search_fields = '__all__'
+    ordering_fields = '__all__'
 
 class contractor_regview(viewsets.ModelViewSet):
     queryset=ContractorUser.objects.all()
@@ -206,16 +219,16 @@ class ContractorMyApprovalList(generics.ListAPIView):
         #     queryset = ContractorUser.objects.filter(is_contractor=True, declined = False, hsch_is_contractor_approved=False)
         if(self.request.user.is_cto == True):
             queryset = ContractorUser.objects.filter(is_contractor=True, declined = False,  cto_is_contractor_approved=False)
-            email=self.request.user.is_cto.email
-            subject='CTO has approved this request'
-            message='The request have been approved by CTO and awaiting MD approval'
-            send_mail(
-                subject,
-                message,
-                settings.DEFAULT_FROM_EMAIL,  # Sender email
-                [email],  # Recipient email(s)
-                fail_silently=False,
-            )
+            # email=self.request.user.is_cto.email
+            # subject='CTO has approved this request'
+            # message='The request have been approved by CTO and awaiting MD approval'
+            # send_mail(
+            #     subject,
+            #     message,
+            #     settings.DEFAULT_FROM_EMAIL,  # Sender email
+            #     [email],  # Recipient email(s)
+            #     fail_silently=False,
+            # )
 
 
         elif(self.request.user.is_md == True):
@@ -237,7 +250,13 @@ class ContractorMyApprovalList(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = ContractorUserSerializer
 
+class ApproveOrDeclineContractor(generics.RetrieveUpdateDestroyAPIView):
 
+    def get_queryset(self):
+        queryset = ContractorUser.objects.filter(id=self.kwargs["pk"])
+        return queryset
+    permission_classes = [IsAuthenticated]
+    serializer_class = ActionContractorSerializer
  
 
 class ApproveOrDeclineConnection(generics.RetrieveUpdateDestroyAPIView):
