@@ -237,6 +237,13 @@ class ContractorMyApprovalList(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = ContractorUserSerializer
 
+class ApproveOrDeclineContractor(generics.RetrieveUpdateDestroyAPIView):
+
+    def get_queryset(self):
+        queryset = ContractorUser.objects.filter(id=self.kwargs["pk"])
+        return queryset
+    permission_classes = [IsAuthenticated]
+    serializer_class = ActionContractorSerializer
 
  
 
