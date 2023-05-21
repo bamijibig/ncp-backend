@@ -98,7 +98,7 @@ class ConnectionContractorView(generics.ListAPIView):
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['connectiontype', 'est_load_of_premises','useofpremises','date_of_application']
     search_fields = '__all__'
-    ordering_fields = '__all__'
+    ordering_fields = '__all__' 
 
 class ConnectionStaffView(generics.ListAPIView):
     def get_queryset(self):
@@ -124,6 +124,7 @@ class ConnectionView(viewsets.ModelViewSet):
     filterset_fields = ['connectiontype', 'est_load_of_premises','useofpremises','date_of_application']
     search_fields = '__all__'
     ordering_fields = '__all__'
+
 
 class contractStaffListOnlyview(viewsets.ModelViewSet):
     queryset=contract_application.objects.all()

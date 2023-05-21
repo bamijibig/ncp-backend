@@ -83,6 +83,8 @@ class ContractorUser(AbstractUser):
     declined_comment = models.TextField(null=True,blank=True)
     registration_approved = models.BooleanField(default=False)
 
+    action=models.CharField(max_length=200,null=True,blank=True)
+    approval_role=models.CharField(max_length=200,null=True,blank=True)
 
 
 class Region(models.Model):

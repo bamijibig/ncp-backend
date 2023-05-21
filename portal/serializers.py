@@ -89,8 +89,7 @@ class ContractorUserPlusEmailSerializer(serializers.ModelSerializer):
         # instance.model_method() # call model method for instance level computation
         subject='Contractor Updated Profile and Awaiting Approval'
         message='''Hi CTO, 
-        A Contractor has just submitted his profile for approval. Kindly login to the platform
-        and review pending approvals on the Awaiting Approval tab for Contractors.'''
+        A Contractor, {} has just submitted his profile for approval. Kindly login to the platform to review pending approvals on the Awaiting Approval tab for Contractors.'''.format(self.data.get('contractor_name'))
         email = []
         cto_emails = EmailSerializer(ContractorUser.objects.filter(is_cto=True), many=True).data
         # print(cto_emails)
@@ -254,3 +253,66 @@ class ActionContractorSerializer(serializers.ModelSerializer):
        model=ContractorUser
        fields="__all__"
     
+    def update(self, instance, validated_data):
+
+        if(validated_data['action'] == 'Approve'):
+            if(validated_data['approval_role'] == 'cto'):
+                #SEND MESSAGE AFTER CTO APPROVAL. Send to MDs to take next action
+                subject='A Contractor ({}) is Awaiting your Approval'.format(self.data.get('contractor_name'))
+                message='''Hi MD ,
+
+                A new Contractor, {}  is currently at the MD approval stage and needs your approval. 
+                Kindly login to the platform to review pending approvals on the Awaiting Approval tab for Contractors.
+
+                Best Regards'''.format(self.data.get('contractor_name'))
+                email = []
+                md_emails = EmailSerializer(ContractorUser.objects.filter(is_md=True), many=True).data
+                
+                
+                for val in md_emails:
+                    email.append(list(val.items())[0][1])
+                send_mail(
+                        subject,
+                        message,
+                        settings.DEFAULT_FROM_EMAIL,
+                        email,
+                        fail_silently=False,
+                            )
+            elif(validated_data['approval_role'] == 'md'):
+                #SEND MESSAGE AFTER MD APPROVAL. Notify contractor of the approval
+                subject='Your profile has been approved'
+                message='''Hi {},
+
+                Your profile has been approved. You can now create connections and perform other contractor related activities on the platform.
+                Best Regards'''.format(self.data.get('contractor_name'))
+               
+                send_mail(
+                        subject,
+                        message,
+                        settings.DEFAULT_FROM_EMAIL,
+                        [self.data.get('email'),],
+                        fail_silently=False,
+                            )
+            else:
+                pass
+        elif(validated_data['action']=='Decline'):
+            #THE MESSAGE TO BE SENT FOR APPLICATION DECLINED
+            subject='Your Application as a Contractor has been Decline'
+            message='''Hi {},
+
+            Your application as a Contractor has been declined. Action required... 
+            Kindly resolve the reason for decline stated below and resubmit for approval.
+
+            Comment: {}
+
+            Best Regards'''.format(self.data.get('contractor_name'), validated_data['declined_comment'])
+            send_mail(
+                    subject,
+                    message,
+                    settings.DEFAULT_FROM_EMAIL,
+                    [self.data.get('email'),],
+                    fail_silently=False,
+                        )
+        else:
+            pass
+        return super().update(instance, validated_data)  
