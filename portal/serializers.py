@@ -162,7 +162,7 @@ class contract_applicationSerializer(serializers.ModelSerializer):
     class Meta:
         model=contract_application
         fields="__all__"
-        
+    
 
 class contract_applicationListSerializer(serializers.ModelSerializer):
     # letter_of_donation_dss = Base64ImageField(max_length =None, use_url=True, required=False)
@@ -311,6 +311,130 @@ class ActionContractorSerializer(serializers.ModelSerializer):
                     message,
                     settings.DEFAULT_FROM_EMAIL,
                     [self.data.get('email'),],
+                    fail_silently=False,
+                        )
+        else:
+            pass
+        return super().update(instance, validated_data)  
+    
+
+
+
+class actioncontract_applicationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model=contract_application
+        fields="__all__"
+
+    def update(self, instance, validated_data):
+        print(self.data.get('contractor'))
+        contractormail = EmailSerializer(ContractorUser.objects.filter(id=self.data.get('contractor')), many=True).data
+        
+        contractoremail = []
+        for val in contractormail:
+            contractoremail.append(list(val.items())[0][1])
+       
+        if(validated_data['action'] == 'Approve'):
+            if(validated_data['approval_role'] == 'tm'):
+                
+                #SEND MESSAGE AFTER TM APPROVAL. Send to NPD to take next action
+                subject='A Connection Request ({}) is Awaiting your Approval'.format(self.data.get('connectiontype'))
+                message='''Hi ,
+
+                A new Connection Request, {}  is currently at the NPD approval stage and needs your approval. 
+                Kindly login to the platform to review pending approvals on the Awaiting Approval tab for Connections.
+
+                Best Regards'''.format(self.data.get('connectiontype'))
+                npdemail = []
+                npd_emails = EmailSerializer(ContractorUser.objects.filter(is_npd=True), many=True).data
+                
+                
+                for val in npd_emails:
+                    npdemail.append(list(val.items())[0][1])
+                send_mail(
+                        subject,
+                        message,
+                        settings.DEFAULT_FROM_EMAIL,
+                        npdemail,
+                        fail_silently=False,
+                            )
+            elif(validated_data['approval_role'] == 'npd'):
+                #SEND MESSAGE AFTER NPD APPROVAL. Send to CTO to take next action
+                subject='A Connection Request ({}) is Awaiting your Approval'.format(self.data.get('connectiontype'))
+                message='''Hi ,
+
+                A new Connection Request, {}  is currently at the CTO approval stage and needs your approval. 
+                Kindly login to the platform to review pending approvals on the Awaiting Approval tab for Connections.
+
+                Best Regards'''.format(self.data.get('connectiontype'))
+                ctoemail = []
+                cto_emails = EmailSerializer(ContractorUser.objects.filter(is_cto=True), many=True).data
+                
+                
+                for val in cto_emails:
+                    ctoemail.append(list(val.items())[0][1])
+                send_mail(
+                        subject,
+                        message,
+                        settings.DEFAULT_FROM_EMAIL,
+                        ctoemail,
+                        fail_silently=False,
+                            )
+
+            elif(validated_data['approval_role'] == 'cto'):
+                #SEND MESSAGE AFTER CTO APPROVAL. Send to Contractor to Request Precommissioning
+                subject='Your Connection Request ({}) is at Precomissioning Stage. Action required.'.format(self.data.get('connectiontype'))
+                message='''Hi ,
+
+                Your Connection Request, {}  is currently at the Precomissioning Stage.
+                Kindly login to your dashboard, and request precommissioning test for the connection
+                
+                Best Regards'''.format(self.data.get('connectiontype'))
+                
+                send_mail(
+                        subject,
+                        message,
+                        settings.DEFAULT_FROM_EMAIL,
+                        contractoremail,
+                        fail_silently=False,
+                            )
+                
+
+            elif(validated_data['approval_role'] == 'hm'):
+                #SEND MESSAGE AFTER HM APPROVAL. Send to Contractor
+                subject='Your Connection Request ({}) Approval Process is Completed'.format(self.data.get('connectiontype'))
+                message='''Hi ,
+
+                Your Connection Request, {}  approval has been completed.
+                
+                Best Regards'''.format(self.data.get('connectiontype'))
+                
+                send_mail(
+                        subject,
+                        message,
+                        settings.DEFAULT_FROM_EMAIL,
+                        contractoremail,
+                        fail_silently=False,
+                            )
+                
+            else:
+                pass
+        elif(validated_data['action']=='Decline'):
+            #THE MESSAGE TO BE SENT FOR APPLICATION DECLINED
+            subject='Your Connection Request has been Declined'
+            message='''Hi,
+
+            Your connection request - {} has been declined. Action required... 
+            Kindly resolve the reason for decline stated below and resubmit for approval.
+
+            Comment: {}
+
+            Best Regards'''.format(self.data.get('connectiontype'), validated_data['declined_comment'])
+            send_mail(
+                    subject,
+                    message,
+                    settings.DEFAULT_FROM_EMAIL,
+                    contractoremail,
                     fail_silently=False,
                         )
         else:

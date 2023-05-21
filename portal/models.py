@@ -367,7 +367,8 @@ class contract_application(models.Model):
     precom_earthresv=models.CharField(max_length=200,null=True,blank=True)
     precom_pcm=models.FileField(null=True,blank=True)
     precom_others=models.FileField(null=True,blank=True)
-
+    action=models.CharField(max_length=200,null=True,blank=True)
+    approval_role=models.CharField(max_length=200,null=True,blank=True)
 
 
     def __str__(self):

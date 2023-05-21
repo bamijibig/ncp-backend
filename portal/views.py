@@ -17,7 +17,8 @@ from .serializers import (
                     RegionSerializer, 
                     BusinessHubSerializer,
                     ContractorApprovalStatusSerializer,
-                    ContractorUserPlusEmailSerializer
+                    ContractorUserPlusEmailSerializer,
+                    actioncontract_applicationSerializer
                     )
 from rest_framework import viewsets, generics, filters
 from django_filters.rest_framework import DjangoFilterBackend
@@ -267,7 +268,7 @@ class ApproveOrDeclineConnection(generics.RetrieveUpdateDestroyAPIView):
         queryset = contract_application.objects.filter(id=self.kwargs["pk"])
         return queryset
     permission_classes = [IsAuthenticated]
-    serializer_class = contract_applicationSerializer
+    serializer_class = actioncontract_applicationSerializer
 
 class ApprovalStatus(generics.RetrieveAPIView):
 
