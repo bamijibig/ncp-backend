@@ -327,17 +327,107 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
         fields="__all__"
 
     def update(self, instance, validated_data):
-        print(self.data.get('contractor'))
+        # print(self.data.get('contractor'))
         contractormail = EmailSerializer(ContractorUser.objects.filter(id=self.data.get('contractor')), many=True).data
+        
         
         contractoremail = []
         for val in contractormail:
             contractoremail.append(list(val.items())[0][1])
-       
+        if(validated_data['action'] == 'submitconnection'):
+            #SEND MESSAGE AFTER CONNECTIONS IS SUBMITTED. Send to TM to take next action
+            subject='A Connection Request ({}) is Awaiting your Review'.format(self.data.get('connectiontype'))
+            message='''Hi ,
+
+            A new Connection Request, {}  has been submitted and needs your attention. 
+            Kindly login to the platform to review pending approvals on the Awaiting Approval tab for Connections.
+
+            Best Regards'''.format(self.data.get('connectiontype'))
+            tmemail = []
+            tm_emails = EmailSerializer(ContractorUser.objects.filter(is_tm=True), many=True).data
+            
+            
+            for val in tm_emails:
+                tmemail.append(list(val.items())[0][1])
+            send_mail(
+                    subject,
+                    message,
+                    settings.DEFAULT_FROM_EMAIL,
+                    tmemail,
+                    fail_silently=False,
+                        )
+        if(validated_data['action'] == 'precomreq'):
+            #SEND MESSAGE AFTER REQUEST FOR PRECOMISSIONING. Send to TE to take next action
+            subject='A Connection Request ({}) is Awaiting your Review'.format(self.data.get('connectiontype'))
+            message='''Hi ,
+
+            A new Connection Request, {}  is currently at the precommissioning stage and needs your attention. 
+            Kindly login to the platform to review pending approvals on the Awaiting Approval tab for Connections.
+
+            Best Regards'''.format(self.data.get('connectiontype'))
+            te2email = []
+            te2_emails = EmailSerializer(ContractorUser.objects.filter(is_te=True), many=True).data
+            
+            
+            for val in te2_emails:
+                te2email.append(list(val.items())[0][1])
+            send_mail(
+                    subject,
+                    message,
+                    settings.DEFAULT_FROM_EMAIL,
+                    te2email,
+                    fail_silently=False,
+                        )
+        if(validated_data['action'] == 'submitprecomreq'):
+            #SEND MESSAGE AFTER COMMISSIONING TEST IS SUBMITTED. Send to HM to take next action
+            subject='A Connection Request ({}) is Awaiting your Review'.format(self.data.get('connectiontype'))
+            message='''Hi ,
+
+            A new Connection Request, {}  is currently at the HM approval stage and needs your attention. 
+            Kindly login to the platform to review pending approvals on the Awaiting Approval tab for Connections.
+
+            Best Regards'''.format(self.data.get('connectiontype'))
+            hmemail = []
+            hm_emails = EmailSerializer(ContractorUser.objects.filter(is_hm=True), many=True).data
+            
+            
+            for val in hm_emails:
+                hmemail.append(list(val.items())[0][1])
+            send_mail(
+                    subject,
+                    message,
+                    settings.DEFAULT_FROM_EMAIL,
+                    hmemail,
+                    fail_silently=False,
+                        )
+            
         if(validated_data['action'] == 'Approve'):
             if(validated_data['approval_role'] == 'tm'):
                 
-                #SEND MESSAGE AFTER TM APPROVAL. Send to NPD to take next action
+                #SEND MESSAGE AFTER TM APPROVAL. Send to TE to evaluate
+                subject='A Connection Request ({}) is Awaiting your Evaluation'.format(self.data.get('connectiontype'))
+                message='''Hi ,
+
+                A new Connection Request, {}  is currently at the NPD approval stage and needs your approval. 
+                Kindly login to the platform to review pending approvals on the Awaiting Approval tab for Connections.
+
+                Best Regards'''.format(self.data.get('connectiontype'))
+                teemail = []
+                te_emails = EmailSerializer(ContractorUser.objects.filter(is_te=True), many=True).data
+                
+                
+                for val in te_emails:
+                    teemail.append(list(val.items())[0][1])
+                send_mail(
+                        subject,
+                        message,
+                        settings.DEFAULT_FROM_EMAIL,
+                        teemail,
+                        fail_silently=False,
+                            )
+            elif(validated_data['approval_role'] == 'te'):
+                
+                #SEND MESSAGE AFTER TE Evaluation. Send to NPD to take next action
                 subject='A Connection Request ({}) is Awaiting your Approval'.format(self.data.get('connectiontype'))
                 message='''Hi ,
 
