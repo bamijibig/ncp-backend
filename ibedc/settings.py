@@ -26,7 +26,10 @@ SECRET_KEY = "django-insecure-%k@)207z74%1z%m5zb$$24av25p875l)i=o8w=c@p_!axcu-0x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost","127.0.0.1"]
+# ALLOWED_HOSTS = ["localhost","127.0.0.1"]
+ALLOWED_HOSTS = ["https:\\192.168.15.92:900","https:\\ncpapi.ibedc.com:900","ncpapi.ibedc.com","https:\\192.168.15.92","192.168.15.92"]
+# "localhost","127.0.0.1","http:\\192.168.15.92","192.168.15.92","https:\\ncpapi.ibedc.com:900","https:\\ncpapi.ibedc.com","ncpapi.ibedc.com"
+# Application definition
 
 
 # Application definition
@@ -74,11 +77,36 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 AUTH_USER_MODEL = 'portal.ContractorUser'
-CORS_ALLOWED_ORIGINS = [
+# CORS_ALLOWED_ORIGINS = [
    
-    "http://localhost:4200",
+#     "http://localhost:4200",
     
+# ]
+CORS_ALLOW_HEADERS = True
+# CORS_ORIGIN_WHITELIST = ['https://ncp.ibedc.com/','https://192.168.15.93:8080/','https://192.168.15.92:443/','https://ncp.ibedc.com:8080/#/']
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS'
 ]
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with'
+]
+
+# "http://localhost:4200","http://192.168.15.93:8080","http://192.168.15.93","https:\\ncp.ibedc.com:8080","https:\\ncp.ibedc.com"
+
 
 ROOT_URLCONF = "ibedc.urls"
 

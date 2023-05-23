@@ -290,6 +290,8 @@ class ConnectionMyApprovalList(generics.ListAPIView):
             queryset = contract_application.objects.filter(declined = False, npd_is_connection_approved=False, te_is_connection_approved = True)
         elif(self.request.user.is_cto == True):
             queryset = contract_application.objects.filter(declined = False, npd_is_connection_approved=True, cto_is_connection_approved = False)
+        
+            
         elif(self.request.user.is_hm == True):
             queryset = contract_application.objects.filter(declined = False, cto_is_connection_approved=True, tept_is_connection_approved = True, hm_is_connection_approved = False)
               
