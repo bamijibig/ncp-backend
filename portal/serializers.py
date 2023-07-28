@@ -89,7 +89,7 @@ class ContractorUserPlusEmailSerializer(serializers.ModelSerializer):
         # instance.model_method() # call model method for instance level computation
         subject='Contractor Updated Profile and Awaiting Approval'
         message='''Hi CTO, 
-        A Contractor, {} has just submitted his profile for approval. Kindly login to the platform to review pending approvals on the Awaiting Approval tab for Contractors.'''.format(self.data.get('contractor_name'))
+        A Contractor, {} has just submitted his profile for approval. Kindly login to the platform to review pending approvals on the Awaiting Approval tab for Contractors.Click "https://ncp.ibedc.com" to visit the platform.'''.format(self.data.get('contractor_name'))
         email = []
         cto_emails = EmailSerializer(ContractorUser.objects.filter(is_cto=True), many=True).data
         # print(cto_emails)

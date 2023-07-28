@@ -27,7 +27,7 @@ SECRET_KEY = "django-insecure-%k@)207z74%1z%m5zb$$24av25p875l)i=o8w=c@p_!axcu-0x
 DEBUG = True
 
 # ALLOWED_HOSTS = ["localhost","127.0.0.1"]
-ALLOWED_HOSTS = ["https:\\192.168.15.92:900","https:\\ncpapi.ibedc.com:900","ncpapi.ibedc.com","https:\\192.168.15.92","192.168.15.92"]
+ALLOWED_HOSTS = ["https:\\192.168.15.92:900","https:\\ncpapi.ibedc.com:900","ncpapi.ibedc.com","https:\\192.168.15.92","192.168.15.92","https://ncpapi.ibedc.com"]
 # "localhost","127.0.0.1","http:\\192.168.15.92","192.168.15.92","https:\\ncpapi.ibedc.com:900","https:\\ncpapi.ibedc.com","ncpapi.ibedc.com"
 # Application definition
 
@@ -182,7 +182,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'webmail.ibedc.com'  # Replace with your SMTP host
 EMAIL_PORT = 587  # Replace with your SMTP port
 EMAIL_HOST_USER = 'connectionportal@ibedc.com'  # Replace with your email address
-EMAIL_HOST_PASSWORD = 'ibedc@2023'  # Replace with your email password
+EMAIL_HOST_PASSWORD = 'ibedc@123456'  # Replace with your email password
 EMAIL_USE_TLS = True
 
 DEFAULT_FROM_EMAIL = 'connectionportal@ibedc.com'
