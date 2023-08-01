@@ -118,7 +118,7 @@ class contract_application(models.Model):
         ('others', 'others')
     )
     connectiontype = models.CharField(max_length=100, choices=connection_type,default='transformer installation')
-
+    other_connection=models.CharField(max_length=150, blank=True)
 
     capacity_type = (
         ('catd_50kva', 'catd_50kva'),
@@ -132,13 +132,22 @@ class contract_application(models.Model):
     voltageratio_type = (
         ('elevenby400', 'elevenby400'),
         ('thirtythreeby400', 'thirtythreeby400'),
+        ('thirtythreebyeleven', 'thirtythreebyeleven')
         
     )
     voltage_ratio = models.CharField(max_length=100, choices=voltageratio_type, default='elevenby400')
 
     # capacity=  models.CharField(max_length=250,blank=True)
     # voltage_ratio=models.CharField(max_length=250,blank=True)
-    route_length_km=models.CharField(max_length=250,blank=True)
+    route_length = (
+        ('1-10', '1-10'),
+        ('10-20', '10-20'),
+        ('over_20', 'over_20'),
+        
+        
+    )
+
+    route_length_km=models.CharField(max_length=250,choices=route_length, default='1-10')
 
     add_house_no=models.CharField(max_length=250,blank=True)
     add_street=models.CharField(max_length=250,blank=True)
