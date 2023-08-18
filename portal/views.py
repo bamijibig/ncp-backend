@@ -282,10 +282,10 @@ class ConnectionMyApprovalList(generics.ListAPIView):
 
     def get_queryset(self):
         # queryset = ContractorUser.objects.filter(is_contractor=True)
-        if(self.request.user.is_tm == True):
-            queryset = contract_application.objects.filter(declined = False, tm_is_connection_approved=False, bh__region__technicalManager__id = self.request.user.id)
-        elif(self.request.user.is_te == True):
-            queryset = contract_application.objects.filter(declined = False, tm_is_connection_approved=True, te_is_connection_approved = False, bh__technicalManager__id = self.request.user.id) | contract_application.objects.filter(declined = False, tm_is_connection_approved=True, te_is_connection_approved = True, cto_is_connection_approved=True, ct_is_pre_requested = True, tept_is_connection_approved = False, bh__technicalManager__id = self.request.user.id)
+        # if(self.request.user.is_tm == True):
+        #     queryset = contract_application.objects.filter(declined = False, tm_is_connection_approved=False, bh__region__technicalManager__id = self.request.user.id)
+        if(self.request.user.is_te == True):
+            queryset = contract_application.objects.filter(declined = False, te_is_connection_approved = False, bh__technicalManager__id = self.request.user.id) | contract_application.objects.filter(declined = False, te_is_connection_approved = True, cto_is_connection_approved=True, ct_is_pre_requested = True, tept_is_connection_approved = False, bh__technicalManager__id = self.request.user.id)
         elif(self.request.user.is_npd == True):
             queryset = contract_application.objects.filter(declined = False, npd_is_connection_approved=False, te_is_connection_approved = True)
         elif(self.request.user.is_cto == True):

@@ -344,7 +344,7 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
 
             Best Regards'''.format(self.data.get('connectiontype'))
             tmemail = []
-            tm_emails = EmailSerializer(ContractorUser.objects.filter(is_tm=True), many=True).data
+            tm_emails = EmailSerializer(ContractorUser.objects.filter(is_te=True), many=True).data
             
             
             for val in tm_emails:
