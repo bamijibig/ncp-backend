@@ -283,7 +283,7 @@ class ActionContractorSerializer(serializers.ModelSerializer):
                 subject='Your profile has been approved'
                 message='''Hi {},
 
-                Your profile has been approved. You can now create connections and perform other contractor related activities on the platform.
+                Your profile has been approved. You can now create connections and perform other contractor related activities on the platform. Click "https://ncp.ibedc.com" to visit the platform.
                 Best Regards'''.format(self.data.get('contractor_name'))
                
                 send_mail(
@@ -301,7 +301,7 @@ class ActionContractorSerializer(serializers.ModelSerializer):
             message='''Hi {},
 
             Your application as a Contractor has been declined. Action required... 
-            Kindly resolve the reason for decline stated below and resubmit for approval.
+            Kindly resolve the reason for decline stated below and resubmit for approval. Click "https://ncp.ibedc.com" to visit the platform.
 
             Comment: {}
 
@@ -340,7 +340,7 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
             message='''Hi ,
 
             A new Connection Request, {}  has been submitted and needs your attention. 
-            Kindly login to the platform to review pending approvals on the Awaiting Approval tab for Connections.
+            Kindly login to the platform to review pending approvals on the Awaiting Approval tab for Connections.Click "https://ncp.ibedc.com" to visit the platform.
 
             Best Regards'''.format(self.data.get('connectiontype'))
             tmemail = []
@@ -362,7 +362,7 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
             message='''Hi ,
 
             A new Connection Request, {}  is currently at the precommissioning stage and needs your attention. 
-            Kindly login to the platform to review pending approvals on the Awaiting Approval tab for Connections.
+            Kindly login to the platform to review pending approvals on the Awaiting Approval tab for Connections.Click "https://ncp.ibedc.com" to visit the platform.
 
             Best Regards'''.format(self.data.get('connectiontype'))
             te2email = []
@@ -384,7 +384,7 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
             message='''Hi ,
 
             A new Connection Request, {}  is currently at the HM approval stage and needs your attention. 
-            Kindly login to the platform to review pending approvals on the Awaiting Approval tab for Connections.
+            Kindly login to the platform to review pending approvals on the Awaiting Approval tab for Connections.Click "https://ncp.ibedc.com" to visit the platform.
 
             Best Regards'''.format(self.data.get('connectiontype'))
             hmemail = []
@@ -409,7 +409,7 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                 message='''Hi ,
 
                 A new Connection Request, {}  is currently at the NPD approval stage and needs your approval. 
-                Kindly login to the platform to review pending approvals on the Awaiting Approval tab for Connections.
+                Kindly login to the platform to review pending approvals on the Awaiting Approval tab for Connections.Click "https://ncp.ibedc.com" to visit the platform.
 
                 Best Regards'''.format(self.data.get('connectiontype'))
                 teemail = []
@@ -432,7 +432,7 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                 message='''Hi ,
 
                 A new Connection Request, {}  is currently at the NPD approval stage and needs your approval. 
-                Kindly login to the platform to review pending approvals on the Awaiting Approval tab for Connections.
+                Kindly login to the platform to review pending approvals on the Awaiting Approval tab for Connections.Click "https://ncp.ibedc.com" to visit the platform.
 
                 Best Regards'''.format(self.data.get('connectiontype'))
                 npdemail = []
@@ -454,7 +454,7 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                 message='''Hi ,
 
                 A new Connection Request, {}  is currently at the CTO approval stage and needs your approval. 
-                Kindly login to the platform to review pending approvals on the Awaiting Approval tab for Connections.
+                Kindly login to the platform to review pending approvals on the Awaiting Approval tab for Connections.Click "https://ncp.ibedc.com" to visit the platform.
 
                 Best Regards'''.format(self.data.get('connectiontype'))
                 ctoemail = []
@@ -477,7 +477,7 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                 message='''Hi ,
 
                 Your Connection Request, {}  is currently at the Precomissioning Stage.
-                Kindly login to your dashboard, and request precommissioning test for the connection
+                Kindly login to your dashboard, and request precommissioning test for the connection.Click "https://ncp.ibedc.com" to visit the platform.
                 
                 Best Regards'''.format(self.data.get('connectiontype'))
                 
@@ -495,7 +495,7 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                 subject='Your Connection Request ({}) Approval Process is Completed'.format(self.data.get('connectiontype'))
                 message='''Hi ,
 
-                Your Connection Request, {}  approval has been completed.
+                Your Connection Request, {}  approval has been completed. Click "https://ncp.ibedc.com" to visit the platform.
                 
                 Best Regards'''.format(self.data.get('connectiontype'))
                 
@@ -515,7 +515,7 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
             message='''Hi,
 
             Your connection request - {} has been declined. Action required... 
-            Kindly resolve the reason for decline stated below and resubmit for approval.
+            Kindly resolve the reason for decline stated below and resubmit for approval. Click "https://ncp.ibedc.com" to visit the platform.
 
             Comment: {}
 

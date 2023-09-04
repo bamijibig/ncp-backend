@@ -46,6 +46,7 @@ class ContractorUser(AbstractUser):
     region=models.CharField(max_length=100,null=True,blank=True) #Send region id as value
     businesshub=models.CharField(max_length=100,null=True,blank=True) #Send business hub id as value
     coren_or_nemsa_competency=models.FileField(null=True,blank=True)
+    coren=models.FileField(null=True, blank=True)
     reg_date=models.DateTimeField(auto_now_add=True,null=True,blank=True)
     is_contractor = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
@@ -174,7 +175,7 @@ class contract_application(models.Model):
     letter_of_donation_dss=models.FileField(null=True,blank=True)
     nemsa_test_cert=models.FileField(null=True,blank=True)
     transformer_waranty=models.FileField(null=True,blank=True)
-    transformer_test_cert=models.FileField(null=True,blank=True)
+    # transformer_test_cert=models.FileField(null=True,blank=True)
    
     date_of_application=models.DateTimeField(auto_now_add=True,null=True,blank=True)
 
