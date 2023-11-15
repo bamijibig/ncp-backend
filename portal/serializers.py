@@ -227,6 +227,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             is_cto = validated_data['is_cto'],
             is_md = validated_data['is_md'],
             is_hsch = validated_data['is_hsch'],
+            is_hbo = validated_data['is_hbo'],
             job_title = validated_data['job_title'],
             role = validated_data['role'],
             tel_no = validated_data['tel_no'],
@@ -344,8 +345,8 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
 
             Best Regards'''.format(self.data.get('connectiontype'))
             tmemail = []
-            tm_emails = EmailSerializer(ContractorUser.objects.filter(is_te=True), many=True).data
-            
+            #tm_emails = EmailSerializer(ContractorUser.objects.filter(is_te=True), many=True).data
+            tm_emails = EmailSerializer(ContractorUser.objects.filter(is_tm=True), many=True).data
             
             for val in tm_emails:
                 tmemail.append(list(val.items())[0][1])
@@ -489,7 +490,26 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                         fail_silently=False,
                             )
                 
+            elif validated_data['approval_role'] == 'hbo':
+                subject = 'A Connection Request ({}) is Awaiting your Approval'.format(self.data.get('connectiontype'))
+                message = '''
+            Hi,
 
+            A new Connection Request, {} is currently at the HBO approval stage and needs your approval.
+            Kindly log in to the platform to review pending approvals on the Awaiting Approval tab for Connections. Click "https://ncp.ibedc.com" to visit the platform.
+
+            Best Regards
+            '''.format(self.data.get('connectiontype'))
+
+                hmemail = [val['email'] for val in EmailSerializer(ContractorUser.objects.filter(is_hm=True), many=True).data]
+
+                send_mail(
+                    subject,
+                    message,
+                    settings.DEFAULT_FROM_EMAIL,
+                    hmemail,
+                    fail_silently=False,
+                )
             elif(validated_data['approval_role'] == 'hm'):
                 #SEND MESSAGE AFTER HM APPROVAL. Send to Contractor
                 subject='Your Connection Request ({}) Approval Process is Completed'.format(self.data.get('connectiontype'))

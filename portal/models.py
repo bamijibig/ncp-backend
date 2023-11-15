@@ -56,6 +56,7 @@ class ContractorUser(AbstractUser):
     is_cto = models.BooleanField(default=False)
     is_md = models.BooleanField(default=False)
     is_hsch = models.BooleanField(default=False)
+    is_hbo = models.BooleanField(default=False)
     is_hm = models.BooleanField(default=False)
 
     in_approval_workflow = models.BooleanField(default=False)
@@ -215,6 +216,15 @@ class contract_application(models.Model):
     tept_is_connection_approved = models.BooleanField(default=False)
     tept_is_connection_approved_date = models.DateField(null = True, blank=True)
     tept_is_connection_approved_by=models.CharField(max_length=200,null=True,blank=True)
+
+
+    # HBO
+
+
+    hbo_is_connection_approved = models.BooleanField(default=False)
+    hbo_is_contractor_approved_date = models.DateField(null = True, blank=True)
+    hbo_approved_by=models.CharField(max_length=200,null=True,blank=True)
+    hbo_memo=models.FileField(null=True,blank=True)
 
     # HM
     hm_is_connection_approved = models.BooleanField(default=False)

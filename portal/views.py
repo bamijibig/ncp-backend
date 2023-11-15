@@ -221,33 +221,14 @@ class ContractorMyApprovalList(generics.ListAPIView):
         #     queryset = ContractorUser.objects.filter(is_contractor=True, declined = False, hsch_is_contractor_approved=False)
         if(self.request.user.is_cto == True):
             queryset = ContractorUser.objects.filter(is_contractor=True, declined = False,  cto_is_contractor_approved=False)
-            # email=self.request.user.is_cto.email
-            # subject='CTO has approved this request'
-            # message='The request have been approved by CTO and awaiting MD approval'
-            # send_mail(
-            #     subject,
-            #     message,
-            #     settings.DEFAULT_FROM_EMAIL,  # Sender email
-            #     [email],  # Recipient email(s)
-            #     fail_silently=False,
-            # )
+            
 
 
         elif(self.request.user.is_md == True):
             queryset = ContractorUser.objects.filter(is_contractor=True, declined = False,  cto_is_contractor_approved=True, md_is_contractor_approved=False)
         else:
             queryset = None
-        #  for user in queryset:
-        #     user_email = user.email
-        #     subject = 'Notification Subject'
-        #     message = 'Notification Message'
-        #     send_mail(
-        #         subject,
-        #         message,
-        #         settings.DEFAULT_FROM_EMAIL,  # Sender email
-        #         [user_email],  # Recipient email(s)
-        #         fail_silently=False,
-        #     )
+      
         return queryset
     permission_classes = [IsAuthenticated]
     serializer_class = ContractorUserSerializer
@@ -284,16 +265,22 @@ class ConnectionMyApprovalList(generics.ListAPIView):
         # queryset = ContractorUser.objects.filter(is_contractor=True)
         # if(self.request.user.is_tm == True):
         #     queryset = contract_application.objects.filter(declined = False, tm_is_connection_approved=False, bh__region__technicalManager__id = self.request.user.id)
-        if(self.request.user.is_te == True):
-            queryset = contract_application.objects.filter(declined = False, te_is_connection_approved = False, bh__technicalManager__id = self.request.user.id) | contract_application.objects.filter(declined = False, te_is_connection_approved = True, cto_is_connection_approved=True, ct_is_pre_requested = True, tept_is_connection_approved = False, bh__technicalManager__id = self.request.user.id)
+        #if(self.request.user.is_te == True):
+            #queryset = contract_application.objects.filter(declined = False, te_is_connection_approved = False, bh__technicalManager__id = self.request.user.id) | contract_application.objects.filter(declined = False, te_is_connection_approved = True, cto_is_connection_approved=True, ct_is_pre_requested = True, tept_is_connection_approved = False, bh__technicalManager__id = self.request.user.id)
+
+        if(self.request.user.is_tm == True):
+            queryset = contract_application.objects.filter(declined = False, tm_is_connection_approved=False, bh__region__technicalManager__id = self.request.user.id)
+        elif(self.request.user.is_te == True):
+            queryset = contract_application.objects.filter(declined = False, tm_is_connection_approved=True, te_is_connection_approved = False, bh__technicalManager__id = self.request.user.id) | contract_application.objects.filter(declined = False, tm_is_connection_approved=True, te_is_connection_approved = True, cto_is_connection_approved=True, ct_is_pre_requested = True, tept_is_connection_approved = False, bh__technicalManager__id = self.request.user.id)
         elif(self.request.user.is_npd == True):
             queryset = contract_application.objects.filter(declined = False, npd_is_connection_approved=False, te_is_connection_approved = True)
         elif(self.request.user.is_cto == True):
             queryset = contract_application.objects.filter(declined = False, npd_is_connection_approved=True, cto_is_connection_approved = False)
-        
+        elif(self.request.user.is_hbo == True):
+            queryset = contract_application.objects.filter(declined = False, npd_is_connection_approved=True, te_is_connection_approved = True, cto_is_connection_approved = True, hbo_is_connection_approved = False)
             
         elif(self.request.user.is_hm == True):
-            queryset = contract_application.objects.filter(declined = False, cto_is_connection_approved=True, tept_is_connection_approved = True, hm_is_connection_approved = False)
+            queryset = contract_application.objects.filter(declined = False, cto_is_connection_approved=True, tept_is_connection_approved = True, hbo_is_connection_approved = True, hm_is_connection_approved = False)
               
         else:
             queryset = None
