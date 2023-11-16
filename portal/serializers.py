@@ -228,6 +228,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             is_md = validated_data['is_md'],
             is_hsch = validated_data['is_hsch'],
             is_hbo = validated_data['is_hbo'],
+            is_hse = validated_data['is_hse'],
             job_title = validated_data['job_title'],
             role = validated_data['role'],
             tel_no = validated_data['tel_no'],
@@ -473,6 +474,27 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                             )
 
             elif(validated_data['approval_role'] == 'cto'):
+                subject = 'A Connection Request ({}) is Awaiting your Approval'.format(self.data.get('connectiontype'))
+                message = '''
+            Hi,
+
+            A new Connection Request, {} is currently at the HSE approval stage and needs your approval.
+            Kindly log in to the platform to review pending approvals on the Awaiting Approval tab for Connections. Click "https://ncp.ibedc.com" to visit the platform.
+
+            Best Regards
+            '''.format(self.data.get('connectiontype'))
+
+                hsemail = [val['email'] for val in EmailSerializer(ContractorUser.objects.filter(is_hse=True), many=True).data]
+
+                send_mail(
+                    subject,
+                    message,
+                    settings.DEFAULT_FROM_EMAIL,
+                    hsemail,
+                    fail_silently=False,
+                )
+                
+            elif validated_data['approval_role'] == 'hse':
                 #SEND MESSAGE AFTER CTO APPROVAL. Send to Contractor to Request Precommissioning
                 subject='Your Connection Request ({}) is at Precomissioning Stage. Action required.'.format(self.data.get('connectiontype'))
                 message='''Hi ,
@@ -482,6 +504,7 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                 
                 Best Regards'''.format(self.data.get('connectiontype'))
                 
+                
                 send_mail(
                         subject,
                         message,
@@ -489,7 +512,6 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                         contractoremail,
                         fail_silently=False,
                             )
-                
             elif validated_data['approval_role'] == 'hbo':
                 subject = 'A Connection Request ({}) is Awaiting your Approval'.format(self.data.get('connectiontype'))
                 message = '''
