@@ -39,7 +39,8 @@ class ContractorUser(AbstractUser):
     stafftype=(
         ('hqstaff','hqstaff'),
         ('regionstaff','regionstaff'),
-        ('businesshubstaff','businesshubstaff')
+        ('businesshubstaff','businesshubstaff'),
+        ('servicecentrestaff','servicecentrestaff')
     )
 
     staff_type=models.CharField(max_length=100, choices=stafftype, default='hqstaff') 
@@ -59,6 +60,7 @@ class ContractorUser(AbstractUser):
     is_hse = models.BooleanField(default=False)
     is_hbo = models.BooleanField(default=False)
     is_hm = models.BooleanField(default=False)
+    # is_hrbp=models.BooleanField(default=False)
 
     in_approval_workflow = models.BooleanField(default=False)
    
@@ -107,11 +109,19 @@ class BusinessHub(models.Model):
     email=models.EmailField(null=True, blank=True)
     phoneNumber=models.CharField(max_length=200,null=True, blank=True)
 
+# class Servicecentre(models.Model):
+#     businesshub=models.ForeignKey(BusinessHub,on_delete=models.CASCADE, null=True,blank=True)
+#     servicecentre=models.CharField(max_length=200, null=True, blank=True)
+#     location=models.CharField(max_length=200,null=True, blank=True)
+#     teamlead=models.ForeignKey(ContractorUser,on_delete=models.DO_NOTHING, related_name = "teamlead", null=True,blank=True)
+#     email=models.EmailField(null=True, blank=True)
+#     phoneNumber=models.CharField(max_length=200,null=True, blank=True)
 
 
 class contract_application(models.Model):
     contractor=models.ForeignKey(ContractorUser, null=True,  on_delete=models.CASCADE, related_name="usercontractor")
-    bh=models.ForeignKey(BusinessHub,on_delete=models.CASCADE, null=True,blank=True) 
+    # servicecentre=models.ForeignKey(Servicecentre,on_delete=models.CASCADE, null=True,blank=True) 
+    bh=models.ForeignKey(BusinessHub,on_delete=models.CASCADE, null=True,blank=True)
     company_name= models.CharField(max_length=100,null=True,blank=True)
     connection_type = (
         ('transformer installation', 'transformer installation'),

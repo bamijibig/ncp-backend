@@ -12,6 +12,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 
+
 router = routers.DefaultRouter()
 router.register('connections', views.ConnectionView)
 router.register('contractors', views.contractor_regview)
@@ -30,6 +31,7 @@ router.register('rhlist', views.regionlistview)
 
 
 urlpatterns = [
+    path('public/', include('publicportal.urls')),
     path('', include(router.urls)),
     # path('accounts/', include('allauth.urls')),
     path("admin/", admin.site.urls),
