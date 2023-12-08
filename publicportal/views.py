@@ -10,7 +10,9 @@ from .serializers import (
                      
                     contract_applicationViewSerializer,
                     
-                    actioncontract_applicationSerializer
+                    actioncontract_applicationSerializer,
+                    ContractorApprovalStatuspubSerializer
+
                     )
 from rest_framework import viewsets, generics, filters
 from django_filters.rest_framework import DjangoFilterBackend
@@ -38,6 +40,22 @@ class ConnectionContractorViewpub(generics.ListAPIView):
     # filterset_fields = ['connectiontype', 'est_load_of_premises','useofpremises','date_of_application']
     search_fields = '__all__'
     ordering_fields = '__all__' 
+class ConnectionStaffViewpub(generics.ListAPIView):
+    def get_queryset(self):
+
+        if(self.request.user.staff_type == 'regionstaff'):
+            queryset = contract_applicationpub.objects.filter(bh__region__id = self.request.user.region)
+        elif(self.request.user.staff_type == 'businesshubstaff'):
+            queryset = contract_applicationpub.objects.filter(bh__id = self.request.user.businesshub)
+        else:
+            queryset = contract_applicationpub.objects.all()
+        return queryset
+    permission_classes = [IsAuthenticated]
+    serializer_class=contract_applicationViewSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    # filterset_fields = ['connectiontype', 'est_load_of_premises','useofpremises','date_of_application']
+    search_fields = '__all__'
+    ordering_fields = '__all__'
 
 
 class ConnectionViewpub(viewsets.ModelViewSet):
@@ -55,7 +73,12 @@ class ApproveOrDeclineConnectionpub(generics.RetrieveUpdateDestroyAPIView):
         return queryset
     permission_classes = [IsAuthenticated]
     serializer_class = actioncontract_applicationSerializer
+class ApprovalStatuspub(generics.RetrieveAPIView):
 
+    def get_queryset(self):
+        queryset = ContractorUser.objects.filter(id=self.kwargs["pk"])
+        return queryset
+    serializer_class = ContractorApprovalStatuspubSerializer
 
 class ConnectionMyApprovalListpub(generics.ListAPIView):
 

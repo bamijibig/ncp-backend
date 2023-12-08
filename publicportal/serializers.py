@@ -117,7 +117,7 @@ class ContractorUserunsubmitSerializer(serializers.ModelSerializer):
     
 
 
-class ContractorApprovalStatusSerializer(serializers.ModelSerializer):
+class ContractorApprovalStatuspubSerializer(serializers.ModelSerializer):
     class Meta:
        model=ContractorUser
        fields= ("id","registration_approved", "is_contractor", "in_approval_workflow")

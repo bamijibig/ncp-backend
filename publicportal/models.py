@@ -142,7 +142,7 @@ class contract_applicationpub(models.Model):
     eval_title=models.CharField(max_length=200,null=True,blank=True)
     # Finding from site visit
     eval_datevisit=models.CharField(max_length=250, null = True, blank=True)
-    eval_specloc=models.CharField(max_length=200,null=True,blank=True)
+    eval_extload=models.CharField(max_length=200,null=True,blank=True)
     eval_majchaexidss=models.CharField(max_length=200,null=True,blank=True)
     
     # RELIEF SUBSTATION ANALYSIS
