@@ -144,7 +144,8 @@ class contract_applicationpub(models.Model):
     eval_datevisit=models.CharField(max_length=250, null = True, blank=True)
     eval_extload=models.CharField(max_length=200,null=True,blank=True)
     eval_majchaexidss=models.CharField(max_length=200,null=True,blank=True)
-    
+   
+   
     # RELIEF SUBSTATION ANALYSIS
     nameofsubstation = (
             ('existing substation bf relief', 'existing substation bf relief'),
@@ -153,6 +154,8 @@ class contract_applicationpub(models.Model):
         
         )
     eval_nameofsub = models.CharField(max_length=100, choices=nameofsubstation, default='existing substation bf relief')
+    eval_region=models.CharField(max_length=200,null=True,blank=True) 
+    eval_bhub=models.CharField(max_length=200,null=True,blank=True)
     eval_rating=models.CharField(max_length=200,null=True,blank=True)
     eval_loading=models.CharField(max_length=200,null=True,blank=True)
     eval_loadpercent=models.CharField(max_length=200,null=True,blank=True)
@@ -172,7 +175,7 @@ class contract_applicationpub(models.Model):
             ('proposed ss', 'proposed ss'),
         
         )
-    eval_nameofextss = models.CharField(max_length=100, choices=nameofsubstation, default='name of ss')
+    eval_nameofextss = models.CharField(max_length=100, choices=nameofnewss, default='name of ss')
     eval_extrating=models.CharField(max_length=200,null=True,blank=True)
     eval_proposedloading=models.CharField(max_length=200,null=True,blank=True)
     eval_extloadpercent=models.CharField(max_length=200,null=True,blank=True)
@@ -210,7 +213,7 @@ class contract_applicationpub(models.Model):
     eval_statmeter=models.CharField(max_length=200,null=True,blank=True)
     
     #     # ATTACHMENT BY TE
-    eval_custreq=models.CharField(max_length=200,null=True,blank=True)
+    eval_custreq=models.FileField(null=True,blank=True)
     eval_blockdiag=models.FileField(null=True,blank=True)
     eval_schdiag=models.FileField(null=True,blank=True)
     eval_sitevform=models.FileField(null=True,blank=True)
