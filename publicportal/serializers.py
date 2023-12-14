@@ -459,6 +459,27 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                         contractoremail,
                         fail_silently=False,
                             )
+                
+            elif validated_data['approval_role'] == 'bhm':
+                subject = 'A Connection Request ({}) is Awaiting your Approval'.format(self.data.get('connectiontype'))
+                message = '''
+            Hi,
+
+            A new Connection Request, {} is currently at the BHM approval stage and needs your approval.
+            Kindly log in to the platform to review pending approvals on the Awaiting Approval tab for Connections. Click "https://ncp.ibedc.com" to visit the platform.
+
+            Best Regards
+            '''.format(self.data.get('connectiontype'))
+
+                hboemail = [val['email'] for val in EmailSerializer(ContractorUser.objects.filter(is_hbo=True), many=True).data]
+
+                send_mail(
+                    subject,
+                    message,
+                    settings.DEFAULT_FROM_EMAIL,
+                    hboemail,
+                    fail_silently=False,
+                )
             elif validated_data['approval_role'] == 'hbo':
                 subject = 'A Connection Request ({}) is Awaiting your Approval'.format(self.data.get('connectiontype'))
                 message = '''

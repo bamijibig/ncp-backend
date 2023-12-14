@@ -58,6 +58,7 @@ class ContractorUser(AbstractUser):
     is_md = models.BooleanField(default=False)
     is_hsch = models.BooleanField(default=False)
     is_hse = models.BooleanField(default=False)
+    is_bhm = models.BooleanField(default=False)
     is_hbo = models.BooleanField(default=False)
     is_hm = models.BooleanField(default=False)
     # is_hrbp=models.BooleanField(default=False)
@@ -235,9 +236,15 @@ class contract_application(models.Model):
     hse_is_contractor_approved_date = models.DateField(null = True, blank=True)
     hse_approved_by=models.CharField(max_length=200,null=True,blank=True)
     hse_memo=models.FileField(null=True,blank=True)
+  
+   # BHM
+    bhm_is_connection_approved = models.BooleanField(default=False)
+    bhm_is_contractor_approved_date = models.DateField(null = True, blank=True)
+    bhm_approved_by=models.CharField(max_length=200,null=True,blank=True)
+    bhm_memo=models.FileField(null=True,blank=True)
+
+   
     # HBO
-
-
     hbo_is_connection_approved = models.BooleanField(default=False)
     hbo_is_contractor_approved_date = models.DateField(null = True, blank=True)
     hbo_approved_by=models.CharField(max_length=200,null=True,blank=True)

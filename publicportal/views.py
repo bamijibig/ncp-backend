@@ -93,8 +93,11 @@ class ConnectionMyApprovalListpub(generics.ListAPIView):
             queryset = contract_applicationpub.objects.filter(declined = False, npd_is_connection_approved=True, cto_is_connection_approved = False)
         elif(self.request.user.is_hse == True):
             queryset = contract_applicationpub.objects.filter(declined = False, npd_is_connection_approved=True, te_is_connection_approved = True, cto_is_connection_approved = True, hse_is_connection_approved = False, tept_is_connection_approved = False)
+        elif(self.request.user.is_bhm == True):
+            queryset = contract_applicationpub.objects.filter(declined = False, npd_is_connection_approved=True, te_is_connection_approved = True, tept_is_connection_approved = True, cto_is_connection_approved = True,hse_is_connection_approved = True, bhm_is_connection_approved = False)
+            
         elif(self.request.user.is_hbo == True):
-            queryset = contract_applicationpub.objects.filter(declined = False, npd_is_connection_approved=True, te_is_connection_approved = True, tept_is_connection_approved = True, cto_is_connection_approved = True,hse_is_connection_approved = True, hbo_is_connection_approved = False)
+            queryset = contract_applicationpub.objects.filter(declined = False, npd_is_connection_approved=True, te_is_connection_approved = True, tept_is_connection_approved = True, cto_is_connection_approved = True,hse_is_connection_approved = True,bhm_is_connection_approved = True, hbo_is_connection_approved = False)
             
         elif(self.request.user.is_hm == True):
             queryset = contract_applicationpub.objects.filter(declined = False, cto_is_connection_approved=True, tept_is_connection_approved = True, hbo_is_connection_approved = True, hm_is_connection_approved = False)
