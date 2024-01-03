@@ -331,9 +331,19 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         # print(self.data.get('contractor'))
+
         contractormail = EmailSerializer(ContractorUser.objects.filter(id=self.data.get('contractor')), many=True).data
-        
-        
+        tm_emails = EmailSerializer(ContractorUser.objects.filter(is_tm=True), many=True).data
+        # te2_emails = EmailSerializer(ContractorUser.objects.filter(is_te=True), many=True).data
+        hm_emails = EmailSerializer(ContractorUser.objects.filter(is_hm=True), many=True).data
+        te_emails = EmailSerializer(ContractorUser.objects.filter(is_te=True), many=True).data
+        npd_emails = EmailSerializer(ContractorUser.objects.filter(is_npd=True), many=True).data
+        cto_emails = EmailSerializer(ContractorUser.objects.filter(is_cto=True), many=True).data
+        hsemail = [val['email'] for val in EmailSerializer(ContractorUser.objects.filter(is_hse=True), many=True).data]
+        hboemail = [val['email'] for val in EmailSerializer(ContractorUser.objects.filter(is_hbo=True), many=True).data]
+        hmemail = [val['email'] for val in EmailSerializer(ContractorUser.objects.filter(is_hm=True), many=True).data]
+
+
         contractoremail = []
         for val in contractormail:
             contractoremail.append(list(val.items())[0][1])
@@ -346,17 +356,41 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
             Kindly login to the platform to review pending approvals on the Awaiting Approval tab for Connections.Click "https://ncp.ibedc.com" to visit the platform.
 
             Best Regards'''.format(self.data.get('connectiontype'))
+
+            
+
             tmemail = []
             #tm_emails = EmailSerializer(ContractorUser.objects.filter(is_te=True), many=True).data
-            tm_emails = EmailSerializer(ContractorUser.objects.filter(is_tm=True), many=True).data
+            # tm_emails = EmailSerializer(ContractorUser.objects.filter(is_tm=True), many=True).data
             
             for val in tm_emails:
                 tmemail.append(list(val.items())[0][1])
+            
+            #Send to tm
             send_mail(
                     subject,
                     message,
                     settings.DEFAULT_FROM_EMAIL,
                     tmemail,
+                    fail_silently=False,
+                        )
+            
+            # notify others
+            copyemails = []
+            for val in cto_emails:
+                    copyemails.append(list(val.items())[0][1])
+            for val in npd_emails:
+                    copyemails.append(list(val.items())[0][1])
+            copymessage='''Hi ,
+
+            A new Connection Request, {}  has been submitted and currently awaiting approval from the TM. 
+    
+            Best Regards'''.format(self.data.get('connectiontype'))
+            send_mail(
+                    subject,
+                    copymessage,
+                    settings.DEFAULT_FROM_EMAIL,
+                    copyemails,
                     fail_silently=False,
                         )
         if(validated_data['action'] == 'precomreq'):
@@ -369,10 +403,10 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
 
             Best Regards'''.format(self.data.get('connectiontype'))
             te2email = []
-            te2_emails = EmailSerializer(ContractorUser.objects.filter(is_te=True), many=True).data
+            # te2_emails = EmailSerializer(ContractorUser.objects.filter(is_te=True), many=True).data
             
             
-            for val in te2_emails:
+            for val in te_emails:
                 te2email.append(list(val.items())[0][1])
             send_mail(
                     subject,
@@ -391,7 +425,7 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
 
             Best Regards'''.format(self.data.get('connectiontype'))
             hmemail = []
-            hm_emails = EmailSerializer(ContractorUser.objects.filter(is_hm=True), many=True).data
+            # hm_emails = EmailSerializer(ContractorUser.objects.filter(is_hm=True), many=True).data
             
             
             for val in hm_emails:
@@ -416,7 +450,7 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
 
                 Best Regards'''.format(self.data.get('connectiontype'))
                 teemail = []
-                te_emails = EmailSerializer(ContractorUser.objects.filter(is_te=True), many=True).data
+                # te_emails = EmailSerializer(ContractorUser.objects.filter(is_te=True), many=True).data
                 
                 
                 for val in te_emails:
@@ -439,7 +473,7 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
 
                 Best Regards'''.format(self.data.get('connectiontype'))
                 npdemail = []
-                npd_emails = EmailSerializer(ContractorUser.objects.filter(is_npd=True), many=True).data
+                # npd_emails = EmailSerializer(ContractorUser.objects.filter(is_npd=True), many=True).data
                 
                 
                 for val in npd_emails:
@@ -461,7 +495,7 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
 
                 Best Regards'''.format(self.data.get('connectiontype'))
                 ctoemail = []
-                cto_emails = EmailSerializer(ContractorUser.objects.filter(is_cto=True), many=True).data
+                # cto_emails = EmailSerializer(ContractorUser.objects.filter(is_cto=True), many=True).data
                 
                 
                 for val in cto_emails:
@@ -485,7 +519,7 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
             Best Regards
             '''.format(self.data.get('connectiontype'))
 
-                hsemail = [val['email'] for val in EmailSerializer(ContractorUser.objects.filter(is_hse=True), many=True).data]
+                # hsemail = [val['email'] for val in EmailSerializer(ContractorUser.objects.filter(is_hse=True), many=True).data]
 
                 send_mail(
                     subject,
@@ -525,7 +559,7 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
             Best Regards
             '''.format(self.data.get('connectiontype'))
 
-                hboemail = [val['email'] for val in EmailSerializer(ContractorUser.objects.filter(is_hbo=True), many=True).data]
+                # hboemail = [val['email'] for val in EmailSerializer(ContractorUser.objects.filter(is_hbo=True), many=True).data]
 
                 send_mail(
                     subject,
@@ -545,7 +579,7 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
             Best Regards
             '''.format(self.data.get('connectiontype'))
 
-                hmemail = [val['email'] for val in EmailSerializer(ContractorUser.objects.filter(is_hm=True), many=True).data]
+                # hmemail = [val['email'] for val in EmailSerializer(ContractorUser.objects.filter(is_hm=True), many=True).data]
 
                 send_mail(
                     subject,

@@ -172,13 +172,13 @@ class contract_applicationpub(models.Model):
 
 
     # NEW EXTENSION S/S ANALYSIS
-    nameofnewss = (
-            ('name of ss', 'name of ss'),
+    # nameofnewss = (
+    #         ('name of ss', 'name of ss'),
             
-            ('proposed ss', 'proposed ss'),
+    #         ('proposed ss', 'proposed ss'),
         
-        )
-    eval_nameofextss = models.CharField(max_length=100, choices=nameofnewss, default='name of ss')
+    #     )
+    eval_nameofextss = models.CharField(max_length=200,null=True,blank=True)
     eval_extrating=models.CharField(max_length=200,null=True,blank=True)
     eval_proposedloading=models.CharField(max_length=200,null=True,blank=True)
     eval_extloadpercent=models.CharField(max_length=200,null=True,blank=True)
