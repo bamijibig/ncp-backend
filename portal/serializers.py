@@ -97,7 +97,7 @@ class ContractorUserPlusEmailSerializer(serializers.ModelSerializer):
         for val in cto_emails:
             email.append(list(val.items())[0][1])
     
-        print(email)
+        #print(email)
         send_mail(
             subject,
             message,
@@ -340,6 +340,7 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
         npd_emails = EmailSerializer(ContractorUser.objects.filter(is_npd=True), many=True).data
         cto_emails = EmailSerializer(ContractorUser.objects.filter(is_cto=True), many=True).data
         hsemail = [val['email'] for val in EmailSerializer(ContractorUser.objects.filter(is_hse=True), many=True).data]
+        bhmmail = EmailSerializer(ContractorUser.objects.filter(is_bhm=True), many=True).data
         hboemail = [val['email'] for val in EmailSerializer(ContractorUser.objects.filter(is_hbo=True), many=True).data]
         hmemail = [val['email'] for val in EmailSerializer(ContractorUser.objects.filter(is_hm=True), many=True).data]
 
@@ -415,6 +416,41 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                     te2email,
                     fail_silently=False,
                         )
+            # notify others
+            copyemails = []
+            for val in cto_emails:
+                    copyemails.append(list(val.items())[0][1])
+            for val in npd_emails:
+                    copyemails.append(list(val.items())[0][1])
+            copymessage='''Hi ,
+
+            A new Connection Request, {}  has been submitted and currently awaiting approval from the TM. 
+    
+            Best Regards'''.format(self.data.get('connectiontype'))
+            send_mail(
+                    subject,
+                    copymessage,
+                    settings.DEFAULT_FROM_EMAIL,
+                    copyemails,
+                    fail_silently=False,
+                        )
+            # notify bhm
+            bhm_emails = []
+            for val in bhmmail:
+                    bhm_emails.append(list(val.items())[0][1])
+            
+            copymessage='''Hi ,
+
+            A new Connection Request, {}  has been submitted and currently awaiting your approval. 
+    
+            Best Regards'''.format(self.data.get('connectiontype'))
+            send_mail(
+                    subject,
+                    copymessage,
+                    settings.DEFAULT_FROM_EMAIL,
+                    bhm_emails,
+                    fail_silently=False,
+                        )
         if(validated_data['action'] == 'submitprecomreq'):
             #SEND MESSAGE AFTER COMMISSIONING TEST IS SUBMITTED. Send to HM to take next action
             subject='A Connection Request ({}) is Awaiting your Review'.format(self.data.get('connectiontype'))
@@ -435,6 +471,24 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                     message,
                     settings.DEFAULT_FROM_EMAIL,
                     hmemail,
+                    fail_silently=False,
+                        )
+            # notify others
+            copyemails = []
+            for val in cto_emails:
+                    copyemails.append(list(val.items())[0][1])
+            for val in npd_emails:
+                    copyemails.append(list(val.items())[0][1])
+            copymessage='''Hi ,
+
+            A new Connection Request, {}  has been submitted and currently awaiting approval from the TM. 
+    
+            Best Regards'''.format(self.data.get('connectiontype'))
+            send_mail(
+                    subject,
+                    copymessage,
+                    settings.DEFAULT_FROM_EMAIL,
+                    copyemails,
                     fail_silently=False,
                         )
             
@@ -462,6 +516,25 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                         teemail,
                         fail_silently=False,
                             )
+                # notify others
+                copyemails = []
+                for val in cto_emails:
+                        copyemails.append(list(val.items())[0][1])
+                for val in npd_emails:
+                        copyemails.append(list(val.items())[0][1])
+                copymessage='''Hi ,
+
+                A new Connection Request, {}  has been submitted and currently awaiting approval from the TM. 
+        
+                Best Regards'''.format(self.data.get('connectiontype'))
+                send_mail(
+                        subject,
+                        copymessage,
+                        settings.DEFAULT_FROM_EMAIL,
+                        copyemails,
+                        fail_silently=False,
+                            )
+                
             elif(validated_data['approval_role'] == 'te'):
                 
                 #SEND MESSAGE AFTER TE Evaluation. Send to NPD to take next action
@@ -485,6 +558,25 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                         npdemail,
                         fail_silently=False,
                             )
+                # notify others
+                copyemails = []
+                for val in cto_emails:
+                        copyemails.append(list(val.items())[0][1])
+                # for val in npd_emails:
+                #         copyemails.append(list(val.items())[0][1])
+                copymessage='''Hi ,
+
+                A new Connection Request, {}  has been submitted and currently awaiting approval from the TM. 
+        
+                Best Regards'''.format(self.data.get('connectiontype'))
+                send_mail(
+                        subject,
+                        copymessage,
+                        settings.DEFAULT_FROM_EMAIL,
+                        copyemails,
+                        fail_silently=False,
+                            )
+                
             elif(validated_data['approval_role'] == 'npd'):
                 #SEND MESSAGE AFTER NPD APPROVAL. Send to CTO to take next action
                 subject='A Connection Request ({}) is Awaiting your Approval'.format(self.data.get('connectiontype'))
@@ -528,6 +620,41 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                     hsemail,
                     fail_silently=False,
                 )
+                # notify others
+                copyemails = []
+                for val in cto_emails:
+                        copyemails.append(list(val.items())[0][1])
+                for val in npd_emails:
+                        copyemails.append(list(val.items())[0][1])
+                copymessage='''Hi ,
+
+                A new Connection Request, {}  has been submitted and currently awaiting approval from the HSE. 
+        
+                Best Regards'''.format(self.data.get('connectiontype'))
+                send_mail(
+                        subject,
+                        copymessage,
+                        settings.DEFAULT_FROM_EMAIL,
+                        copyemails,
+                        fail_silently=False,
+                            )
+                    # notify bhm
+                bhm_emails = []
+                for val in bhmmail:
+                        bhm_emails.append(list(val.items())[0][1])
+                
+                copymessage='''Hi ,
+
+                A new Connection Request, {}  has been submitted and currently awaiting HSE[] approval. 
+        
+                Best Regards'''.format(self.data.get('connectiontype'))
+                send_mail(
+                        subject,
+                        copymessage,
+                        settings.DEFAULT_FROM_EMAIL,
+                        bhm_emails,
+                        fail_silently=False,
+                            )
                 
             elif validated_data['approval_role'] == 'hse':
                 #SEND MESSAGE AFTER CTO APPROVAL. Send to Contractor to Request Precommissioning
@@ -547,6 +674,29 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                         contractoremail,
                         fail_silently=False,
                             )
+                # notify others
+                copyemails = []
+                for val in cto_emails:
+                        copyemails.append(list(val.items())[0][1])
+                for val in npd_emails:
+                        copyemails.append(list(val.items())[0][1])
+                for val in bhmmail:
+                        copyemails.append(list(val.items())[0][1])
+                copymessage='''Hi ,
+
+                A new Connection Request, {}  has been submitted and currently awaiting contractor to request for precomission test. 
+        
+                Best Regards'''.format(self.data.get('connectiontype'))
+                send_mail(
+                        subject,
+                        copymessage,
+                        settings.DEFAULT_FROM_EMAIL,
+                        copyemails,
+                        fail_silently=False,
+                            )
+                # notify bhm
+                
+                
                 
             elif validated_data['approval_role'] == 'bhm':
                 subject = 'A Connection Request ({}) is Awaiting your Approval'.format(self.data.get('connectiontype'))
@@ -568,6 +718,23 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                     hboemail,
                     fail_silently=False,
                 )
+                copyemails = []
+                for val in cto_emails:
+                        copyemails.append(list(val.items())[0][1])
+                for val in npd_emails:
+                        copyemails.append(list(val.items())[0][1])
+                copymessage='''Hi ,
+
+                A new Connection Request, {}  has been submitted and currently awaiting approval from the HBO. 
+        
+                Best Regards'''.format(self.data.get('connectiontype'))
+                send_mail(
+                        subject,
+                        copymessage,
+                        settings.DEFAULT_FROM_EMAIL,
+                        copyemails,
+                        fail_silently=False,
+                            )
             elif validated_data['approval_role'] == 'hbo':
                 subject = 'A Connection Request ({}) is Awaiting your Approval'.format(self.data.get('connectiontype'))
                 message = '''
@@ -588,6 +755,24 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                     hmemail,
                     fail_silently=False,
                 )
+                # notify others
+                copyemails = []
+                for val in cto_emails:
+                        copyemails.append(list(val.items())[0][1])
+                for val in npd_emails:
+                        copyemails.append(list(val.items())[0][1])
+                copymessage='''Hi ,
+
+                A new Connection Request, {}  has been submitted and currently awaiting approval from the HBO. 
+        
+                Best Regards'''.format(self.data.get('connectiontype'))
+                send_mail(
+                        subject,
+                        copymessage,
+                        settings.DEFAULT_FROM_EMAIL,
+                        copyemails,
+                        fail_silently=False,
+                            )
             elif(validated_data['approval_role'] == 'hm'):
                 #SEND MESSAGE AFTER HM APPROVAL. Send to Contractor
                 subject='Your Connection Request ({}) Approval Process is Completed'.format(self.data.get('connectiontype'))
@@ -602,6 +787,26 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                         message,
                         settings.DEFAULT_FROM_EMAIL,
                         contractoremail,
+                        fail_silently=False,
+                            )
+                # notify others
+                copyemails = []
+                for val in cto_emails:
+                        copyemails.append(list(val.items())[0][1])
+                for val in npd_emails:
+                        copyemails.append(list(val.items())[0][1])
+                for val in tm_emails:
+                        copyemails.append(list(val.items())[0][1])
+                copymessage='''Hi ,
+
+                A completed Request, {}  A Connection Request, {}  approval has been completed. Click "https://ncp.ibedc.com" to visit the platform. 
+        
+                Best Regards'''.format(self.data.get('connectiontype'))
+                send_mail(
+                        subject,
+                        copymessage,
+                        settings.DEFAULT_FROM_EMAIL,
+                        copyemails,
                         fail_silently=False,
                             )
                 
@@ -623,6 +828,24 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                     message,
                     settings.DEFAULT_FROM_EMAIL,
                     contractoremail,
+                    fail_silently=False,
+                        )
+            # notify others
+            copyemails = []
+            for val in cto_emails:
+                    copyemails.append(list(val.items())[0][1])
+            for val in npd_emails:
+                    copyemails.append(list(val.items())[0][1])
+            copymessage='''Hi ,
+
+            A connection request - {} has been declined. Action required...  
+    
+            Best Regards'''.format(self.data.get('connectiontype'))
+            send_mail(
+                    subject,
+                    copymessage,
+                    settings.DEFAULT_FROM_EMAIL,
+                    copyemails,
                     fail_silently=False,
                         )
         else:
