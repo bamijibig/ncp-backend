@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 from django.dispatch import receiver
 from django.urls import reverse
@@ -26,6 +26,10 @@ class contract_applicationpub(models.Model):
 
     # FINDINGS FROM THE SITE VISIT
     date_of_visit=models.CharField(max_length=200, null=True,blank=True)
+   
+
+    # date_of_visit = models.DateField(auto_now_add=True)
+
     no_of_customers=models.CharField(max_length=200, null=True,blank=True)
     estimated_load=models.CharField(max_length=200, null=True,blank=True)
     estimated_cost=models.CharField(max_length=200, null=True,blank=True)
@@ -144,7 +148,7 @@ class contract_applicationpub(models.Model):
     eval_subhead=models.CharField(max_length=200,null=True,blank=True)
     eval_title=models.CharField(max_length=200,null=True,blank=True)
     # Finding from site visit
-    eval_datevisit=models.CharField(max_length=250, null = True, blank=True)
+    eval_datevisit=models.CharField(max_length=200,null=True,blank=True)
     eval_extload=models.CharField(max_length=200,null=True,blank=True)
     eval_majchaexidss=models.CharField(max_length=200,null=True,blank=True)
    
@@ -232,7 +236,7 @@ class contract_applicationpub(models.Model):
 
     # Precomissioning Form
     precom_project_title=models.CharField(max_length=250, null=True, blank=True)
-    precom_last_inspection_date=models.CharField(max_length=250, null = True, blank=True)
+    precom_last_inspection_date=models.CharField(max_length=250, null=True, blank=True)
     precom_project_objectives=models.TextField(null=True, blank=True)
 
     precom_supplysrc=models.CharField(max_length=200,null=True,blank=True)

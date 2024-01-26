@@ -34,15 +34,34 @@ class ContractorUser(AbstractUser):
     licensed_no=models.IntegerField(null=True,blank=True)
     tel_no=models.CharField(max_length=100,null=True,blank=True)
     role=models.CharField(max_length=100,null=True,blank=True)
-    job_title=models.CharField(max_length=100,null=True,blank=True)
+    # stafftype=(
+    #     ('hqstaff','hqstaff'),
+    #     ('regionstaff','regionstaff'),
+    #     ('businesshubstaff','businesshubstaff'),
+    #     ('servicecentrestaff','servicecentrestaff')
+    # )
+    
 
+    titletype=(
+        ('Administrator','Administrator'),
+        ('CTO','CTO'),
+        ('Network Administrator','Network Administrator'),
+        ('Regional Head','Regional Head'),
+        ('Technical Manager', 'Technical Manager'),
+        ('Technical Engineer', 'Technical Engineer'),
+        ('BusinessHub Manager','BusinessHub Manager'),
+        ('Health&Safety','Health&Safety'),
+        ('Head Billing','Head Billing'),
+        ('Head Metering','Head Metering')
+    )
+    job_title=models.CharField(max_length=100, choices=titletype,default='Administrator')
+    
     stafftype=(
         ('hqstaff','hqstaff'),
         ('regionstaff','regionstaff'),
         ('businesshubstaff','businesshubstaff'),
         ('servicecentrestaff','servicecentrestaff')
     )
-
     staff_type=models.CharField(max_length=100, choices=stafftype, default='hqstaff') 
     region=models.CharField(max_length=100,null=True,blank=True) #Send region id as value
     businesshub=models.CharField(max_length=100,null=True,blank=True) #Send business hub id as value

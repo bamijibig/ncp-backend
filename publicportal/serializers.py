@@ -355,22 +355,22 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                     te2email,
                     fail_silently=False,
                         )
-            bhm_emails = []
-            for val in bhmmail:
-                    bhm_emails.append(list(val.items())[0][1])
+            # bhm_emails = []
+            # for val in bhmmail:
+            #         bhm_emails.append(list(val.items())[0][1])
             
-            copymessage='''Hi ,
+            # copymessage='''Hi ,
 
-            A new Connection Request, {}  has been submitted and currently awaiting your approval. 
+            # A new Connection Request, {}  has been submitted and currently awaiting your approval. 
     
-            Best Regards'''.format(self.data.get('connectiontype'))
-            send_mail(
-                    subject,
-                    copymessage,
-                    settings.DEFAULT_FROM_EMAIL,
-                    bhm_emails,
-                    fail_silently=False,
-                        )
+            # Best Regards'''.format(self.data.get('connectiontype'))
+            # send_mail(
+            #         subject,
+            #         copymessage,
+            #         settings.DEFAULT_FROM_EMAIL,
+            #         bhm_emails,
+            #         fail_silently=False,
+            #             )
             # notify others
             copyemails = []
             for val in cto_emails:
@@ -616,8 +616,8 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                         copyemails.append(list(val.items())[0][1])
                 for val in npd_emails:
                         copyemails.append(list(val.items())[0][1])
-                for val in bhmmail:
-                        copyemails.append(list(val.items())[0][1])
+                # for val in bhmmail:
+                #         copyemails.append(list(val.items())[0][1])
                 copymessage='''Hi ,
 
                 A new Connection Request, {}  has been submitted and currently awaiting approval from the TM. 
