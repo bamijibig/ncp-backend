@@ -26,8 +26,8 @@ SECRET_KEY = "django-insecure-%k@)207z74%1z%m5zb$$24av25p875l)i=o8w=c@p_!axcu-0x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost","localhost:8000","127.0.0.1","http://127.0.0.1:8000/","localhost:4200"]
-#ALLOWED_HOSTS = ["127.0.0.1","localhost:8000","localhost","https:\\192.168.15.92:900","https:\\ncpapi.ibedc.com:900","ncpapi.ibedc.com","https:\\192.168.15.92","192.168.15.92","https://ncpapi.ibedc.com"]
+#ALLOWED_HOSTS = ["localhost","localhost:8000","127.0.0.1","http://127.0.0.1:8000/","localhost:4200",'ncpapi.ibedc.com']
+ALLOWED_HOSTS = ["127.0.0.1","localhost:8000","localhost","https:\\192.168.15.92:900","https:\\ncpapi.ibedc.com:900","ncpapi.ibedc.com","https:\\192.168.15.92","192.168.15.92","https://ncpapi.ibedc.com"]
 
 # "localhost","127.0.0.1","http:\\192.168.15.92","192.168.15.92","https:\\ncpapi.ibedc.com:900","https:\\ncpapi.ibedc.com","ncpapi.ibedc.com"
 # Application definition
@@ -157,7 +157,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'USER': 'postgres',
         'NAME': 'ncpdb',
-        'PASSWORD': 'letter123456',
+        'PASSWORD': 'letter',
         'HOST': 'localhost',
         'PORT': '5432', 
         

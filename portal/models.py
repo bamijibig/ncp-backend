@@ -42,19 +42,19 @@ class ContractorUser(AbstractUser):
     # )
     
 
-    titletype=(
-        ('Administrator','Administrator'),
-        ('CTO','CTO'),
-        ('Network Administrator','Network Administrator'),
-        ('Regional Head','Regional Head'),
-        ('Technical Manager', 'Technical Manager'),
-        ('Technical Engineer', 'Technical Engineer'),
-        ('BusinessHub Manager','BusinessHub Manager'),
-        ('Health&Safety','Health&Safety'),
-        ('Head Billing','Head Billing'),
-        ('Head Metering','Head Metering')
-    )
-    job_title=models.CharField(max_length=100, choices=titletype,default='Administrator')
+    # titletype=(
+    #     ('Administrator','Administrator'),
+    #     ('CTO','CTO'),
+    #     ('Network Administrator','Network Administrator'),
+    #     ('Regional Head','Regional Head'),
+    #     ('Technical Manager', 'Technical Manager'),
+    #     ('Technical Engineer', 'Technical Engineer'),
+    #     ('BusinessHub Manager','BusinessHub Manager'),
+    #     ('Health&Safety','Health&Safety'),
+    #     ('Head Billing','Head Billing'),
+    #     ('Head Metering','Head Metering')
+    # )
+    job_title=models.CharField(max_length=100, null=True,blank=True)
     
     stafftype=(
         ('hqstaff','hqstaff'),
