@@ -30,19 +30,22 @@ class contract_applicationpub(models.Model):
 
     # date_of_visit = models.DateField(auto_now_add=True)
 
-    no_of_customers=models.CharField(max_length=200, null=True,blank=True)
+    # no_of_customers=models.CharField(max_length=200, null=True,blank=True)
     estimated_load=models.CharField(max_length=200, null=True,blank=True)
     estimated_cost=models.CharField(max_length=200, null=True,blank=True)
     no_of_spans=models.CharField(max_length=200, null=True,blank=True) 
     relief_type = (
-        ('transformer installation', 'transformer installation'),
-        ('transformer uprating', 'transformer uprating'),
-        ('replacement', 'replacement')
+        ('relief', 'relief'),
+        ('operating', 'operating'),
+        ('replacement', 'replacement'),
+        ('new extension', 'new extension'),
+        ('realignment', 'realignment'),
+        ('relocation', 'relocation'),
     )
-    relieftype = models.CharField(max_length=100, choices=relief_type,default='transformer installation')
+    relieftype = models.CharField(max_length=100, choices=relief_type,default='relief')
 
     # RECOMMENDED FEEDER/ASSETS FOR CONNECTION
-    feeder_name= models.CharField(max_length=200, null=True,blank=True) 
+    # feeder_name= models.CharField(max_length=200, null=True,blank=True) 
     feeder_capacity=models.CharField(max_length=200, null=True,blank=True) 
     fdr_peakload=models.CharField(max_length=200, null=True,blank=True) 
     load_tilldate=models.CharField(max_length=200, null=True,blank=True) 
@@ -161,8 +164,8 @@ class contract_applicationpub(models.Model):
         
         )
     eval_nameofsub = models.CharField(max_length=100, choices=nameofsubstation, default='existing substation bf relief')
-    eval_region=models.CharField(max_length=200,null=True,blank=True) 
-    eval_bhub=models.CharField(max_length=200,null=True,blank=True)
+    # eval_region=models.CharField(max_length=200,null=True,blank=True) 
+    # eval_bhub=models.CharField(max_length=200,null=True,blank=True)
     eval_rating=models.CharField(max_length=200,null=True,blank=True)
     eval_loading=models.CharField(max_length=200,null=True,blank=True)
     eval_loadpercent=models.CharField(max_length=200,null=True,blank=True)

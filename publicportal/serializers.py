@@ -574,6 +574,21 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                     hsemail,
                     fail_silently=False,
                 )
+                 # notify contractor
+                subject='Your Connection Request ({}) you are to collect an approval form to commence connection'.format(self.data.get('connectiontype'))
+                message='''Hi ,
+
+                Your Connection Request, {}  has been tentatively approved by CTO. Kindly visit IBEDC office to collect Approval form to commence connection. Click "https://ncp.ibedc.com" to visit the platform.
+                
+                Best Regards'''.format(self.data.get('connectiontype'))
+                
+                send_mail(
+                        subject,
+                        message,
+                        settings.DEFAULT_FROM_EMAIL,
+                        contractoremail,
+                        fail_silently=False,
+                            )
                 # notify others
                 copyemails = []
                 for val in cto_emails:

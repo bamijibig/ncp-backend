@@ -336,7 +336,7 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
         tm_emails = EmailSerializer(ContractorUser.objects.filter(is_tm=True), many=True).data
         # te2_emails = EmailSerializer(ContractorUser.objects.filter(is_te=True), many=True).data
         hm_emails = EmailSerializer(ContractorUser.objects.filter(is_hm=True), many=True).data
-        te_emails = EmailSerializer(ContractorUser.objects.filter(is_te=True), many=True).data
+        te_emails = EmailSerializer(ContractorUser.objects.filter(is_te=True, businesshub=str(self.data.get('bh'))), many=True).data
         npd_emails = EmailSerializer(ContractorUser.objects.filter(is_npd=True), many=True).data
         cto_emails = EmailSerializer(ContractorUser.objects.filter(is_cto=True), many=True).data
         hsemail = [val['email'] for val in EmailSerializer(ContractorUser.objects.filter(is_hse=True), many=True).data]
@@ -620,7 +620,26 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                     hsemail,
                     fail_silently=False,
                 )
+                                # notify contractor
+                subject='Your Connection Request ({}) you are to collect an approval form to commence connection'.format(self.data.get('connectiontype'))
+                message='''Hi ,
+
+                Your Connection Request, {}  has been tentatively approved by CTO. Kindly visit IBEDC office to collect Approval form to commence connection. Click "https://ncp.ibedc.com" to visit the platform.
+                
+                Best Regards'''.format(self.data.get('connectiontype'))
+                
+                send_mail(
+                        subject,
+                        message,
+                        settings.DEFAULT_FROM_EMAIL,
+                        contractoremail,
+                        fail_silently=False,
+                            )
                 # notify others
+                
+
+
+
                 copyemails = []
                 for val in cto_emails:
                         copyemails.append(list(val.items())[0][1])

@@ -67,6 +67,8 @@ class ContractorUser(AbstractUser):
     businesshub=models.CharField(max_length=100,null=True,blank=True) #Send business hub id as value
     coren_or_nemsa_competency=models.FileField(null=True,blank=True)
     coren=models.FileField(null=True, blank=True)
+    corenissued=models.DateField(null=True,blank=True)
+    # corenexpired=models.DateField(null=True,blank=True)
     reg_date=models.DateTimeField(auto_now_add=True,null=True,blank=True)
     is_contractor = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
@@ -297,11 +299,11 @@ class contract_application(models.Model):
     eval_dt=models.CharField(max_length=150, null=True, blank=True)
     eval_estimated_load=models.CharField(max_length=150, null=True, blank=True)
     eval_site_visit_date=models.CharField(max_length=150, null = True, blank=True)
-    eval_new4upgrade=models.CharField(max_length=50,null=True,blank=True)
+    # eval_new4upgrade=models.CharField(max_length=50,null=True,blank=True)
     eval_conworkdone=models.CharField(max_length=50,null=True,blank=True)
     eval_dtsubname=models.CharField(max_length=200,null=True,blank=True)
-    eval_region=models.CharField(max_length=200,null=True,blank=True) 
-    eval_bhub=models.CharField(max_length=200,null=True,blank=True)
+    # eval_region=models.CharField(max_length=200,null=True,blank=True) 
+    # eval_bhub=models.CharField(max_length=200,null=True,blank=True)
     eval_comentoncon=models.TextField(null=True,blank=True)
     eval_fdrname=models.CharField(max_length=200,null=True,blank=True)
     eval_fdrcapacity=models.CharField(max_length=200,null=True,blank=True)
@@ -328,6 +330,7 @@ class contract_application(models.Model):
     eval_scopework=models.TextField(null=True, blank=True)
     eval_recom=models.TextField(null=True,blank=True)
     eval_pcm=models.FileField(null=True,blank=True)   
+    eval_sglinediagram=models.FileField(null=True,blank=True)
     eval_otherdoc=models.FileField(null=True,blank=True)
 
 
