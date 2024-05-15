@@ -25,7 +25,7 @@ class contract_applicationpub(models.Model):
     voltage_level=models.CharField(max_length=200, null=True,blank=True)
 
     # FINDINGS FROM THE SITE VISIT
-    date_of_visit=models.CharField(max_length=200, null=True,blank=True)
+    # date_of_visit=models.CharField(max_length=200, null=True,blank=True)
    
 
     # date_of_visit = models.DateField(auto_now_add=True)
@@ -36,7 +36,7 @@ class contract_applicationpub(models.Model):
     no_of_spans=models.CharField(max_length=200, null=True,blank=True) 
     relief_type = (
         ('relief', 'relief'),
-        ('operating', 'operating'),
+        ('up rating', 'up rating'),
         ('replacement', 'replacement'),
         ('new extension', 'new extension'),
         ('realignment', 'realignment'),
@@ -46,20 +46,20 @@ class contract_applicationpub(models.Model):
 
     # RECOMMENDED FEEDER/ASSETS FOR CONNECTION
     # feeder_name= models.CharField(max_length=200, null=True,blank=True) 
-    feeder_capacity=models.CharField(max_length=200, null=True,blank=True) 
-    fdr_peakload=models.CharField(max_length=200, null=True,blank=True) 
-    load_tilldate=models.CharField(max_length=200, null=True,blank=True) 
+    # feeder_capacity=models.CharField(max_length=200, null=True,blank=True) 
+    # fdr_peakload=models.CharField(max_length=200, null=True,blank=True) 
+    # load_tilldate=models.CharField(max_length=200, null=True,blank=True) 
 
     # DETAIL OF SOURCE SUBSTATION(INJECTION ISS/TRANSMISSION STATION)
-    source_fdr=models.CharField(max_length=200, null=True,blank=True) 
-    powertrans=models.CharField(max_length=200, null=True,blank=True) 
-    trans_rating=models.CharField(max_length=200, null=True,blank=True) 
+    # source_fdr=models.CharField(max_length=200, null=True,blank=True) 
+    # powertrans=models.CharField(max_length=200, null=True,blank=True) 
+    # trans_rating=models.CharField(max_length=200, null=True,blank=True) 
      
     #  APPROVAL
-    expected_billing=models.CharField(max_length=200, null=True,blank=True) 
-    expected_gain=models.CharField(max_length=200, null=True,blank=True) 
-    letter_of_donation_dss=models.FileField(null=True,blank=True)
-    nemsa_test_cert=models.FileField(null=True,blank=True)
+    # expected_billing=models.CharField(max_length=200, null=True,blank=True) 
+    # expected_gain=models.CharField(max_length=200, null=True,blank=True) 
+    # letter_of_donation_dss=models.FileField(null=True,blank=True)
+    nemsa_comp_cert=models.FileField(null=True,blank=True)
     coren_cert=models.FileField(null=True,blank=True)
     intro_letter_client=models.FileField(null=True,blank=True)
 
