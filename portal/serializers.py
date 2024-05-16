@@ -601,6 +601,48 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                             )
 
             elif(validated_data['approval_role'] == 'cto'):
+
+
+                 #SEND MESSAGE AFTER CTO APPROVAL. Send to Contractor to Request Precommissioning
+                subject='Your Connection Request ({}) is at Precomissioning Stage. Action required.'.format(self.data.get('connectiontype'))
+                message='''Hi ,
+
+                Your Connection Request, {}  is currently at the Precomissioning Stage.
+                Kindly login to your dashboard, and request precommissioning test for the connection.Click "https://ncp.ibedc.com" to visit the platform.
+                
+                Best Regards'''.format(self.data.get('connectiontype'))
+                
+                
+                send_mail(
+                        subject,
+                        message,
+                        settings.DEFAULT_FROM_EMAIL,
+                        contractoremail,
+                        fail_silently=False,
+                            )
+                # notify others
+                copyemails = []
+                for val in cto_emails:
+                        copyemails.append(list(val.items())[0][1])
+                for val in npd_emails:
+                        copyemails.append(list(val.items())[0][1])
+                for val in bhmmail:
+                        copyemails.append(list(val.items())[0][1])
+                copymessage='''Hi ,
+
+                A new Connection Request, {}  has been submitted and currently awaiting contractor to request for precomission test. 
+        
+                Best Regards'''.format(self.data.get('connectiontype'))
+                send_mail(
+                        subject,
+                        copymessage,
+                        settings.DEFAULT_FROM_EMAIL,
+                        copyemails,
+                        fail_silently=False,
+                            )
+                # notify bhm
+
+
                 subject = 'A Connection Request ({}) is Awaiting your Approval'.format(self.data.get('connectiontype'))
                 message = '''
             Hi,
@@ -640,80 +682,8 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
 
 
 
-                copyemails = []
-                for val in cto_emails:
-                        copyemails.append(list(val.items())[0][1])
-                for val in npd_emails:
-                        copyemails.append(list(val.items())[0][1])
-                copymessage='''Hi ,
-
-                A new Connection Request, {}  has been submitted and currently awaiting approval from the HSE. 
-        
-                Best Regards'''.format(self.data.get('connectiontype'))
-                send_mail(
-                        subject,
-                        copymessage,
-                        settings.DEFAULT_FROM_EMAIL,
-                        copyemails,
-                        fail_silently=False,
-                            )
-                    # notify bhm
-                bhm_emails = []
-                for val in bhmmail:
-                        bhm_emails.append(list(val.items())[0][1])
-                
-                copymessage='''Hi ,
-
-                A new Connection Request, {}  has been submitted and currently awaiting HSE[] approval. 
-        
-                Best Regards'''.format(self.data.get('connectiontype'))
-                send_mail(
-                        subject,
-                        copymessage,
-                        settings.DEFAULT_FROM_EMAIL,
-                        bhm_emails,
-                        fail_silently=False,
-                            )
-                
-            elif validated_data['approval_role'] == 'hse':
-                #SEND MESSAGE AFTER CTO APPROVAL. Send to Contractor to Request Precommissioning
-                subject='Your Connection Request ({}) is at Precomissioning Stage. Action required.'.format(self.data.get('connectiontype'))
-                message='''Hi ,
-
-                Your Connection Request, {}  is currently at the Precomissioning Stage.
-                Kindly login to your dashboard, and request precommissioning test for the connection.Click "https://ncp.ibedc.com" to visit the platform.
-                
-                Best Regards'''.format(self.data.get('connectiontype'))
-                
-                
-                send_mail(
-                        subject,
-                        message,
-                        settings.DEFAULT_FROM_EMAIL,
-                        contractoremail,
-                        fail_silently=False,
-                            )
-                # notify others
-                copyemails = []
-                for val in cto_emails:
-                        copyemails.append(list(val.items())[0][1])
-                for val in npd_emails:
-                        copyemails.append(list(val.items())[0][1])
-                for val in bhmmail:
-                        copyemails.append(list(val.items())[0][1])
-                copymessage='''Hi ,
-
-                A new Connection Request, {}  has been submitted and currently awaiting contractor to request for precomission test. 
-        
-                Best Regards'''.format(self.data.get('connectiontype'))
-                send_mail(
-                        subject,
-                        copymessage,
-                        settings.DEFAULT_FROM_EMAIL,
-                        copyemails,
-                        fail_silently=False,
-                            )
-                # notify bhm
+                        
+               
                 
                 
                 
@@ -722,7 +692,7 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                 message = '''
             Hi,
 
-            A new Connection Request, {} is currently at the BHM approval stage and needs your approval.
+            A new Connection Request, {} is currently at the HBO approval stage and needs your approval.
             Kindly log in to the platform to review pending approvals on the Awaiting Approval tab for Connections. Click "https://ncp.ibedc.com" to visit the platform.
 
             Best Regards
@@ -759,7 +729,7 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                 message = '''
             Hi,
 
-            A new Connection Request, {} is currently at the HBO approval stage and needs your approval.
+            A new Connection Request, {} is currently at the HM approval stage and needs your approval.
             Kindly log in to the platform to review pending approvals on the Awaiting Approval tab for Connections. Click "https://ncp.ibedc.com" to visit the platform.
 
             Best Regards
@@ -820,7 +790,7 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
 
                 A completed Request, {}  A Connection Request, {}  approval has been completed. Click "https://ncp.ibedc.com" to visit the platform. 
         
-                Best Regards'''.format(self.data.get('connectiontype'))
+                Best Regards'''.format(self.data.get('connectiontype'), self.data.get('status'))
                 send_mail(
                         subject,
                         copymessage,

@@ -91,10 +91,10 @@ class ConnectionMyApprovalListpub(generics.ListAPIView):
             queryset = contract_applicationpub.objects.filter(declined = False, npd_is_connection_approved=False, te_is_connection_approved = True)
         elif(self.request.user.is_cto == True):
             queryset = contract_applicationpub.objects.filter(declined = False, npd_is_connection_approved=True, cto_is_connection_approved = False)
-        elif(self.request.user.is_hse == True):
-            queryset = contract_applicationpub.objects.filter(declined = False, npd_is_connection_approved=True, te_is_connection_approved = True, cto_is_connection_approved = True, hse_is_connection_approved = False, tept_is_connection_approved = False)
+        # elif(self.request.user.is_hse == True):
+        #     queryset = contract_applicationpub.objects.filter(declined = False, npd_is_connection_approved=True, te_is_connection_approved = True, cto_is_connection_approved = True, hse_is_connection_approved = False, tept_is_connection_approved = False)
         elif(self.request.user.is_bhm == True):
-            queryset = contract_applicationpub.objects.filter(declined = False, npd_is_connection_approved=True, te_is_connection_approved = True, tept_is_connection_approved = True, cto_is_connection_approved = True,hse_is_connection_approved = True, bhm_is_connection_approved = False)
+            queryset = contract_applicationpub.objects.filter(declined = False, npd_is_connection_approved=True, te_is_connection_approved = True, tept_is_connection_approved = True, cto_is_connection_approved = True, bhm_is_connection_approved = False)
             
         elif(self.request.user.is_hbo == True):
             queryset = contract_applicationpub.objects.filter(declined = False, npd_is_connection_approved=True, te_is_connection_approved = True, tept_is_connection_approved = True, cto_is_connection_approved = True,hse_is_connection_approved = True,bhm_is_connection_approved = True, hbo_is_connection_approved = False)
@@ -111,7 +111,7 @@ class ConnectionMyApprovalListpub(generics.ListAPIView):
 
 class ContractorConnectionPrecommisionpub(generics.ListAPIView):
     def get_queryset(self):
-        queryset = contract_applicationpub.objects.filter(contractor=self.request.user.id, cto_is_connection_approved=True, hse_is_connection_approved = True, ct_is_pre_requested = False)
+        queryset = contract_applicationpub.objects.filter(contractor=self.request.user.id, cto_is_connection_approved=True, ct_is_pre_requested = False)
         return queryset
     permission_classes = [IsAuthenticated]
     serializer_class = contract_applicationViewSerializer

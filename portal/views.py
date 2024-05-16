@@ -275,14 +275,14 @@ class ConnectionMyApprovalList(generics.ListAPIView):
         elif(self.request.user.is_npd == True):
             queryset = contract_application.objects.filter(declined = False, npd_is_connection_approved=False, te_is_connection_approved = True)
         elif(self.request.user.is_cto == True):
-            queryset = contract_application.objects.filter(declined = False, npd_is_connection_approved=True, cto_is_connection_approved = False)
-        elif(self.request.user.is_hse == True):
-            queryset = contract_application.objects.filter(declined = False, npd_is_connection_approved=True, te_is_connection_approved = True, cto_is_connection_approved = True, hse_is_connection_approved = False, tept_is_connection_approved = False)
+            queryset = contract_application.objects.filter(declined = False, npd_is_connection_approved=True, cto_is_connection_approved = False,  te_is_connection_approved = True, tept_is_connection_approved = False)
+        # elif(self.request.user.is_hse == True):
+        #     queryset = contract_application.objects.filter(declined = False, npd_is_connection_approved=True, te_is_connection_approved = True, cto_is_connection_approved = True, hse_is_connection_approved = False, tept_is_connection_approved = False)
         elif(self.request.user.is_bhm == True):
-            queryset = contract_application.objects.filter(declined = False, npd_is_connection_approved=True, te_is_connection_approved = True, tept_is_connection_approved = True, cto_is_connection_approved = True,hse_is_connection_approved = True, bhm_is_connection_approved = False)
+            queryset = contract_application.objects.filter(declined = False, npd_is_connection_approved=True, te_is_connection_approved = True, tept_is_connection_approved = True, cto_is_connection_approved = True, bhm_is_connection_approved = False)
             
         elif(self.request.user.is_hbo == True):
-            queryset = contract_application.objects.filter(declined = False, npd_is_connection_approved=True, te_is_connection_approved = True, tept_is_connection_approved = True, cto_is_connection_approved = True,hse_is_connection_approved = True,bhm_is_connection_approved = True, hbo_is_connection_approved = False)
+            queryset = contract_application.objects.filter(declined = False,te_is_connection_approved = True, tept_is_connection_approved = True, cto_is_connection_approved = True,hse_is_connection_approved = True,bhm_is_connection_approved = True, hbo_is_connection_approved = False)
             
         elif(self.request.user.is_hm == True):
             queryset = contract_application.objects.filter(declined = False, cto_is_connection_approved=True, tept_is_connection_approved = True, hbo_is_connection_approved = True, hm_is_connection_approved = False)
@@ -296,7 +296,14 @@ class ConnectionMyApprovalList(generics.ListAPIView):
 
 class ContractorConnectionPrecommision(generics.ListAPIView):
     def get_queryset(self):
-        queryset = contract_application.objects.filter(contractor=self.request.user.id, cto_is_connection_approved=True, hse_is_connection_approved = True, ct_is_pre_requested = False)
+        queryset = contract_application.objects.filter(contractor=self.request.user.id, cto_is_connection_approved=True, ct_is_pre_requested = False)
+        return queryset
+    permission_classes = [IsAuthenticated]
+    serializer_class = contract_applicationViewSerializer
+
+class ContractorCommision(generics.ListAPIView):
+    def get_queryset(self):
+        queryset = contract_application.objects.filter(contractor=self.request.user.id, cto_is_connection_approved=True, ct_is_pre_requested = True, hm_is_connection_approved = True, ct_is_done=False )
         return queryset
     permission_classes = [IsAuthenticated]
     serializer_class = contract_applicationViewSerializer

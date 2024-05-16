@@ -555,60 +555,9 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                             )
 
             elif(validated_data['approval_role'] == 'cto'):
-                subject = 'A Connection Request ({}) is Awaiting your Approval'.format(self.data.get('connectiontype'))
-                message = '''
-            Hi,
 
-            A new Connection Request, {} is currently at the HSE approval stage and needs your approval.
-            Kindly log in to the platform to review pending approvals on the Awaiting Approval tab for Connections. Click "https://ncp.ibedc.com" to visit the platform.
 
-            Best Regards
-            '''.format(self.data.get('connectiontype'))
-
-                #hsemail = [val['email'] for val in EmailSerializer(ContractorUser.objects.filter(is_hse=True), many=True).data]
-
-                send_mail(
-                    subject,
-                    message,
-                    settings.DEFAULT_FROM_EMAIL,
-                    hsemail,
-                    fail_silently=False,
-                )
-                 # notify contractor
-                subject='Your Connection Request ({}) you are to collect an approval form to commence connection'.format(self.data.get('connectiontype'))
-                message='''Hi ,
-
-                Your Connection Request, {}  has been tentatively approved by CTO. Kindly visit IBEDC office to collect Approval form to commence connection. Click "https://ncp.ibedc.com" to visit the platform.
-                
-                Best Regards'''.format(self.data.get('connectiontype'))
-                
-                send_mail(
-                        subject,
-                        message,
-                        settings.DEFAULT_FROM_EMAIL,
-                        contractoremail,
-                        fail_silently=False,
-                            )
-                # notify others
-                copyemails = []
-                for val in cto_emails:
-                        copyemails.append(list(val.items())[0][1])
-                for val in npd_emails:
-                        copyemails.append(list(val.items())[0][1])
-                copymessage='''Hi ,
-
-                A new Connection Request, {}  has been submitted and currently awaiting approval from the TM. 
-        
-                Best Regards'''.format(self.data.get('connectiontype'))
-                send_mail(
-                        subject,
-                        copymessage,
-                        settings.DEFAULT_FROM_EMAIL,
-                        copyemails,
-                        fail_silently=False,
-                            )
-            elif validated_data['approval_role'] == 'hse':
-                #SEND MESSAGE AFTER CTO APPROVAL. Send to Contractor to Request Precommissioning
+                 #SEND MESSAGE AFTER CTO APPROVAL. Send to Contractor to Request Precommissioning
                 subject='Your Connection Request ({}) is at Precomissioning Stage. Action required.'.format(self.data.get('connectiontype'))
                 message='''Hi ,
 
@@ -631,11 +580,11 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                         copyemails.append(list(val.items())[0][1])
                 for val in npd_emails:
                         copyemails.append(list(val.items())[0][1])
-                # for val in bhmmail:
-                #         copyemails.append(list(val.items())[0][1])
+                for val in bhmmail:
+                        copyemails.append(list(val.items())[0][1])
                 copymessage='''Hi ,
 
-                A new Connection Request, {}  has been submitted and currently awaiting approval from the TM. 
+                A new Connection Request, {}  has been submitted and currently awaiting contractor to request for precomission test. 
         
                 Best Regards'''.format(self.data.get('connectiontype'))
                 send_mail(
@@ -645,12 +594,52 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                         copyemails,
                         fail_silently=False,
                             )
+                # notify bhm
+
+
+                subject = 'A Connection Request ({}) is Awaiting your Approval'.format(self.data.get('connectiontype'))
+                message = '''
+            Hi,
+
+            A new Connection Request, {} is currently at the HSE approval stage and needs your approval.
+            Kindly log in to the platform to review pending approvals on the Awaiting Approval tab for Connections. Click "https://ncp.ibedc.com" to visit the platform.
+
+            Best Regards
+            '''.format(self.data.get('connectiontype'))
+
+                # hsemail = [val['email'] for val in EmailSerializer(ContractorUser.objects.filter(is_hse=True), many=True).data]
+
+                send_mail(
+                    subject,
+                    message,
+                    settings.DEFAULT_FROM_EMAIL,
+                    hsemail,
+                    fail_silently=False,
+                )
+                                # notify contractor
+                subject='Your Connection Request ({}) you are to collect an approval form to commence connection'.format(self.data.get('connectiontype'))
+                message='''Hi ,
+
+                Your Connection Request, {}  has been tentatively approved by CTO. Kindly visit IBEDC office to collect Approval form to commence connection. Click "https://ncp.ibedc.com" to visit the platform.
+                
+                Best Regards'''.format(self.data.get('connectiontype'))
+                
+                send_mail(
+                        subject,
+                        message,
+                        settings.DEFAULT_FROM_EMAIL,
+                        contractoremail,
+                        fail_silently=False,
+                            )
+                # notify others
+                
+            
             elif validated_data['approval_role'] == 'bhm':
                 subject = 'A Connection Request ({}) is Awaiting your Approval'.format(self.data.get('connectiontype'))
                 message = '''
             Hi,
 
-            A new Connection Request, {} is currently at the BHM approval stage and needs your approval.
+            A new Connection Request, {} is currently at the HBO approval stage and needs your approval.
             Kindly log in to the platform to review pending approvals on the Awaiting Approval tab for Connections. Click "https://ncp.ibedc.com" to visit the platform.
 
             Best Regards
@@ -688,7 +677,7 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                 message = '''
             Hi,
 
-            A new Connection Request, {} is currently at the HBO approval stage and needs your approval.
+            A new Connection Request, {} is currently at the HM approval stage and needs your approval.
             Kindly log in to the platform to review pending approvals on the Awaiting Approval tab for Connections. Click "https://ncp.ibedc.com" to visit the platform.
 
             Best Regards
@@ -726,7 +715,7 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                 subject='Your Connection Request ({}) Approval Process is Completed'.format(self.data.get('connectiontype'))
                 message='''Hi ,
 
-                Your Connection Request, {}  approval has been completed. Click "https://ncp.ibedc.com" to visit the platform.
+                Your Connection Request, {}  approval has been completed. Kindly proceed to submiting your documents Click "https://ncp.ibedc.com" to visit the platform.
                 
                 Best Regards'''.format(self.data.get('connectiontype'))
                 

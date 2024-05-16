@@ -157,7 +157,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'USER': 'postgres',
         'NAME': 'ncpdb',
-        'PASSWORD': 'letter',
+        'PASSWORD': '123456789',
         'HOST': 'localhost',
         'PORT': '5432', 
         
@@ -212,4 +212,5 @@ EMAIL_USE_TLS = True
 
 DEFAULT_FROM_EMAIL = 'connectionportal@ibedc.com'
 
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
