@@ -139,6 +139,19 @@ class contract_applicationpub(models.Model):
     declined_comment = models.TextField(null=True,blank=True)
     connection_approved = models.BooleanField(default=False)
 
+
+
+     # Commissioning form for contractor
+    projsignedoff=models.BooleanField(default=False)
+    inspbynemsa=models.BooleanField(default=False)
+    compdate=models.DateField(auto_now_add=True, null = True, blank=True)
+    comprojcert=models.FileField(null=True,blank=True)
+    nemsatestcert=models.FileField(null=True,blank=True)
+    letterofdonation=models.FileField(null=True,blank=True)
+    ct_is_done=models.BooleanField(default=False)
+    ct_is_completed=models.FileField(null=True,blank=True)
+    ct_is_completed_date = models.DateField(null = True, blank=True)
+
     # Evaluation Form Data
 
     # Summary report for relief dss

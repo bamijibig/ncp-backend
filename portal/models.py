@@ -285,7 +285,7 @@ class contract_application(models.Model):
     # Commissioning form for contractor
     projsignedoff=models.BooleanField(default=False)
     inspbynemsa=models.BooleanField(default=False)
-    compdate=models.DateField(null = True, blank=True)
+    compdate=models.DateField(auto_now_add=True, null = True, blank=True)
     comprojcert=models.FileField(null=True,blank=True)
     nemsatestcert=models.FileField(null=True,blank=True)
     letterofdonation=models.FileField(null=True,blank=True)

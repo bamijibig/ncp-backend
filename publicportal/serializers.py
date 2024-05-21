@@ -580,8 +580,8 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                         copyemails.append(list(val.items())[0][1])
                 for val in npd_emails:
                         copyemails.append(list(val.items())[0][1])
-                for val in bhmmail:
-                        copyemails.append(list(val.items())[0][1])
+                # for val in bhmmail:
+                #         copyemails.append(list(val.items())[0][1])
                 copymessage='''Hi ,
 
                 A new Connection Request, {}  has been submitted and currently awaiting contractor to request for precomission test. 
