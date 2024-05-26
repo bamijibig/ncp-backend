@@ -8,7 +8,8 @@ from .serializers import (
                     RegisterSerializer, 
                     RegionListSerializer, 
                     BusinessHubListSerializer, 
-                    ActionContractorSerializer, 
+                    ActionContractorSerializer,
+                    contract_applicationEvalSerializer, 
                     contract_applicationSerializer,
                     # technicalEvaluationSerializer,
                     contract_applicationListSerializer, 
@@ -249,7 +250,7 @@ class ApproveOrDeclineConnectionTE(generics.RetrieveUpdateDestroyAPIView):
         queryset = contract_application.objects.filter(id=self.kwargs["pk"])
         return queryset
     permission_classes = [IsAuthenticated]
-    serializer_class = actioncontract_applicationSerializer
+    serializer_class = contract_applicationEvalSerializer
 
 class ApprovalStatus(generics.RetrieveAPIView):
 

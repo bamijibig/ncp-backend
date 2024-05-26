@@ -175,6 +175,12 @@ class contract_applicationListSerializer(serializers.ModelSerializer):
         model=contract_application
         fields="__all__"
 
+
+class contract_applicationEvalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=contract_application
+        fields="__all__"
+
 # class technicalEvaluationSerializer(serializers.ModelSerializer):
 #     class Meta:
 #        model=technicalEvaluation
