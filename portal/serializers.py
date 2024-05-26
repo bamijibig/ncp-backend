@@ -811,14 +811,14 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
 
             Comment: {}
 
-            Best Regards'''.format(self.data.get('connectiontype'), validated_data['declined_comment'])
-            send_mail(
-                    subject,
-                    message,
-                    settings.DEFAULT_FROM_EMAIL,
-                    contractoremail,
-                    fail_silently=False,
-                        )
+            # Best Regards'''.format(self.data.get('connectiontype'), validated_data['declined_comment'])
+            # send_mail(
+            #         subject,
+            #         message,
+            #         settings.DEFAULT_FROM_EMAIL,
+            #         contractoremail,
+            #         fail_silently=False,
+            #             )
             # notify others
             copyemails = []
             for val in cto_emails:

@@ -48,6 +48,9 @@ urlpatterns = [
     path("approvalstatus/<pk>/",views.ApprovalStatus.as_view()),
     path("contractor_connections/",views.ConnectionContractorView.as_view()),
     path("staff_connections/",views.ConnectionStaffView.as_view()),
+    
+    path("connection/approveordeclinete/<pk>/",views.ApproveOrDeclineConnectionTE.as_view()),
+    
     path("connection/approveordecline/<pk>/",views.ApproveOrDeclineConnection.as_view()),
     path("connection/precommision/list/",views.ContractorConnectionPrecommision.as_view()),
     path("connection/commision/list/",views.ContractorCommision.as_view()),

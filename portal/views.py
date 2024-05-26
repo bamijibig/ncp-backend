@@ -1,6 +1,6 @@
 
 # Create your views here.
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from .models import contract_application, ContractorUser, Region,BusinessHub
 from .serializers import (
                     ContractorUserSerializer,
@@ -243,7 +243,7 @@ class ApproveOrDeclineContractor(generics.RetrieveUpdateDestroyAPIView):
 
  
 
-class ApproveOrDeclineConnection(generics.RetrieveUpdateDestroyAPIView):
+class ApproveOrDeclineConnectionTE(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         queryset = contract_application.objects.filter(id=self.kwargs["pk"])
@@ -254,7 +254,7 @@ class ApproveOrDeclineConnection(generics.RetrieveUpdateDestroyAPIView):
 class ApprovalStatus(generics.RetrieveAPIView):
 
     def get_queryset(self):
-        queryset = ContractorUser.objects.filter(id=self.kwargs["pk"])
+        queryset = ContractorUser.objects.filter(id=self.kwargs["pk"]).order_by("contractor_name")
         return queryset
     serializer_class = ContractorApprovalStatusSerializer
 
@@ -285,13 +285,19 @@ class ConnectionMyApprovalList(generics.ListAPIView):
             queryset = contract_application.objects.filter(declined = False,te_is_connection_approved = True, tept_is_connection_approved = True, cto_is_connection_approved = True,hse_is_connection_approved = True,bhm_is_connection_approved = True, hbo_is_connection_approved = False)
             
         elif(self.request.user.is_hm == True):
-            queryset = contract_application.objects.filter(declined = False, cto_is_connection_approved=True, tept_is_connection_approved = True, hbo_is_connection_approved = True, hm_is_connection_approved = False)
+            queryset = contract_application.objects.filter(declined = False, 
+                                                           
+                                                           cto_is_connection_approved=True, 
+                                                           tept_is_connection_approved = True, 
+                                                           hbo_is_connection_approved = True,
+                                                             hm_is_connection_approved = False).order_by("company_name")
               
         else:
             queryset = None
         return queryset
     permission_classes = [IsAuthenticated]
     serializer_class = contract_applicationViewSerializer
+    ordering_fields = '__all__' 
 
 
 class ContractorConnectionPrecommision(generics.ListAPIView):
@@ -307,3 +313,122 @@ class ContractorCommision(generics.ListAPIView):
         return queryset
     permission_classes = [IsAuthenticated]
     serializer_class = contract_applicationViewSerializer
+
+
+    ############################################################################################################
+    ###########################################################################################################
+    from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.dateformat import format
+  # Assuming you have a Connection model
+ # Assuming you have a method to get the user
+from django.utils.timezone import now
+from django.utils.timezone import now
+from django.http import JsonResponse
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
+from .models import contract_application
+from .serializers import contract_applicationViewSerializer
+
+class ApproveOrDeclineConnection(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = contract_applicationViewSerializer
+
+    def get_queryset(self):
+        return contract_application.objects.filter(id=self.kwargs["pk"])
+
+    def patch(self, request, *args, **kwargs):
+        connection = self.get_object()
+        data = request.data
+        action = data.get('action')
+        user = request.user
+
+        if action == 'Approve':
+            if user.is_tm:
+                connection.approval_role = 'tm'
+                connection.tm_is_connection_approved = True
+                connection.tm_is_connection_approved_date = now().strftime('%Y-%m-%d')
+                connection.tm_is_connection_approved_by = f"{user.first_name} {user.last_name}"
+                connection.connection_status = 'Approved By TM. Awaiting TE Evaluation'
+                connection.tm_memo = data.get('memo')
+            
+            if user.is_npd:
+                connection.approval_role = 'npd'
+                connection.npd_is_connection_approved = True
+                connection.npd_is_connection_approved_date = now().strftime('%Y-%m-%d')
+                connection.npd_is_connection_approved_by = f"{user.first_name} {user.last_name}"
+                connection.connection_status = 'Approved By NP & D. Awaiting Induction & CTO Approval'
+                connection.npd_memo = data.get('memo')
+
+            if user.is_cto:
+                connection.approval_role = 'cto'
+                connection.cto_is_connection_approved = True
+                connection.cto_is_connection_approved_date = now().strftime('%Y-%m-%d')
+                connection.cto_is_connection_approved_by = f"{user.first_name} {user.last_name}"
+                connection.connection_status = 'Connection Approval Completed'
+                connection.in_approval_workflow = False
+                connection.connection_approved = True
+                connection.cto_memo = data.get('memo')
+
+            if user.is_bhm:
+                connection.approval_role = 'bhm'
+                connection.bhm_is_connection_approved = True
+                connection.bhm_is_contractor_approved_date = now().strftime('%Y-%m-%d')
+                connection.bhm_approved_by = f"{user.first_name} {user.last_name}"
+                connection.connection_status = 'Connection Approval Completed'
+                connection.in_approval_workflow = False
+                connection.connection_approved = True
+                connection.bhm_memo = data.get('memo')
+
+            if user.is_hbo:
+                connection.approval_role = 'hbo'
+                connection.hbo_is_connection_approved = True
+                connection.hbo_is_contractor_approved_date = now().strftime('%Y-%m-%d')
+                connection.hbo_approved_by = f"{user.first_name} {user.last_name}"
+                connection.connection_status = 'Connection Approval Completed'
+                connection.in_approval_workflow = False
+                connection.connection_approved = True
+                connection.hbo_memo = data.get('memo')
+
+            if user.is_hm:
+                connection.approval_role = 'hm'
+                connection.hm_is_connection_approved = True
+                connection.hm_is_contractor_approved_date = now().strftime('%Y-%m-%d')
+                connection.hm_approved_by = f"{user.first_name} {user.last_name}"
+                connection.connection_status = 'Connection Approval Completed'
+                connection.in_approval_workflow = False
+                connection.connection_approved = True
+                connection.hm_memo = data.get('memo')
+
+        elif action == 'Decline':
+            connection.declined = True
+            connection.in_approval_workflow = False
+            connection.declined_comment = data.get('comment')
+            connection.connection_status = 'Connection Application Declined.'
+
+            if user.is_tm:
+                connection.tm_memo = data.get('memo')
+
+            if user.is_npd:
+                connection.npd_memo = data.get('memo')
+                connection.te_is_connection_approved = False
+                connection.connection_status = 'Connection Application Declined by NPD.'
+
+            if user.is_cto:
+                connection.cto_memo = data.get('memo')
+
+            if user.is_bhm:
+                connection.bhm_memo = data.get('memo')
+
+            if user.is_hbo:
+                connection.hbo_memo = data.get('memo')
+
+            if user.is_hm:
+                connection.hm_memo = data.get('memo')
+
+        connection.save()
+        return JsonResponse({'status': 'success'})
+
+    def handle_invalid_request(self):
+        return JsonResponse({'status': 'invalid request'}, status=400)
