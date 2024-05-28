@@ -282,6 +282,7 @@ class contract_applicationpub(models.Model):
     precom_yrsofman=models.CharField(max_length=200,null=True,blank=True)
     precom_cooling=models.CharField(max_length=200,null=True,blank=True)
     precom_cabletypsiz=models.CharField(max_length=200,null=True,blank=True)
+    precom_cabletype=models.CharField(max_length=200,null=True,blank=True)
     precom_fdrpillarcurr=models.CharField(max_length=200,null=True,blank=True)
     precom_icomcablesiz=models.CharField(max_length=200,null=True,blank=True)
     precom_uprizercable=models.CharField(max_length=200,null=True,blank=True)

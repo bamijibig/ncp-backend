@@ -181,12 +181,24 @@ class contract_applicationEvalSerializer(serializers.ModelSerializer):
         model=contract_application
         fields="__all__"
 
+
+class contract_applicationPrecomSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=contract_application
+        fields="__all__"
+class contract_applicationTestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=contract_application
+        fields="__all__"
 # class technicalEvaluationSerializer(serializers.ModelSerializer):
 #     class Meta:
 #        model=technicalEvaluation
 #        fields="__all__"
 
-
+class contract_applicationComSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=contract_application
+        fields="__all__"
 class CreateUserSerializer(serializers.ModelSerializer):
 
     class Meta:
