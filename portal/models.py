@@ -375,7 +375,15 @@ class contract_application(models.Model):
     precom_nemsavail=models.BooleanField(default=False)
         # Substation Details
     precom_trsfcap=models.CharField(max_length=200,null=True,blank=True)
-    precom_voltratio=models.CharField(max_length=200,null=True,blank=True)
+
+
+    pcvoltageratio_type = (
+        ('elevenby400', 'elevenby400'),
+        ('thirtythreeby400', 'thirtythreeby400'),
+        ('thirtythreebyeleven', 'thirtythreebyeleven')
+        
+    )
+    precom_voltratio = models.CharField(max_length=100, choices=pcvoltageratio_type, default='elevenby400')
     precom_make=models.CharField(max_length=200,null=True,blank=True)
     precom_sn=models.CharField(max_length=200,null=True,blank=True)
     precom_current=models.CharField(max_length=200,null=True,blank=True)

@@ -422,19 +422,22 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
             Kindly login to the platform to review pending approvals on the Awaiting Approval tab for Connections.Click "https://ncp.ibedc.com" to visit the platform.
 
             Best Regards'''.format(self.data.get('connectiontype'))
-            hmemail = []
-            # hm_emails = EmailSerializer(ContractorUser.objects.filter(is_hm=True), many=True).data
+
+
+
+
+            bhm_emails = []
+            for val in bhmmail:
+                    bhm_emails.append(list(val.items())[0][1])
             
-            
-            for val in hm_emails:
-                hmemail.append(list(val.items())[0][1])
             send_mail(
                     subject,
                     message,
                     settings.DEFAULT_FROM_EMAIL,
-                    hmemail,
+                    bhm_emails,
                     fail_silently=False,
                         )
+
             # notify others
             copyemails = []
             for val in cto_emails:
