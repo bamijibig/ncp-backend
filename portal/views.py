@@ -9,6 +9,7 @@ from .serializers import (
                     RegionListSerializer, 
                     BusinessHubListSerializer, 
                     ActionContractorSerializer,
+                    actioncontract_applicationReminderSerializer,
                     contract_applicationComSerializer,
                     contract_applicationEvalSerializer,
                     contract_applicationPrecomSerializer, 
@@ -224,12 +225,12 @@ class ContractorMyApprovalList(generics.ListAPIView):
         # if(self.request.user.is_hsch == True):
         #     queryset = ContractorUser.objects.filter(is_contractor=True, declined = False, hsch_is_contractor_approved=False)
         if(self.request.user.is_cto == True):
-            queryset = ContractorUser.objects.filter(is_contractor=True, declined = False,  cto_is_contractor_approved=False)
+            queryset = ContractorUser.objects.filter(is_contractor=True, declined = False,  cto_is_contractor_approved=False).order_by('contractor_name')
             
 
 
-        elif(self.request.user.is_md == True):
-            queryset = ContractorUser.objects.filter(is_contractor=True, declined = False,  cto_is_contractor_approved=True, md_is_contractor_approved=False)
+        # elif(self.request.user.is_md == True):
+        #     queryset = ContractorUser.objects.filter(is_contractor=True, declined = False,  cto_is_contractor_approved=True, md_is_contractor_approved=False)
         else:
             queryset = None
       
@@ -240,7 +241,7 @@ class ContractorMyApprovalList(generics.ListAPIView):
 class ApproveOrDeclineContractor(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
-        queryset = ContractorUser.objects.filter(id=self.kwargs["pk"])
+        queryset = ContractorUser.objects.filter(id=self.kwargs["pk"]).order_by('contractor_name')
         return queryset
     permission_classes = [IsAuthenticated]
     serializer_class = ActionContractorSerializer
@@ -250,21 +251,21 @@ class ApproveOrDeclineContractor(generics.RetrieveUpdateDestroyAPIView):
 class ApproveOrDeclineConnectionTE(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
-        queryset = contract_application.objects.filter(id=self.kwargs["pk"])
+        queryset = contract_application.objects.filter(id=self.kwargs["pk"]).order_by('company_name')
         return queryset
     permission_classes = [IsAuthenticated]
     serializer_class = contract_applicationEvalSerializer
 class ApproveOrDeclineConnectionPRE(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
-        queryset = contract_application.objects.filter(id=self.kwargs["pk"])
+        queryset = contract_application.objects.filter(id=self.kwargs["pk"]).order_by('company_name')
         return queryset
     permission_classes = [IsAuthenticated]
     serializer_class = contract_applicationPrecomSerializer
 class ApproveOrDeclineConnectionTEST(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
-        queryset = contract_application.objects.filter(id=self.kwargs["pk"])
+        queryset = contract_application.objects.filter(id=self.kwargs["pk"]).order_by('company_name')
         return queryset
     permission_classes = [IsAuthenticated]
     serializer_class = contract_applicationTestSerializer
@@ -272,7 +273,7 @@ class ApproveOrDeclineConnectionTEST(generics.RetrieveUpdateDestroyAPIView):
 class ApproveOrDeclineConnectionCOM(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
-        queryset = contract_application.objects.filter(id=self.kwargs["pk"])
+        queryset = contract_application.objects.filter(id=self.kwargs["pk"]).order_by('company_name')
         return queryset
     permission_classes = [IsAuthenticated]
     serializer_class = contract_applicationComSerializer
@@ -294,27 +295,28 @@ class ConnectionMyApprovalList(generics.ListAPIView):
             #queryset = contract_application.objects.filter(declined = False, te_is_connection_approved = False, bh__technicalManager__id = self.request.user.id) | contract_application.objects.filter(declined = False, te_is_connection_approved = True, cto_is_connection_approved=True, ct_is_pre_requested = True, tept_is_connection_approved = False, bh__technicalManager__id = self.request.user.id)
 
         if(self.request.user.is_tm == True):
-            queryset = contract_application.objects.filter(declined = False, tm_is_connection_approved=False, bh__region__technicalManager__id = self.request.user.id).order_by("company_name")
+            queryset = contract_application.objects.filter( tm_is_connection_approved=False, bh__region__technicalManager__id = self.request.user.id).order_by("company_name")
         elif(self.request.user.is_te == True):
-            queryset = contract_application.objects.filter(declined = False, tm_is_connection_approved=True, te_is_connection_approved = False, bh__technicalManager__id = self.request.user.id) | contract_application.objects.filter(declined = False, tm_is_connection_approved=True, te_is_connection_approved = True, cto_is_connection_approved=True, ct_is_pre_requested = True, tept_is_connection_approved = False, bh__technicalManager__id = self.request.user.id).order_by("company_name")
+            queryset = contract_application.objects.filter( tm_is_connection_approved=True, te_is_connection_approved = False, bh__technicalManager__id = self.request.user.id) | contract_application.objects.filter(tm_is_connection_approved=True, te_is_connection_approved = True, cto_is_connection_approved=True, ct_is_pre_requested = True, tept_is_connection_approved = False, bh__technicalManager__id = self.request.user.id).order_by("company_name")
         elif(self.request.user.is_npd == True):
-            queryset = contract_application.objects.filter(declined = False, npd_is_connection_approved=False, te_is_connection_approved = True).order_by("company_name")
+            queryset = contract_application.objects.filter( npd_is_connection_approved=False, te_is_connection_approved = True).order_by("company_name")
         elif(self.request.user.is_cto == True):
-            queryset = contract_application.objects.filter(declined = False, npd_is_connection_approved=True, cto_is_connection_approved = False,  te_is_connection_approved = True, tept_is_connection_approved = False).order_by("company_name")
+            queryset = contract_application.objects.filter(npd_is_connection_approved=True, cto_is_connection_approved = False,  te_is_connection_approved = True, tept_is_connection_approved = False).order_by("company_name")
         # elif(self.request.user.is_hse == True):
         #     queryset = contract_application.objects.filter(declined = False, npd_is_connection_approved=True, te_is_connection_approved = True, cto_is_connection_approved = True, hse_is_connection_approved = False, tept_is_connection_approved = False)
         elif(self.request.user.is_bhm == True):
-            queryset = contract_application.objects.filter(declined = False, npd_is_connection_approved=True, te_is_connection_approved = True, tept_is_connection_approved = True, cto_is_connection_approved = True, bhm_is_connection_approved = False).order_by("company_name")
+            queryset = contract_application.objects.filter( npd_is_connection_approved=True, te_is_connection_approved = True, tept_is_connection_approved = True, cto_is_connection_approved = True, bhm_is_connection_approved = False).order_by("company_name")
             
         elif(self.request.user.is_hbo == True):
-            queryset = contract_application.objects.filter(declined = False, tept_is_connection_approved = True, cto_is_connection_approved = True,bhm_is_connection_approved = True, hbo_is_connection_approved = False).order_by("company_name")
+            queryset = contract_application.objects.filter( tept_is_connection_approved = True, cto_is_connection_approved = True,bhm_is_connection_approved = True, hbo_is_connection_approved = False).order_by("company_name")
      
         elif(self.request.user.is_hm == True):
-            queryset = contract_application.objects.filter(declined = False, 
+            queryset = contract_application.objects.filter( 
                                                            
                                                            cto_is_connection_approved=True, 
                                                            tept_is_connection_approved = True, 
                                                            bhm_is_connection_approved = True,
+                                                           hbo_is_connection_approved = True,
                                                            hm_is_connection_approved = False).order_by("company_name")
               
         else:
@@ -327,14 +329,14 @@ class ConnectionMyApprovalList(generics.ListAPIView):
 
 class ContractorConnectionPrecommision(generics.ListAPIView):
     def get_queryset(self):
-        queryset = contract_application.objects.filter(contractor=self.request.user.id, cto_is_connection_approved=True, ct_is_pre_requested = False)
+        queryset = contract_application.objects.filter(contractor=self.request.user.id, cto_is_connection_approved=True, ct_is_pre_requested = False).order_by('company_name')
         return queryset
     permission_classes = [IsAuthenticated]
     serializer_class = contract_applicationViewSerializer
 
 class ContractorCommision(generics.ListAPIView):
     def get_queryset(self):
-        queryset = contract_application.objects.filter(contractor=self.request.user.id, cto_is_connection_approved=True, ct_is_pre_requested = True, hm_is_connection_approved = True, ct_is_done=False )
+        queryset = contract_application.objects.filter(contractor=self.request.user.id, cto_is_connection_approved=True, ct_is_pre_requested = True, hm_is_connection_approved = True, ct_is_done=False ).order_by('company_name')
         return queryset
     permission_classes = [IsAuthenticated]
     serializer_class = contract_applicationViewSerializer
@@ -346,13 +348,24 @@ class ContractorCommision(generics.ListAPIView):
   # Assuming you have a Connection model
  # Assuming you have a method to get the user
 from django.utils.timezone import now
-from django.utils.timezone import now
 from django.http import JsonResponse
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from .models import contract_application
 from .serializers import contract_applicationViewSerializer
+# REMINDER
+class ApproveOrDeclineConnectionReminder(generics.RetrieveUpdateDestroyAPIView):
+    # permission_classes = [IsAuthenticated]
+    serializer_class = actioncontract_applicationReminderSerializer
+    def get_queryset(self):
+        return contract_application.objects.all()
+# REMINDER END
 
+# class sendReminder(APIView):
+
+
+#     response = "Notifications sent"
+#     return response
 class ApproveOrDeclineConnection(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = contract_applicationViewSerializer
@@ -425,32 +438,88 @@ class ApproveOrDeclineConnection(generics.RetrieveUpdateDestroyAPIView):
 
         elif action == 'Decline':
             connection.declined = True
-            connection.in_approval_workflow = False
+            connection.in_approval_workflow = True
             connection.declined_comment = data.get('comment')
-            connection.connection_status = 'Connection Application Declined.'
 
             if user.is_tm:
                 connection.tm_memo = data.get('memo')
 
             if user.is_npd:
                 connection.npd_memo = data.get('memo')
-                connection.te_is_connection_approved = False
                 connection.connection_status = 'Connection Application Declined by NPD.'
+                connection.te_is_connection_approved = False
+                connection.te_is_connection_approved_date = None
+                connection.te_is_connection_approved_by = ''
+                connection.te_memo = ''
+                connection.eval_title=''
+                connection.eval_applicant=''
+                connection.eval_dt=''
+                connection.eval_voltage_level=''
+                connection.eval_estimated_load=''
+                connection.eval_site_visit_date=''
+                connection.eval_conworkdone=''
+                connection.eval_dtsubname=''
+                connection.eval_comentoncon=''
+                connection.eval_fdrname=''
+                connection.eval_fdrcapacity=''
+                connection.eval_fdrpload=''
+                connection.eval_tilldate=''
+                connection.eval_cumloada=''
+                connection.eval_srcfeeder=''
+                connection.eval_ptrsf=''
+                connection.eval_trsfrating=''
+                connection.eval_trendpeak=''
+                connection.eval_trendpeak=''
+                connection.eval_cumtilldate=''
+                connection.eval_permload=''
+                connection.eval_maravail=''
+                connection.eval_fulspons=''
+                connection.eval_estpcost=''
+                connection.eval_specoment=''
+                connection.eval_preamble=''
+                connection.eval_findings=''
+                connection.eval_scopework=''
+                connection.eval_recom=''
+                connection.eval_pcm=''
+                connection.eval_sglinediagram=''
+                connection.eval_otherdoc=''
 
             if user.is_cto:
                 connection.cto_memo = data.get('memo')
+                connection.npd_is_connection_approved = False
+                connection.npd_is_connection_approved_date = None
+                connection.npd_is_connection_approved_by = ''
+                connection.connection_status = 'Declined by CTO. Awaiting NPD to act on it'
+                connection.npd_memo = ''
 
             if user.is_bhm:
                 connection.bhm_memo = data.get('memo')
+                # Resetting BHM's own approval instead of CTO's
+                connection.bhm_is_connection_approved = False
+                connection.bhm_is_contractor_approved_date = None
+                connection.bhm_approved_by = ''
+                connection.connection_status = 'Declined by BHM. Reverting to BHM for further action'
+                connection.bhm_memo = ''
 
             if user.is_hbo:
                 connection.hbo_memo = data.get('memo')
+                connection.bhm_is_connection_approved = False
+                connection.bhm_is_contractor_approved_date = None
+                connection.bhm_approved_by = ''
+                connection.connection_status = 'Declined by HBO. Awaiting BHM to act on it'
+                connection.bhm_memo = ''
 
             if user.is_hm:
                 connection.hm_memo = data.get('memo')
+                connection.hbo_is_connection_approved = False
+                connection.hbo_is_contractor_approved_date = None
+                connection.hbo_approved_by = ''
+                connection.connection_status = 'Declined by HM. Awaiting HBO to act on it'
+                connection.hbo_memo = ''
 
         connection.save()
         return JsonResponse({'status': 'success'})
 
     def handle_invalid_request(self):
         return JsonResponse({'status': 'invalid request'}, status=400)
+

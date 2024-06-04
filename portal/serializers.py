@@ -887,7 +887,32 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                     fail_silently=False,
                         )
             
-            # REMINDER START HERE
+        else:
+            pass
+        return super().update(instance, validated_data)  
+    
+
+class actioncontract_applicationReminderSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model=contract_application
+        fields="__all__"
+
+    def update(self, instance, validated_data):
+        # print(self.data.get('contractor'))
+
+        contractormail = EmailSerializer(ContractorUser.objects.filter(id=self.data.get('contractor')), many=True).data
+        tm_emails = EmailSerializer(ContractorUser.objects.filter(is_tm=True), many=True,region=str(self.data.get('bh__region'))).data
+        # te2_emails = EmailSerializer(ContractorUser.objects.filter(is_te=True), many=True).data
+        hm_emails = EmailSerializer(ContractorUser.objects.filter(is_hm=True), many=True).data
+        te_emails = EmailSerializer(ContractorUser.objects.filter(is_te=True, businesshub=str(self.data.get('bh'))), many=True).data
+        npd_emails = EmailSerializer(ContractorUser.objects.filter(is_npd=True), many=True).data
+        cto_emails = EmailSerializer(ContractorUser.objects.filter(is_cto=True), many=True).data
+        hsemail = [val['email'] for val in EmailSerializer(ContractorUser.objects.filter(is_hse=True), many=True).data]
+        bhmmail = EmailSerializer(ContractorUser.objects.filter(is_bhm=True, businesshub=str(self.data.get('bh'))), many=True).data
+        hboemail = [val['email'] for val in EmailSerializer(ContractorUser.objects.filter(is_hbo=True), many=True).data]
+        hmemail = [val['email'] for val in EmailSerializer(ContractorUser.objects.filter(is_hm=True), many=True).data]
+ # REMINDER START HERE
                #  REMINDER FOR TE
 
         if(validated_data['approval_role']=='tm' and validated_data['approval_role'] != 'te' and validated_data['action'] != 'decline'):
@@ -1146,6 +1171,4 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
                             )
 
             # REMINDER END HERE    
-        else:
-            pass
-        return super().update(instance, validated_data)  
+     

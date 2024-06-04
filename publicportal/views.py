@@ -120,23 +120,23 @@ class ConnectionMyApprovalListpub(generics.ListAPIView):
 
     def get_queryset(self):
         if(self.request.user.is_tm == True):
-            queryset = contract_applicationpub.objects.filter(declined = False, tm_is_connection_approved=False, bh__region__technicalManager__id = self.request.user.id)
+            queryset = contract_applicationpub.objects.filter( tm_is_connection_approved=False, bh__region__technicalManager__id = self.request.user.id)
         elif(self.request.user.is_te == True):
-            queryset = contract_applicationpub.objects.filter(declined = False, tm_is_connection_approved=True, te_is_connection_approved = False, bh__technicalManager__id = self.request.user.id) | contract_applicationpub.objects.filter(declined = False, tm_is_connection_approved=True, te_is_connection_approved = True, cto_is_connection_approved=True, ct_is_pre_requested = True, tept_is_connection_approved = False, bh__technicalManager__id = self.request.user.id)
+            queryset = contract_applicationpub.objects.filter( tm_is_connection_approved=True, te_is_connection_approved = False, bh__technicalManager__id = self.request.user.id) | contract_applicationpub.objects.filter( tm_is_connection_approved=True, te_is_connection_approved = True, cto_is_connection_approved=True, ct_is_pre_requested = True, tept_is_connection_approved = False, bh__technicalManager__id = self.request.user.id)
         elif(self.request.user.is_npd == True):
-            queryset = contract_applicationpub.objects.filter(declined = False, npd_is_connection_approved=False, te_is_connection_approved = True)
+            queryset = contract_applicationpub.objects.filter( npd_is_connection_approved=False, te_is_connection_approved = True)
         elif(self.request.user.is_cto == True):
-            queryset = contract_applicationpub.objects.filter(declined = False, npd_is_connection_approved=True, cto_is_connection_approved = False)
+            queryset = contract_applicationpub.objects.filter( npd_is_connection_approved=True, cto_is_connection_approved = False)
         # elif(self.request.user.is_hse == True):
         #     queryset = contract_applicationpub.objects.filter(declined = False, npd_is_connection_approved=True, te_is_connection_approved = True, cto_is_connection_approved = True, hse_is_connection_approved = False, tept_is_connection_approved = False)
         elif(self.request.user.is_bhm == True):
-            queryset = contract_applicationpub.objects.filter(declined = False, npd_is_connection_approved=True, te_is_connection_approved = True, tept_is_connection_approved = True, cto_is_connection_approved = True, bhm_is_connection_approved = False)
+            queryset = contract_applicationpub.objects.filter( npd_is_connection_approved=True, te_is_connection_approved = True, tept_is_connection_approved = True, cto_is_connection_approved = True, bhm_is_connection_approved = False)
             
         elif(self.request.user.is_hbo == True):
-            queryset = contract_applicationpub.objects.filter(declined = False, npd_is_connection_approved=True, te_is_connection_approved = True, tept_is_connection_approved = True, cto_is_connection_approved = True, bhm_is_connection_approved = True, hbo_is_connection_approved = False)
+            queryset = contract_applicationpub.objects.filter( npd_is_connection_approved=True, te_is_connection_approved = True, tept_is_connection_approved = True, cto_is_connection_approved = True, bhm_is_connection_approved = True, hbo_is_connection_approved = False)
             
         elif(self.request.user.is_hm == True):
-            queryset = contract_applicationpub.objects.filter(declined = False, cto_is_connection_approved=True, tept_is_connection_approved = True, hbo_is_connection_approved = True, hm_is_connection_approved = False)
+            queryset = contract_applicationpub.objects.filter( cto_is_connection_approved=True, tept_is_connection_approved = True, hbo_is_connection_approved = True, hm_is_connection_approved = False)
               
         else:
             queryset = None
@@ -160,7 +160,6 @@ class ContractorConnectioncommisionpub(generics.ListAPIView):
 
 
 
-from django.utils.timezone import now
 from django.utils.timezone import now
 from django.http import JsonResponse
 from rest_framework import generics
@@ -232,36 +231,91 @@ class ApproveOrDeclineConnectionpub(generics.RetrieveUpdateDestroyAPIView):
                 connection.hm_is_connection_approved = True
                 connection.hm_is_contractor_approved_date = now().strftime('%Y-%m-%d')
                 connection.hm_approved_by = f"{user.first_name} {user.last_name}"
-                connection.connection_status = 'Connection Approval Completed awaiting document upload'
+                connection.connection_status = 'Connection Approval Completed awaiting document'
                 connection.in_approval_workflow = False
                 connection.connection_approved = True
                 connection.hm_memo = data.get('memo')
 
         elif action == 'Decline':
             connection.declined = True
-            connection.in_approval_workflow = False
+            connection.in_approval_workflow = True
             connection.declined_comment = data.get('comment')
-            connection.connection_status = 'Connection Application Declined.'
 
             if user.is_tm:
                 connection.tm_memo = data.get('memo')
 
             if user.is_npd:
                 connection.npd_memo = data.get('memo')
-                connection.te_is_connection_approved = False
                 connection.connection_status = 'Connection Application Declined by NPD.'
+                connection.te_is_connection_approved = False
+                connection.te_is_connection_approved_date = None
+                connection.te_is_connection_approved_by = ''
+                connection.te_memo = ''
+                connection.eval_title=''
+                connection.eval_applicant=''
+                connection.eval_dt=''
+                connection.eval_voltage_level=''
+                connection.eval_estimated_load=''
+                connection.eval_site_visit_date=''
+                connection.eval_conworkdone=''
+                connection.eval_dtsubname=''
+                connection.eval_comentoncon=''
+                connection.eval_fdrname=''
+                connection.eval_fdrcapacity=''
+                connection.eval_fdrpload=''
+                connection.eval_tilldate=''
+                connection.eval_cumloada=''
+                connection.eval_srcfeeder=''
+                connection.eval_ptrsf=''
+                connection.eval_trsfrating=''
+                connection.eval_trendpeak=''
+                connection.eval_trendpeak=''
+                connection.eval_cumtilldate=''
+                connection.eval_permload=''
+                connection.eval_maravail=''
+                connection.eval_fulspons=''
+                connection.eval_estpcost=''
+                connection.eval_specoment=''
+                connection.eval_preamble=''
+                connection.eval_findings=''
+                connection.eval_scopework=''
+                connection.eval_recom=''
+                connection.eval_pcm=''
+                connection.eval_sglinediagram=''
+                connection.eval_otherdoc=''
 
             if user.is_cto:
                 connection.cto_memo = data.get('memo')
+                connection.npd_is_connection_approved = False
+                connection.npd_is_connection_approved_date = None
+                connection.npd_is_connection_approved_by = ''
+                connection.connection_status = 'Declined by CTO. Awaiting NPD to act on it'
+                connection.npd_memo = ''
 
             if user.is_bhm:
                 connection.bhm_memo = data.get('memo')
+                # Resetting BHM's own approval instead of CTO's
+                connection.bhm_is_connection_approved = False
+                connection.bhm_is_contractor_approved_date = None
+                connection.bhm_approved_by = ''
+                connection.connection_status = 'Declined by BHM. Reverting to BHM for further action'
+                connection.bhm_memo = ''
 
             if user.is_hbo:
                 connection.hbo_memo = data.get('memo')
+                connection.bhm_is_connection_approved = False
+                connection.bhm_is_contractor_approved_date = None
+                connection.bhm_approved_by = ''
+                connection.connection_status = 'Declined by HBO. Awaiting BHM to act on it'
+                connection.bhm_memo = ''
 
             if user.is_hm:
                 connection.hm_memo = data.get('memo')
+                connection.hbo_is_connection_approved = False
+                connection.hbo_is_contractor_approved_date = None
+                connection.hbo_approved_by = ''
+                connection.connection_status = 'Declined by HM. Awaiting HBO to act on it'
+                connection.hbo_memo = ''
 
         connection.save()
         return JsonResponse({'status': 'success'})

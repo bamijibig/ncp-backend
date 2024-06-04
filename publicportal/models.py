@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
@@ -8,6 +9,7 @@ from django.core.mail import send_mail
 
 from portal.models import BusinessHub, ContractorUser
 class contract_applicationpub(models.Model):
+    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     contractor=models.ForeignKey(ContractorUser, null=True,  on_delete=models.CASCADE, related_name="usercontractoruser")
     # servicecentre=models.ForeignKey(Servicecentre,on_delete=models.CASCADE, null=True,blank=True) 
     bh=models.ForeignKey(BusinessHub, on_delete=models.CASCADE, null=True,blank=True, related_name="bhuser")

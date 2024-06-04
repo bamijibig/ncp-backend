@@ -5,6 +5,7 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created
 from django.core.mail import send_mail  
+import uuid
 
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
@@ -29,6 +30,7 @@ class ContractorUser(AbstractUser):
     # email=models.EmailField(null=True,blank=True)
     # password=models.CharField(max_length=150,blank=True)
     # businesshub=models.ForeignKey(BusinessHub,on_delete=models.CASCADE, null=True,blank=True)
+    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     contractor_name=models.CharField(max_length=150,blank=True)
     con_address=models.CharField(max_length=150,blank=True)
     licensed_no=models.IntegerField(null=True,blank=True)
@@ -141,6 +143,7 @@ class BusinessHub(models.Model):
 
 
 class contract_application(models.Model):
+    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     contractor=models.ForeignKey(ContractorUser, null=True,  on_delete=models.CASCADE, related_name="usercontractor")
     # servicecentre=models.ForeignKey(Servicecentre,on_delete=models.CASCADE, null=True,blank=True) 
     bh=models.ForeignKey(BusinessHub,on_delete=models.CASCADE, null=True,blank=True)

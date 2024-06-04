@@ -54,7 +54,7 @@ urlpatterns = [
     path("connection/approveordeclinereq/<pk>/",views.ApproveOrDeclineConnectionPRE.as_view()),
     path("connection/approveordeclinetest/<pk>/",views. ApproveOrDeclineConnectionTEST.as_view()),
     path("connection/approveordeclinecom/<pk>/",views. ApproveOrDeclineConnectionCOM.as_view()),
-    
+    path("reminderconnection/approveordecline/<pk>/",views.ApproveOrDeclineConnectionReminder.as_view()),
     path("connection/approveordecline/<pk>/",views.ApproveOrDeclineConnection.as_view()),
     path("connection/precommision/list/",views.ContractorConnectionPrecommision.as_view()),
     path("connection/commision/list/",views.ContractorCommision.as_view()),
