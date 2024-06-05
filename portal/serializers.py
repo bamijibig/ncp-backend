@@ -224,21 +224,85 @@ class contract_applicationEvalSerializer(serializers.ModelSerializer):
     class Meta:
         model=contract_application
         fields="__all__"
-
+    def update(self, instance, validated_data):
+        # instance.model_method() # call model method for instance level computation
+        subject='npd has approved waiting for '
+        message='''Hi N, 
+        A Contractor, {} has just submitted his profile for approval. Kindly login to the platform to review pending approvals on the Awaiting Approval tab for Contractors.Click "https://ncp.ibedc.com" to visit the platform.'''.format(self.data.get('contractor_name'))
+        npdmail = []
+        npd_emails = EmailSerializer(ContractorUser.objects.filter(is_npd=True), many=True).data
+        # print(cto_emails)
+        
+        for val in npd_emails:
+            npdmail.append(list(val.items())[0][1])
+    
+        #print(email)
+        send_mail(
+            subject,
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            npdmail,
+            fail_silently=False,
+        )
+        
+        
+        # call super to now save modified instance along with the validated data
+        return super().update(instance, validated_data)
 
 class contract_applicationPrecomSerializer(serializers.ModelSerializer):
     class Meta:
         model=contract_application
         fields="__all__"
+
+    def update(self, instance, validated_data):
+        # instance.model_method() # call model method for instance level computation
+        subject='bhm has approved waiting for '
+        message='''Hi N, 
+        A Contractor, {} has just submitted his profile for approval. Kindly login to the platform to review pending approvals on the Awaiting Approval tab for Contractors.Click "https://ncp.ibedc.com" to visit the platform.'''.format(self.data.get('contractor_name'))
+        temail = []
+        te_emails = EmailSerializer(ContractorUser.objects.filter(is_te=True), many=True).data
+        # print(cto_emails)
+        
+        for val in te_emails:
+            temail.append(list(val.items())[0][1])
+    
+        #print(email)
+        send_mail(
+            subject,
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            temail,
+            fail_silently=False,
+        )
+        
+        
+        # call super to now save modified instance along with the validated data
+        return super().update(instance, validated_data)
 class contract_applicationTestSerializer(serializers.ModelSerializer):
     class Meta:
         model=contract_application
         fields="__all__"
-# class technicalEvaluationSerializer(serializers.ModelSerializer):
-#     class Meta:
-#        model=technicalEvaluation
-#        fields="__all__"
-
+    def update(self, instance, validated_data):
+        # instance.model_method() # call model method for instance level computation
+        subject='bhm has approved waiting for '
+        message='''Hi N, 
+        A Contractor, {} has just submitted his profile for approval. Kindly login to the platform to review pending approvals on the Awaiting Approval tab for Contractors.Click "https://ncp.ibedc.com" to visit the platform.'''.format(self.data.get('contractor_name'))
+        bhmmail = []
+        bhm_emails = EmailSerializer(ContractorUser.objects.filter(is_bhm=True), many=True).data
+        # print(cto_emails)
+        
+        for val in bhm_emails:
+            bhmmail.append(list(val.items())[0][1])
+    
+        #print(email)
+        send_mail(
+            subject,
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            bhmmail,
+            fail_silently=False,
+        )
+        return super().update(instance, validated_data)
 class contract_applicationComSerializer(serializers.ModelSerializer):
     class Meta:
         model=contract_application
@@ -344,21 +408,7 @@ class ActionContractorSerializer(serializers.ModelSerializer):
                         fail_silently=False,
                             )
     
-            # elif(validated_data['approval_role'] == 'md'):
-            #     #SEND MESSAGE AFTER MD APPROVAL. Notify contractor of the approval
-            #     subject='Your profile has been approved'
-            #     message='''Hi {},
-
-            #     Your profile has been approved. You can now create connections and perform other contractor related activities on the platform. Click "https://ncp.ibedc.com" to visit the platform.
-            #     Best Regards'''.format(self.data.get('contractor_name'))
-               
-            #     send_mail(
-            #             subject,
-            #             message,
-            #             settings.DEFAULT_FROM_EMAIL,
-            #             [self.data.get('email'),],
-            #             fail_silently=False,
-            #                 )
+        
             else:
                 pass
         elif(validated_data['action']=='Decline'):
@@ -395,10 +445,10 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         # print(self.data.get('contractor'))
 
-        contractormail = EmailSerializer(ContractorUser.objects.filter(id=self.data.get('contractor')), many=True).data
-        tm_emails = EmailSerializer(ContractorUser.objects.filter(is_tm=True), many=True,region=str(self.data.get('bh__region'))).data
+        contractoremail = EmailSerializer(ContractorUser.objects.filter(id=self.data.get('contractor')), many=True).data
+        tm_emails = EmailSerializer(ContractorUser.objects.filter(is_tm=True,region=str(self.data.get('bh__region'))), many=True).data
         # te2_emails = EmailSerializer(ContractorUser.objects.filter(is_te=True), many=True).data
-        hm_emails = EmailSerializer(ContractorUser.objects.filter(is_hm=True), many=True).data
+        # hm_emails = EmailSerializer(ContractorUser.objects.filter(is_hm=True), many=True).data
         te_emails = EmailSerializer(ContractorUser.objects.filter(is_te=True, businesshub=str(self.data.get('bh'))), many=True).data
         npd_emails = EmailSerializer(ContractorUser.objects.filter(is_npd=True), many=True).data
         cto_emails = EmailSerializer(ContractorUser.objects.filter(is_cto=True), many=True).data
@@ -408,9 +458,9 @@ class actioncontract_applicationSerializer(serializers.ModelSerializer):
         hmemail = [val['email'] for val in EmailSerializer(ContractorUser.objects.filter(is_hm=True), many=True).data]
 
 
-        contractoremail = []
-        for val in contractormail:
-            contractoremail.append(list(val.items())[0][1])
+        # contractoremail = []
+        # for val in contractormail:
+        #     contractoremail.append(list(val.items())[0][1])
         if(validated_data['action'] == 'submitconnection'):
             #SEND MESSAGE AFTER CONNECTIONS IS SUBMITTED. Send to TM to take next action
             subject='A Connection Request ({}) is Awaiting your Review'.format(self.data.get('connectiontype'))
@@ -1019,7 +1069,7 @@ class actioncontract_applicationReminderSerializer(serializers.ModelSerializer):
                         subject,
                         message,
                         settings.DEFAULT_FROM_EMAIL,
-                        contractoremail,
+                        contractormail,
                         fail_silently=False,
                             )        
         # REMINDER FOR TE PRECOM
@@ -1067,7 +1117,7 @@ class actioncontract_applicationReminderSerializer(serializers.ModelSerializer):
                 # te_emails = EmailSerializer(ContractorUser.objects.filter(is_te=True), many=True).data
                 
                 
-                for val in bhm_emails:
+                for val in bhmmail:
                     bhmmail.append(list(val.items())[0][1])
                 send_mail(
                         subject,

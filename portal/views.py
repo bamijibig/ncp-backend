@@ -255,20 +255,23 @@ class ApproveOrDeclineConnectionTE(generics.RetrieveUpdateDestroyAPIView):
         return queryset
     permission_classes = [IsAuthenticated]
     serializer_class = contract_applicationEvalSerializer
+    # serializer_class=actioncontract_applicationSerializer
 class ApproveOrDeclineConnectionPRE(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         queryset = contract_application.objects.filter(id=self.kwargs["pk"]).order_by('company_name')
         return queryset
     permission_classes = [IsAuthenticated]
-    serializer_class = contract_applicationPrecomSerializer
+    # serializer_class = contract_applicationPrecomSerializer
+    serializer_class=actioncontract_applicationSerializer
 class ApproveOrDeclineConnectionTEST(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         queryset = contract_application.objects.filter(id=self.kwargs["pk"]).order_by('company_name')
         return queryset
     permission_classes = [IsAuthenticated]
-    serializer_class = contract_applicationTestSerializer
+    # serializer_class = contract_applicationTestSerializer
+    serializer_class=actioncontract_applicationSerializer
 
 class ApproveOrDeclineConnectionCOM(generics.RetrieveUpdateDestroyAPIView):
 
@@ -276,7 +279,8 @@ class ApproveOrDeclineConnectionCOM(generics.RetrieveUpdateDestroyAPIView):
         queryset = contract_application.objects.filter(id=self.kwargs["pk"]).order_by('company_name')
         return queryset
     permission_classes = [IsAuthenticated]
-    serializer_class = contract_applicationComSerializer
+    # serializer_class = contract_applicationComSerializer
+    serializer_class=actioncontract_applicationSerializer
 class ApprovalStatus(generics.RetrieveAPIView):
 
     def get_queryset(self):
@@ -368,7 +372,7 @@ class ApproveOrDeclineConnectionReminder(generics.RetrieveUpdateDestroyAPIView):
 #     return response
 class ApproveOrDeclineConnection(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
-    serializer_class = contract_applicationViewSerializer
+    serializer_class = actioncontract_applicationSerializer
 
     def get_queryset(self):
         return contract_application.objects.filter(id=self.kwargs["pk"])

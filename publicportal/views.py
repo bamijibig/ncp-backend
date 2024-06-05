@@ -51,7 +51,8 @@ class ApproveOrDeclineConnectionTE(generics.RetrieveUpdateDestroyAPIView):
         queryset = contract_applicationpub.objects.filter(id=self.kwargs["pk"])
         return queryset
     permission_classes = [IsAuthenticated]
-    serializer_class = contract_applicationEvalSerializer
+    # serializer_class = contract_applicationEvalSerializer
+    serializer_class=actioncontract_applicationSerializer
 
 class ApproveOrDeclineConnectionTEST(generics.RetrieveUpdateDestroyAPIView):
 
@@ -59,7 +60,8 @@ class ApproveOrDeclineConnectionTEST(generics.RetrieveUpdateDestroyAPIView):
         queryset = contract_applicationpub.objects.filter(id=self.kwargs["pk"])
         return queryset
     permission_classes = [IsAuthenticated]
-    serializer_class = contract_applicationTestSerializer
+    # serializer_class = contract_applicationTestSerializer
+    serializer_class=actioncontract_applicationSerializer
 
 class ApproveOrDeclineConnectionPRE(generics.RetrieveUpdateDestroyAPIView):
 
@@ -67,7 +69,8 @@ class ApproveOrDeclineConnectionPRE(generics.RetrieveUpdateDestroyAPIView):
         queryset = contract_applicationpub.objects.filter(id=self.kwargs["pk"])
         return queryset
     permission_classes = [IsAuthenticated]
-    serializer_class = contract_applicationPreSerializer
+    # serializer_class = contract_applicationPreSerializer
+    serializer_class=actioncontract_applicationSerializer
 
 class ApproveOrDeclineConnectionCOM(generics.RetrieveUpdateDestroyAPIView):
 
@@ -75,7 +78,8 @@ class ApproveOrDeclineConnectionCOM(generics.RetrieveUpdateDestroyAPIView):
         queryset = contract_applicationpub.objects.filter(id=self.kwargs["pk"])
         return queryset
     permission_classes = [IsAuthenticated]
-    serializer_class = contract_applicationComSerializer
+    # serializer_class = contract_applicationComSerializer
+    serializer_class=actioncontract_applicationSerializer
 class ConnectionStaffViewpub(generics.ListAPIView):
     def get_queryset(self):
 
@@ -168,7 +172,7 @@ from .serializers import contract_applicationViewSerializer
 
 class ApproveOrDeclineConnectionpub(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
-    serializer_class = contract_applicationViewSerializer
+    serializer_class = actioncontract_applicationSerializer
 
     def get_queryset(self):
         return contract_applicationpub.objects.filter(id=self.kwargs["pk"])
